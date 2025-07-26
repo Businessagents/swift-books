@@ -39,7 +39,7 @@ const stats = [
 
 export function StatsCards() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-3 md:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => {
         const Icon = stat.icon
         const isPositive = stat.trend === "up" ? stat.title.includes("Outstanding") || stat.title.includes("Overdue") ? false : true : true
@@ -47,15 +47,15 @@ export function StatsCards() {
         return (
           <Card key={stat.title} className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <Icon className="h-4 w-4 text-muted-foreground" />
+              <Icon className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
+            <CardContent className="space-y-1">
+              <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
               <div className="flex items-center space-x-2 text-xs">
-                <Badge variant={isPositive ? "success" : "destructive"} className="flex items-center gap-1">
+                <Badge variant={isPositive ? "success" : "destructive"} className="flex items-center gap-1 text-xs">
                   {isPositive ? (
                     <TrendingUp className="h-3 w-3" />
                   ) : (
@@ -63,7 +63,7 @@ export function StatsCards() {
                   )}
                   {stat.change}
                 </Badge>
-                <span className="text-muted-foreground">{stat.description}</span>
+                <span className="text-muted-foreground text-xs sm:text-sm truncate">{stat.description}</span>
               </div>
             </CardContent>
           </Card>

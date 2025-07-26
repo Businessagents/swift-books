@@ -37,7 +37,7 @@ export function ExpenseCapture() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <CardTitle>Expense Capture</CardTitle>
             <CardDescription>
@@ -45,11 +45,12 @@ export function ExpenseCapture() {
             </CardDescription>
           </div>
           <div className="flex space-x-2">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10">
               <Camera className="h-4 w-4 mr-2" />
-              Scan
+              <span className="hidden sm:inline">Scan</span>
+              <span className="sm:hidden">Camera</span>
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10">
               <Upload className="h-4 w-4 mr-2" />
               Upload
             </Button>
@@ -59,9 +60,9 @@ export function ExpenseCapture() {
       <CardContent>
         <div className="space-y-3">
           {recentExpenses.map((expense) => (
-            <div key={expense.id} className="flex items-center justify-between p-3 rounded-lg border bg-card-elevated">
-              <div className="flex items-center space-x-3">
-                <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center">
+            <div key={expense.id} className="flex items-start sm:items-center justify-between p-3 rounded-lg border bg-card-elevated">
+              <div className="flex items-start sm:items-center space-x-3 flex-1 min-w-0">
+                <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
                   {expense.status === "processed" ? (
                     <Check className="h-4 w-4 text-success" />
                   ) : (
@@ -69,10 +70,10 @@ export function ExpenseCapture() {
                   )}
                 </div>
                 
-                <div className="space-y-1">
-                  <div className="font-medium text-sm">{expense.description}</div>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="outline" className="text-xs">
+                <div className="space-y-1 min-w-0 flex-1">
+                  <div className="font-medium text-sm truncate">{expense.description}</div>
+                  <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                    <Badge variant="outline" className="text-xs w-fit">
                       {expense.category}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
@@ -82,7 +83,7 @@ export function ExpenseCapture() {
                 </div>
               </div>
               
-              <div className="text-right">
+              <div className="text-right flex-shrink-0 ml-2">
                 <div className="font-semibold">{expense.amount}</div>
                 <div className="text-xs text-muted-foreground">{expense.date}</div>
               </div>

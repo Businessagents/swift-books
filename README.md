@@ -1,8 +1,25 @@
-# Welcome to your Lovable project
+# finwize.ai
+
+AI-Powered Financial Management for Canadian Small Businesses
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/e95645ad-545b-448c-b8fa-2332ea6708ba
+
+## Features
+
+- 🧠 **Smart Invoice Follow-Up**: AI-powered reminder system with tone adaptation
+- 📱 **Mobile-First Expense Capture**: Camera-based receipt scanning with AI categorization  
+- 📊 **Real-Time Financial Reporting**: Automated P&L, cashflow, and tax-ready reports
+- 🍁 **Canadian Market Focus**: Built for Canadian SMBs with local compliance
+
+## Technology Stack
+
+- **Frontend**: React 18, TypeScript, Tailwind CSS, Vite
+- **Mobile**: Progressive Web App (PWA) + Capacitor for native iOS/Android
+- **UI Components**: shadcn/ui with custom design system
+- **Backend Ready**: Supabase integration for authentication and data
+- **AI Integration**: Ready for OpenAI GPT-4o-mini and AWS Textract
 
 ## How can I edit this code?
 

@@ -9,12 +9,12 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="container py-6">
+      <main className="container py-4 md:py-6 px-4 md:px-8">
         <div className="space-y-6">
           {/* Header */}
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-sm md:text-base text-muted-foreground">
               Welcome back! Here's your business financial overview.
             </p>
           </div>
@@ -23,12 +23,12 @@ const Index = () => {
           <StatsCards />
 
           {/* Main Content Grid */}
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-6">
+          <div className="grid gap-4 md:gap-6 lg:grid-cols-3">
+            <div className="lg:col-span-2 space-y-4 md:space-y-6">
               <InvoiceList />
             </div>
             
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               <QuickActions />
               <ExpenseCapture />
             </div>

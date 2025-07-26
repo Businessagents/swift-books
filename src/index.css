@@ -138,5 +138,29 @@ All colors MUST be HSL for consistent theming across light/dark modes.
 
   body {
     @apply bg-background text-foreground;
+    /* iOS safe area support */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Smooth scrolling for mobile */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Touch-friendly interactive elements */
+  button, [role="button"], input, select, textarea {
+    min-height: 44px;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Improve tap target sizes */
+  .mobile-tap-target {
+    min-height: 48px;
+    min-width: 48px;
   }
 }
