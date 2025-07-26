@@ -2,57 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* UFCH Design System - Professional Fintech Interface
+All colors MUST be HSL for consistent theming across light/dark modes.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core Brand Colors - Deep Navy & Professional Blues */
+    --background: 220 20% 98%;
+    --foreground: 215 30% 15%;
 
+    /* Card & Surface Colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 30% 15%;
+    --card-elevated: 220 30% 99%;
 
+    /* Interactive Elements */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 30% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Deep Navy for Trust & Finance */
+    --primary: 215 85% 25%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 215 85% 20%;
+    --primary-light: 215 70% 90%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Professional Gray */
+    --secondary: 220 15% 95%;
+    --secondary-foreground: 215 30% 25%;
+    --secondary-hover: 220 20% 90%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Success - Financial Green */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    --success-light: 142 60% 92%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Warning - Attention Orange */
+    --warning: 35 91% 62%;
+    --warning-foreground: 0 0% 98%;
+    --warning-light: 35 85% 94%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive - Alert Red */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --destructive-light: 0 85% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Muted Elements */
+    --muted: 220 15% 96%;
+    --muted-foreground: 215 20% 50%;
 
-    --radius: 0.5rem;
+    /* Accent - Canadian Red Touch */
+    --accent: 0 72% 51%;
+    --accent-foreground: 0 0% 98%;
+    --accent-light: 0 70% 95%;
 
+    /* Borders & Inputs */
+    --border: 220 25% 88%;
+    --input: 220 25% 92%;
+    --ring: 215 85% 25%;
+
+    /* Design System Enhancements */
+    --radius: 0.625rem;
+    --radius-sm: 0.375rem;
+    --radius-lg: 0.875rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(215 85% 30%));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(142 76% 42%));
+    --gradient-card: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card-elevated)));
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px 0 hsl(215 30% 15% / 0.1);
+    --shadow-md: 0 4px 12px 0 hsl(215 30% 15% / 0.1);
+    --shadow-lg: 0 10px 30px 0 hsl(215 30% 15% / 0.1);
+    --shadow-primary: 0 8px 25px 0 hsl(var(--primary) / 0.15);
+
+    /* Transitions */
+    --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-colors: color, background-color, border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Sidebar Variables */
     --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
+    --sidebar-foreground: 215 30% 25%;
+    --sidebar-primary: 215 85% 25%;
     --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 220 15% 95%;
+    --sidebar-accent-foreground: 215 30% 25%;
+    --sidebar-border: 220 25% 88%;
+    --sidebar-ring: 215 85% 25%;
   }
 
   .dark {
