@@ -5,40 +5,49 @@ import { Mail, Phone, MessageSquare } from "lucide-react"
 
 const invoices = [
   {
-    id: "INV-001",
-    customer: "Maple Digital Agency",
-    amount: "$4,580",
-    dueDate: "2025-01-15",
-    status: "overdue",
-    daysPast: 15,
-    lastContact: "2025-01-20"
-  },
-  {
-    id: "INV-002", 
-    customer: "Northern Construction Ltd",
-    amount: "$12,350",
-    dueDate: "2025-01-28",
+    id: "2025-0847",
+    customer: "Shopify Plus - Toronto HQ",
+    amount: "$34,500.00",
+    dueDate: "Feb 15, 2025",
     status: "pending",
     daysPast: 0,
-    lastContact: "2025-01-25"
+    lastContact: "Jan 25, 2025"
   },
   {
-    id: "INV-003",
-    customer: "Tech Startup Inc",
-    amount: "$2,890", 
-    dueDate: "2025-02-05",
+    id: "2025-0832", 
+    customer: "Royal Bank of Canada",
+    amount: "$18,750.00",
+    dueDate: "Jan 28, 2025",
+    status: "overdue",
+    daysPast: 7,
+    lastContact: "Jan 20, 2025"
+  },
+  {
+    id: "2025-0823",
+    customer: "Vancouver City Planning",
+    amount: "$12,300.00", 
+    dueDate: "Feb 05, 2025",
     status: "pending",
     daysPast: 0,
     lastContact: null
   },
   {
-    id: "INV-004",
-    customer: "Local Restaurant Group",
-    amount: "$1,250",
-    dueDate: "2025-01-10", 
+    id: "2025-0819",
+    customer: "Loblaws Corporate Services",
+    amount: "$8,950.00",
+    dueDate: "Jan 10, 2025", 
     status: "overdue",
     daysPast: 25,
-    lastContact: "2025-01-18"
+    lastContact: "Jan 18, 2025"
+  },
+  {
+    id: "2025-0815",
+    customer: "Bell Canada Enterprise",
+    amount: "$22,100.00",
+    dueDate: "Feb 01, 2025", 
+    status: "pending",
+    daysPast: 0,
+    lastContact: "Jan 24, 2025"
   }
 ]
 
@@ -55,9 +64,9 @@ export function InvoiceList() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Recent Invoices</CardTitle>
+            <CardTitle>Account Receivables</CardTitle>
             <CardDescription>
-              Invoices requiring follow-up or attention
+              Outstanding invoices and payment status
             </CardDescription>
           </div>
           <Button>View All</Button>

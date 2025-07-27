@@ -13,9 +13,9 @@ const Index = () => {
         <div className="space-y-6">
           {/* Header */}
           <div className="space-y-2">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Dashboard</h1>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Business Dashboard</h1>
             <p className="text-sm md:text-base text-muted-foreground">
-              Welcome back! Here's your business financial overview.
+              Real-time financial metrics and operational insights for your business
             </p>
           </div>
 

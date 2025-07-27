@@ -5,27 +5,27 @@ import { FileText, Send, BarChart3, Download, Plus, Zap } from "lucide-react"
 
 const actions = [
   {
-    title: "Send Reminders",
-    description: "Send AI-crafted follow-ups to 8 overdue invoices",
+    title: "Payment Reminders",
+    description: "Auto-send follow-ups to 3 overdue accounts",
     icon: Send,
     variant: "gradient" as const,
-    count: 8
+    count: 3
   },
   {
-    title: "Generate Report", 
-    description: "Create monthly P&L and cashflow report",
+    title: "Monthly Close", 
+    description: "Generate P&L and cash flow statements",
     icon: BarChart3,
     variant: "default" as const
   },
   {
-    title: "New Invoice",
-    description: "Create and send a new invoice",
+    title: "Create Invoice",
+    description: "New client billing and project invoicing",
     icon: FileText,
     variant: "secondary" as const
   },
   {
-    title: "Export Data",
-    description: "Download CRA-ready expense export",
+    title: "Tax Export",
+    description: "CRA T4A and expense reports ready",
     icon: Download, 
     variant: "outline" as const
   }
@@ -39,10 +39,10 @@ export function QuickActions() {
           <div>
             <CardTitle className="flex items-center gap-2">
               <Zap className="h-5 w-5 text-primary" />
-              Quick Actions
+              Business Operations
             </CardTitle>
             <CardDescription>
-              One-click workflows to boost your cash flow
+              Automated workflows and financial processes
             </CardDescription>
           </div>
         </div>

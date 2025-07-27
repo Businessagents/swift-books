@@ -6,28 +6,37 @@ import { Camera, Upload, Check, Clock } from "lucide-react"
 const recentExpenses = [
   {
     id: 1,
-    description: "Coffee meeting with client",
-    amount: "$24.50",
-    category: "Meals & Entertainment",
-    date: "2025-01-26",
+    description: "Client lunch - The Keg Restaurant",
+    amount: "$156.42",
+    category: "Business Entertainment",
+    date: "Jan 26, 2025",
     status: "processed",
-    confidence: 0.95
+    confidence: 0.97
   },
   {
     id: 2,
-    description: "Uber to downtown office",
-    amount: "$18.75",
-    category: "Transportation",
-    date: "2025-01-26",
+    description: "GO Transit - Union to Mississauga",
+    amount: "$14.20",
+    category: "Business Travel",
+    date: "Jan 26, 2025",
     status: "processing",
-    confidence: 0.88
+    confidence: 0.94
   },
   {
     id: 3,
-    description: "Office supplies - Staples",
-    amount: "$67.90",
-    category: "Office Expenses",
-    date: "2025-01-25", 
+    description: "Microsoft Office 365 Business",
+    amount: "$289.99",
+    category: "Software & Subscriptions",
+    date: "Jan 25, 2025", 
+    status: "processed",
+    confidence: 0.99
+  },
+  {
+    id: 4,
+    description: "Fuel - Petro-Canada Station",
+    amount: "$87.35",
+    category: "Vehicle & Fuel",
+    date: "Jan 24, 2025", 
     status: "processed",
     confidence: 0.92
   }
@@ -39,9 +48,9 @@ export function ExpenseCapture() {
       <CardHeader>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <CardTitle>Expense Capture</CardTitle>
+            <CardTitle>Expense Management</CardTitle>
             <CardDescription>
-              AI-powered receipt scanning and categorization
+              CRA-compliant receipt processing and tax categorization
             </CardDescription>
           </div>
           <div className="flex space-x-2">
@@ -93,8 +102,8 @@ export function ExpenseCapture() {
         
         <div className="mt-4 pt-4 border-t">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">This month processed</span>
-            <span className="font-medium">127 receipts • $8,450.20</span>
+            <span className="text-muted-foreground">January 2025 Summary</span>
+            <span className="font-medium">184 receipts • $12,847.50 CAD</span>
           </div>
         </div>
       </CardContent>

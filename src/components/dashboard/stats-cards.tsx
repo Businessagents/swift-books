@@ -4,36 +4,36 @@ import { TrendingUp, TrendingDown, DollarSign, Clock, FileText, AlertCircle } fr
 
 const stats = [
   {
-    title: "Outstanding AR",
-    value: "$124,580",
-    change: "-12%",
-    trend: "down",
+    title: "Monthly Revenue",
+    value: "$287,650",
+    change: "+18%",
+    trend: "up",
     icon: DollarSign,
-    description: "vs last month"
+    description: "CAD - Current month"
   },
   {
-    title: "Average DSO",
-    value: "28 days",
-    change: "-15%",
+    title: "Collection Period",
+    value: "24 days",
+    change: "-6%",
     trend: "down",
     icon: Clock,
-    description: "6 days improvement"
+    description: "Average DSO this quarter"
   },
   {
-    title: "Pending Invoices",
-    value: "23",
-    change: "+8%",
+    title: "Active Clients",
+    value: "47",
+    change: "+12%",
     trend: "up",
     icon: FileText,
-    description: "requires follow-up"
+    description: "Ongoing projects"
   },
   {
-    title: "Overdue Amount",
-    value: "$18,420",
-    change: "-22%",
+    title: "Outstanding Balance",
+    value: "$43,280",
+    change: "-15%",
     trend: "down",
     icon: AlertCircle,
-    description: "recovery in progress"
+    description: "Past due accounts"
   }
 ]
 
