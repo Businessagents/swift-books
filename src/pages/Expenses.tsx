@@ -1,5 +1,5 @@
 import { Header } from "@/components/ui/header"
-import { CategoryExpenseTracker } from "@/components/dashboard/category-expense-tracker"
+import { ExpenseList } from "@/components/expenses/expense-list"
 
 const Expenses = () => {
   return (
@@ -12,12 +12,12 @@ const Expenses = () => {
           <div className="space-y-2">
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Expense Management</h1>
             <p className="text-sm md:text-base text-muted-foreground">
-              Track, categorize, and analyze business expenses
+              Track, categorize, and analyze business expenses with GST/HST calculations
             </p>
           </div>
 
           {/* Main Content */}
-          <CategoryExpenseTracker />
+          <ExpenseList />
         </div>
       </main>
     </div>
