@@ -3,6 +3,7 @@ import { StatsCards } from "@/components/dashboard/stats-cards"
 import { InvoiceList } from "@/components/dashboard/invoice-list"
 import { ExpenseCapture } from "@/components/dashboard/expense-capture"
 import { QuickActions } from "@/components/dashboard/quick-actions"
+import { CashflowTracker } from "@/components/dashboard/cashflow-tracker"
 
 const Index = () => {
   return (
@@ -19,17 +20,20 @@ const Index = () => {
             </p>
           </div>
 
+          {/* Business Operations - Hero Section */}
+          <QuickActions />
+
           {/* Stats Overview */}
           <StatsCards />
 
           {/* Main Content Grid */}
           <div className="grid gap-4 md:gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-4 md:space-y-6">
+              <CashflowTracker />
               <InvoiceList />
             </div>
             
             <div className="space-y-4 md:space-y-6">
-              <QuickActions />
               <ExpenseCapture />
             </div>
           </div>
