@@ -4,6 +4,7 @@ import { InvoiceList } from "@/components/dashboard/invoice-list"
 import { ExpenseCapture } from "@/components/dashboard/expense-capture"
 import { QuickActions } from "@/components/dashboard/quick-actions"
 import { CashflowTracker } from "@/components/dashboard/cashflow-tracker"
+import { AiChat } from "@/components/ai/ai-chat"
 
 const Index = () => {
   return (
@@ -35,6 +36,7 @@ const Index = () => {
             
             <div className="space-y-4 md:space-y-6">
               <ExpenseCapture />
+              <AiChat />
             </div>
           </div>
         </div>

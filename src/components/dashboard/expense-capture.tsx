@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Camera, Upload, Check, Clock, X } from "lucide-react"
 import { ReceiptUpload } from "@/components/receipt-upload"
+import { ExpenseCategorizer } from "@/components/ai/expense-categorizer"
 import { useState, useEffect } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { usePrivacy } from "@/hooks/use-privacy"
@@ -99,6 +100,9 @@ export function ExpenseCapture() {
     <div className="space-y-6">
       {/* Receipt Upload Component */}
       <ReceiptUpload onReceiptProcessed={handleReceiptProcessed} />
+      
+      {/* AI Expense Categorizer */}
+      <ExpenseCategorizer onExpenseCreated={handleReceiptProcessed} />
       
       {/* Recent Receipts */}
       <Card>
