@@ -5,6 +5,8 @@ import { ExpenseCapture } from "@/components/dashboard/expense-capture"
 import { QuickActions } from "@/components/dashboard/quick-actions"
 import { CashflowTracker } from "@/components/dashboard/cashflow-tracker"
 import { AiChat } from "@/components/ai/ai-chat"
+import { ReceiptUpload } from "@/components/receipt-upload"
+import { ExpenseCategorizer } from "@/components/ai/expense-categorizer"
 
 const Index = () => {
   return (
@@ -21,11 +23,17 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Business Operations - Hero Section */}
-          <QuickActions />
+          {/* Expense Capture - Hero Section */}
+          <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+            <ReceiptUpload />
+            <ExpenseCategorizer />
+          </div>
 
           {/* Stats Overview */}
           <StatsCards />
+
+          {/* Quick Actions */}
+          <QuickActions />
 
           {/* Main Content Grid */}
           <div className="grid gap-4 md:gap-6 lg:grid-cols-3">
