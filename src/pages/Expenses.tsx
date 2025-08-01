@@ -1,7 +1,7 @@
 import { Header } from "@/components/ui/header"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ExpenseList } from "@/components/expenses/expense-list"
-import { EnhancedExpenseManagement } from "@/components/expenses/enhanced-expense-management"
+import { SimpleExpenseManagement } from "@/components/expenses/simple-expense-management"
 import { Settings, Zap } from "lucide-react"
 
 const Expenses = () => {
@@ -33,7 +33,7 @@ const Expenses = () => {
             </TabsList>
 
             <TabsContent value="enhanced">
-              <EnhancedExpenseManagement />
+              <SimpleExpenseManagement />
             </TabsContent>
 
             <TabsContent value="standard">

@@ -99,12 +99,16 @@ export function EnhancedInvoiceManagement() {
   const { data: invoices = [], isLoading } = useQuery({
     queryKey: ['enhanced-invoices', searchQuery, statusFilter, dateFilter, clientFilter],
     queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('Not authenticated')
+
       let query = supabase
         .from('invoices')
         .select(`
           *,
           items:invoice_items(*)
         `)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
 
       if (searchQuery) {
@@ -275,9 +279,13 @@ export function EnhancedInvoiceManagement() {
         // Create new invoice with incremented number
         const newInvoiceNumber = `${invoice.invoice_number.split('-')[0]}-${Date.now()}`
         
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) throw new Error('Not authenticated')
+
         const { data: newInvoice, error: invoiceError } = await supabase
           .from('invoices')
           .insert({
+            user_id: user.id,
             invoice_number: newInvoiceNumber,
             client_name: invoice.client_name,
             client_email: invoice.client_email,
