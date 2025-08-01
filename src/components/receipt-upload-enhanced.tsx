@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Camera, Upload, Check, Clock, X, AlertCircle, Edit3 } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
@@ -25,22 +24,19 @@ interface ExtractedData {
   date: string
   category: string
   confidence: number
-  description: string
 }
 
 const EXPENSE_CATEGORIES = [
-  { code: 'OFFICE', name: 'Office Supplies & Equipment', cra_line: 'Line 8760' },
-  { code: 'TRAVEL', name: 'Business Travel & Transportation', cra_line: 'Line 8810' },
-  { code: 'MEALS', name: 'Business Entertainment & Meals', cra_line: 'Line 8523' },
-  { code: 'PROFESSIONAL', name: 'Professional Services', cra_line: 'Line 8740' },
-  { code: 'SUPPLIES', name: 'Software & Subscriptions', cra_line: 'Line 8761' },
-  { code: 'ADVERTISING', name: 'Marketing & Advertising', cra_line: 'Line 8500' },
-  { code: 'TELEPHONE', name: 'Utilities & Communications', cra_line: 'Line 8790' },
-  { code: 'MOTOR_VEHICLE', name: 'Vehicle & Fuel', cra_line: 'Line 8811' },
-  { code: 'INSURANCE', name: 'Insurance', cra_line: 'Line 8690' },
-  { code: 'RENT', name: 'Rent', cra_line: 'Line 8910' },
-  { code: 'REPAIRS', name: 'Repairs & Maintenance', cra_line: 'Line 8960' },
-  { code: 'OTHER', name: 'Other Business Expenses', cra_line: 'Line 8980' }
+  { code: 'OFFICE', name: 'Office Supplies & Equipment' },
+  { code: 'TRAVEL', name: 'Business Travel & Transportation' },
+  { code: 'MEALS', name: 'Business Entertainment & Meals' },
+  { code: 'PROFESSIONAL', name: 'Professional Services' },
+  { code: 'SUPPLIES', name: 'Software & Subscriptions' },
+  { code: 'ADVERTISING', name: 'Marketing & Advertising' },
+  { code: 'TELEPHONE', name: 'Utilities & Communications' },
+  { code: 'MOTOR_VEHICLE', name: 'Vehicle & Fuel' },
+  { code: 'INSURANCE', name: 'Insurance' },
+  { code: 'OTHER', name: 'Other Business Expenses' }
 ]
 
 const TAX_CODES = [
@@ -50,7 +46,7 @@ const TAX_CODES = [
   { code: 'NO_TAX', name: 'No Tax', rate: 0.00 }
 ]
 
-export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: ReceiptUploadProps) {
+export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: ReceiptUploadProps) {
   const [uploading, setUploading] = useState(false)
   const [processing, setProcessing] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -168,20 +164,19 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
         tax: ocrData.extractedData.tax || null,
         date: ocrData.extractedData.date || new Date().toISOString().split('T')[0],
         category: ocrData.categoryData.category || 'Other Business Expenses',
-        confidence: ocrData.categoryData.confidence || 0.6,
-        description: `${ocrData.extractedData.vendor || 'Receipt'} - Business expense`
+        confidence: ocrData.categoryData.confidence || 0.6
       }
 
       setExtractedData(extracted)
       setReceiptData(receiptRecord)
       setReviewData({
-        description: extracted.description,
+        description: `${extracted.vendor} - Receipt`,
         vendor: extracted.vendor,
         expense_date: extracted.date,
         amount: extracted.amount?.toString() || '',
         tax_amount: extracted.tax?.toString() || '0',
-        category: extracted.category,
-        tax_code: 'HST_13',
+        category_id: '', // Will be set based on category selection
+        tax_code_id: '', // Will be set based on tax selection
         notes: '',
         is_billable: false,
         is_personal: false
@@ -224,6 +219,10 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
         throw new Error('You must be logged in to create expenses')
       }
 
+      // Get the selected category and tax code IDs
+      const selectedCategory = EXPENSE_CATEGORIES.find(cat => cat.name === reviewData.category)
+      const selectedTaxCode = TAX_CODES.find(tax => tax.name === reviewData.tax_code)
+
       // Create expense record
       const { data: expenseData, error: expenseError } = await supabase
         .from('expenses')
@@ -238,7 +237,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
           notes: reviewData.notes,
           is_billable: reviewData.is_billable,
           is_personal: reviewData.is_personal,
-          payment_method: 'Credit Card',
+          payment_method: 'Credit Card', // Default value
           currency: 'CAD'
         })
         .select()
@@ -470,7 +469,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                     <Input
                       id="description"
                       value={reviewData.description}
-                      onChange={(e) => setReviewData((prev: any) => ({...prev, description: e.target.value}))}
+                      onChange={(e) => setReviewData(prev => ({...prev, description: e.target.value}))}
                       placeholder="Enter expense description"
                     />
                   </div>
@@ -479,7 +478,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                     <Input
                       id="vendor"
                       value={reviewData.vendor}
-                      onChange={(e) => setReviewData((prev: any) => ({...prev, vendor: e.target.value}))}
+                      onChange={(e) => setReviewData(prev => ({...prev, vendor: e.target.value}))}
                       placeholder="Vendor name"
                     />
                   </div>
@@ -493,7 +492,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                       type="number"
                       step="0.01"
                       value={reviewData.amount}
-                      onChange={(e) => setReviewData((prev: any) => ({...prev, amount: e.target.value}))}
+                      onChange={(e) => setReviewData(prev => ({...prev, amount: e.target.value}))}
                       placeholder="0.00"
                     />
                   </div>
@@ -504,7 +503,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                       type="number"
                       step="0.01"
                       value={reviewData.tax_amount}
-                      onChange={(e) => setReviewData((prev: any) => ({...prev, tax_amount: e.target.value}))}
+                      onChange={(e) => setReviewData(prev => ({...prev, tax_amount: e.target.value}))}
                       placeholder="0.00"
                     />
                   </div>
@@ -514,7 +513,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                       id="expense_date"
                       type="date"
                       value={reviewData.expense_date}
-                      onChange={(e) => setReviewData((prev: any) => ({...prev, expense_date: e.target.value}))}
+                      onChange={(e) => setReviewData(prev => ({...prev, expense_date: e.target.value}))}
                     />
                   </div>
                 </div>
@@ -524,7 +523,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                     <Label htmlFor="category">Category</Label>
                     <Select 
                       value={reviewData.category} 
-                      onValueChange={(value) => setReviewData((prev: any) => ({...prev, category: value}))}
+                      onValueChange={(value) => setReviewData(prev => ({...prev, category: value}))}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select category" />
@@ -532,10 +531,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                       <SelectContent>
                         {EXPENSE_CATEGORIES.map((category) => (
                           <SelectItem key={category.code} value={category.name}>
-                            <div>
-                              <div>{category.name}</div>
-                              <div className="text-xs text-muted-foreground">{category.cra_line}</div>
-                            </div>
+                            {category.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -545,7 +541,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                     <Label htmlFor="tax_code">Tax Code</Label>
                     <Select 
                       value={reviewData.tax_code} 
-                      onValueChange={(value) => setReviewData((prev: any) => ({...prev, tax_code: value}))}
+                      onValueChange={(value) => setReviewData(prev => ({...prev, tax_code: value}))}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select tax code" />
@@ -566,7 +562,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                   <Textarea
                     id="notes"
                     value={reviewData.notes}
-                    onChange={(e) => setReviewData((prev: any) => ({...prev, notes: e.target.value}))}
+                    onChange={(e) => setReviewData(prev => ({...prev, notes: e.target.value}))}
                     placeholder="Additional notes or details..."
                     rows={3}
                   />
@@ -577,7 +573,7 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                     <input
                       type="checkbox"
                       checked={reviewData.is_billable}
-                      onChange={(e) => setReviewData((prev: any) => ({...prev, is_billable: e.target.checked}))}
+                      onChange={(e) => setReviewData(prev => ({...prev, is_billable: e.target.checked}))}
                       className="rounded border border-input"
                     />
                     <span className="text-sm">Billable to client</span>
@@ -586,23 +582,13 @@ export function EnhancedReceiptUpload({ onReceiptProcessed, onExpenseCreated }: 
                     <input
                       type="checkbox"
                       checked={reviewData.is_personal}
-                      onChange={(e) => setReviewData((prev: any) => ({...prev, is_personal: e.target.checked}))}
+                      onChange={(e) => setReviewData(prev => ({...prev, is_personal: e.target.checked}))}
                       className="rounded border border-input"
                     />
                     <span className="text-sm">Personal expense</span>
                   </label>
                 </div>
               </div>
-
-              {/* Low confidence warning */}
-              {extractedData.confidence < 0.8 && (
-                <Alert>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>
-                    This receipt was processed with lower confidence. Please carefully verify all extracted information.
-                  </AlertDescription>
-                </Alert>
-              )}
             </div>
           )}
 

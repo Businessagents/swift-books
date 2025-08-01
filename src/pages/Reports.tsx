@@ -2,7 +2,9 @@ import { Header } from "@/components/ui/header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { BarChart3, TrendingUp, Download, Calendar, FileText, PieChart } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { GSTHSTReporting } from "@/components/reports/gst-hst-reporting"
+import { BarChart3, TrendingUp, Download, Calendar, FileText, PieChart, Calculator } from "lucide-react"
 
 const reports = [
   {
@@ -113,7 +115,7 @@ const Reports = () => {
             <div>
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Financial Reports</h1>
               <p className="text-muted-foreground">
-                Business intelligence reports and financial analytics
+                Business intelligence reports and CRA-compliant tax reporting
               </p>
             </div>
             <Button>
@@ -144,14 +146,31 @@ const Reports = () => {
             })}
           </div>
 
-          {/* Reports List */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Available Reports</CardTitle>
-              <CardDescription>
-                Generate, view, and download business reports
-              </CardDescription>
-            </CardHeader>
+          {/* Reports Content */}
+          <Tabs defaultValue="gst-hst" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="gst-hst" className="flex items-center gap-2">
+                <Calculator className="h-4 w-4" />
+                GST/HST Reporting
+              </TabsTrigger>
+              <TabsTrigger value="standard" className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                Standard Reports
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="gst-hst" className="space-y-4">
+              <GSTHSTReporting />
+            </TabsContent>
+
+            <TabsContent value="standard" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Available Reports</CardTitle>
+                  <CardDescription>
+                    Generate, view, and download business reports
+                  </CardDescription>
+                </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {reports.map((report) => (
@@ -190,7 +209,9 @@ const Reports = () => {
                 ))}
               </div>
             </CardContent>
-          </Card>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
     </div>

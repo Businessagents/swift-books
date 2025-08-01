@@ -1,5 +1,8 @@
 import { Header } from "@/components/ui/header"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ExpenseList } from "@/components/expenses/expense-list"
+import { EnhancedExpenseManagement } from "@/components/expenses/enhanced-expense-management"
+import { Settings, Zap } from "lucide-react"
 
 const Expenses = () => {
   return (
@@ -12,12 +15,31 @@ const Expenses = () => {
           <div className="space-y-2">
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Expense Management</h1>
             <p className="text-sm md:text-base text-muted-foreground">
-              Track, categorize, and analyze business expenses with GST/HST calculations
+              Advanced expense workflow with approval system and bulk operations
             </p>
           </div>
 
           {/* Main Content */}
-          <ExpenseList />
+          <Tabs defaultValue="enhanced" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="enhanced" className="flex items-center gap-2">
+                <Zap className="h-4 w-4" />
+                Enhanced Management
+              </TabsTrigger>
+              <TabsTrigger value="standard" className="flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                Standard View
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="enhanced">
+              <EnhancedExpenseManagement />
+            </TabsContent>
+
+            <TabsContent value="standard">
+              <ExpenseList />
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
     </div>
