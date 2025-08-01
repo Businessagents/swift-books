@@ -1,12 +1,18 @@
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
-import { Bell, User, Settings, Brain, Menu, X } from "lucide-react"
+import { Bell, User, Settings, Brain, Menu, X, LogOut } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import { useAuth } from "@/hooks/use-auth"
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { signOut } = useAuth()
+
+  const handleSignOut = async () => {
+    await signOut()
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -17,7 +23,7 @@ export function Header() {
             <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary">
               <Brain className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg text-muted-foreground">Business Intelligence Platform</span>
+            <span className="font-bold text-lg">Swift Books</span>
           </div>
         </div>
         
@@ -47,8 +53,8 @@ export function Header() {
             <Button variant="ghost" size="icon">
               <Settings className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon">
-              <User className="h-4 w-4" />
+            <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign Out">
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -60,8 +66,8 @@ export function Header() {
           <Button variant="ghost" size="icon">
             <Bell className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon">
-            <User className="h-4 w-4" />
+          <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign Out">
+            <LogOut className="h-4 w-4" />
           </Button>
           <Button 
             variant="ghost" 

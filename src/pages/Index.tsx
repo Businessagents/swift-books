@@ -7,6 +7,7 @@ import { CashflowTracker } from "@/components/dashboard/cashflow-tracker"
 import { AiChat } from "@/components/ai/ai-chat"
 import { ReceiptUpload } from "@/components/receipt-upload"
 import { ExpenseCategorizer } from "@/components/ai/expense-categorizer"
+import { Badge } from "@/components/ui/badge"
 
 const Index = () => {
   return (
@@ -14,39 +15,68 @@ const Index = () => {
       <Header />
       
       <main className="container py-4 md:py-6 px-4 md:px-8">
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="space-y-2">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Business Dashboard</h1>
-            <p className="text-sm md:text-base text-muted-foreground">
-              Real-time financial metrics and operational insights for your business
+        <div className="space-y-8">
+          {/* Header Section */}
+          <div className="space-y-3">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Swift Books
+            </h1>
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl">
+              AI-powered accounting for Canadian freelancers. Capture expenses instantly, generate compliant reports, and cut bookkeeping time by 80%.
             </p>
           </div>
 
-          {/* Expense Capture - Hero Section */}
-          <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
-            <ReceiptUpload />
-            <ExpenseCategorizer />
-          </div>
-
-          {/* Stats Overview */}
-          <StatsCards />
-
-          {/* Quick Actions */}
-          <QuickActions />
-
-          {/* Main Content Grid */}
-          <div className="grid gap-4 md:gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-4 md:space-y-6">
-              <CashflowTracker />
-              <InvoiceList />
+          {/* Primary Actions - Expense Capture Hero */}
+          <section className="space-y-4">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="h-8 w-1 bg-primary rounded-full"></div>
+              <h2 className="text-xl md:text-2xl font-semibold">Capture Expenses</h2>
+              <Badge variant="secondary" className="ml-2">AI-Powered</Badge>
             </div>
             
-            <div className="space-y-4 md:space-y-6">
-              <ExpenseCapture />
-              <AiChat />
+            <div className="grid gap-6 lg:grid-cols-2">
+              <ReceiptUpload />
+              <ExpenseCategorizer />
             </div>
-          </div>
+          </section>
+
+          {/* Business Overview */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-1 bg-primary rounded-full"></div>
+              <h2 className="text-xl md:text-2xl font-semibold">Business Overview</h2>
+            </div>
+            <StatsCards />
+          </section>
+
+          {/* Quick Operations */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-1 bg-primary rounded-full"></div>
+              <h2 className="text-xl md:text-2xl font-semibold">Operations Center</h2>
+            </div>
+            <QuickActions />
+          </section>
+
+          {/* Detailed Analytics & Management */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-1 bg-primary rounded-full"></div>
+              <h2 className="text-xl md:text-2xl font-semibold">Analytics & Management</h2>
+            </div>
+            
+            <div className="grid gap-6 xl:grid-cols-4">
+              <div className="xl:col-span-3 space-y-6">
+                <CashflowTracker />
+                <InvoiceList />
+              </div>
+              
+              <div className="space-y-6">
+                <ExpenseCapture />
+                <AiChat />
+              </div>
+            </div>
+          </section>
         </div>
       </main>
     </div>
