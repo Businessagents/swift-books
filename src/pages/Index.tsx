@@ -6,17 +6,16 @@ import { Brain, Receipt } from "lucide-react"
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <div className="min-h-screen bg-background">
       <Header />
       
       <main className="container py-8 md:py-12 px-4 md:px-8">
         <div className="space-y-12">
-          {/* Enhanced Hero Section */}
-          <div className="relative overflow-hidden bg-gradient-hero rounded-3xl p-8 md:p-12 shadow-xl animate-fade-in">
-            <div className="absolute inset-0 bg-gradient-glass backdrop-blur-sm"></div>
-            <div className="relative space-y-6">
+          {/* Clean Hero Section */}
+          <div className="bg-primary rounded-3xl p-8 md:p-12 shadow-lg animate-fade-in">
+            <div className="space-y-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-card/20 backdrop-blur-sm rounded-2xl">
+                <div className="p-3 bg-primary-foreground/10 rounded-2xl">
                   <Brain className="h-8 w-8 text-primary-foreground" />
                 </div>
                 <div>
@@ -24,8 +23,8 @@ const Index = () => {
                     Swift Books
                   </h1>
                   <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="secondary" className="bg-card/20 backdrop-blur-sm text-primary-foreground border-primary-foreground/20">AI-Powered</Badge>
-                    <Badge variant="secondary" className="bg-card/20 backdrop-blur-sm text-primary-foreground border-primary-foreground/20">Canadian Compliant</Badge>
+                    <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/20">AI-Powered</Badge>
+                    <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/20">Canadian Compliant</Badge>
                   </div>
                 </div>
               </div>
@@ -51,18 +50,18 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Enhanced Expense Capture Section */}
+          {/* Clean Expense Capture Section */}
           <section className="space-y-6 animate-scale-in" style={{ animationDelay: '0.2s' }}>
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-2 bg-gradient-success rounded-xl shadow-success">
+              <div className="p-2 bg-success rounded-xl">
                 <Receipt className="h-6 w-6 text-success-foreground" />
               </div>
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-primary">Capture Expenses</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground">Capture Expenses</h2>
                 <p className="text-muted-foreground">AI-powered receipt processing with instant categorization</p>
               </div>
               <div className="ml-auto hidden md:block">
-                <Badge variant="outline" className="bg-gradient-glass backdrop-blur-sm border-success/20 text-success">
+                <Badge variant="outline" className="bg-success/10 border-success/20 text-success">
                   99% Accuracy
                 </Badge>
               </div>

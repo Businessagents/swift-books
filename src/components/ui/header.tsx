@@ -15,27 +15,27 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-gradient-glass backdrop-blur-lg supports-[backdrop-filter]:bg-background/80 shadow-glass">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-lg shadow-sm">
       <div className="container flex h-16 items-center">
-        {/* Enhanced Logo */}
+        {/* Clean Logo */}
         <div className="mr-6 flex">
           <div className="mr-8 flex items-center space-x-3">
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-primary shadow-primary">
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-primary">
               <div className="h-8 w-8 rounded-lg bg-primary-foreground flex items-center justify-center">
                 <span className="text-xs font-bold text-primary">SB</span>
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">Swift Books</span>
+              <span className="font-bold text-xl text-foreground">Swift Books</span>
               <span className="text-xs text-muted-foreground hidden sm:block">Smart Business Finance</span>
             </div>
           </div>
         </div>
         
-        {/* Enhanced Desktop Navigation */}
+        {/* Clean Desktop Navigation */}
         <div className="hidden md:flex flex-1 items-center justify-between space-x-4">
           <nav className="flex items-center space-x-8 text-sm font-medium">
-            <Link className="relative px-3 py-2 rounded-lg transition-all duration-200 hover:bg-primary/10 text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-gradient-primary after:rounded-full" to="/">
+            <Link className="px-3 py-2 rounded-lg transition-all duration-200 bg-primary/10 text-primary font-semibold" to="/">
               Dashboard
             </Link>
             <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/invoices">
