@@ -1,15 +1,8 @@
 import { Header } from "@/components/ui/header"
-import { StatsCards } from "@/components/dashboard/stats-cards"
-import { InvoiceList } from "@/components/dashboard/invoice-list"
-import { ExpenseCapture } from "@/components/dashboard/expense-capture"
-import { QuickActions } from "@/components/dashboard/quick-actions"
-import { CashflowTracker } from "@/components/dashboard/cashflow-tracker"
 import { FloatingAiChat } from "@/components/ai/floating-ai-chat"
 import { ReceiptUpload } from "@/components/receipt-upload"
-import { FinancialHealthScore } from "@/components/dashboard/financial-health-score"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Brain, Receipt, DollarSign, Zap } from "lucide-react"
+import { Brain, Receipt } from "lucide-react"
 
 const Index = () => {
   return (
@@ -80,57 +73,6 @@ const Index = () => {
             </div>
           </section>
 
-          {/* Enhanced Business Overview */}
-          <section className="space-y-8 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="p-2 bg-gradient-primary rounded-xl shadow-primary">
-                  <DollarSign className="h-6 w-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-primary">Business Overview</h2>
-                  <p className="text-muted-foreground">Real-time financial insights and performance metrics</p>
-                </div>
-              </div>
-              <Button variant="outline" className="hidden md:flex bg-gradient-glass backdrop-blur-sm border-border/50">
-                View Details
-              </Button>
-            </div>
-            <StatsCards />
-          </section>
-
-          {/* Enhanced Operations Center */}
-          <section className="space-y-8 animate-scale-in" style={{ animationDelay: '0.6s' }}>
-            <div className="flex items-center gap-4">
-              <div className="p-2 bg-gradient-warning rounded-xl shadow-warning">
-                <Zap className="h-6 w-6 text-warning-foreground" />
-              </div>
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-primary">Operations Center</h2>
-                <p className="text-muted-foreground">Quick actions for common business workflows</p>
-              </div>
-            </div>
-            <QuickActions />
-          </section>
-
-          {/* Detailed Analytics & Management */}
-          <section className="space-y-6">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-1 bg-primary rounded-full"></div>
-              <h2 className="text-xl md:text-2xl font-semibold">Analytics & Management</h2>
-            </div>
-            
-            <div className="grid gap-6 xl:grid-cols-3">
-              <div className="xl:col-span-2 space-y-6">
-                <CashflowTracker />
-                <InvoiceList />
-              </div>
-              
-              <div className="space-y-6">
-                <FinancialHealthScore />
-              </div>
-            </div>
-          </section>
         </div>
       </main>
       
