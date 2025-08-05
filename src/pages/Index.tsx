@@ -4,9 +4,8 @@ import { InvoiceList } from "@/components/dashboard/invoice-list"
 import { ExpenseCapture } from "@/components/dashboard/expense-capture"
 import { QuickActions } from "@/components/dashboard/quick-actions"
 import { CashflowTracker } from "@/components/dashboard/cashflow-tracker"
-import { AiChat } from "@/components/ai/ai-chat"
+import { FloatingAiChat } from "@/components/ai/floating-ai-chat"
 import { ReceiptUpload } from "@/components/receipt-upload"
-import { ExpenseCategorizer } from "@/components/ai/expense-categorizer"
 import { FinancialHealthScore } from "@/components/dashboard/financial-health-score"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -76,13 +75,8 @@ const Index = () => {
               </div>
             </div>
             
-            <div className="grid gap-8 lg:grid-cols-2">
-              <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
-                <ReceiptUpload />
-              </div>
-              <div className="animate-slide-up" style={{ animationDelay: '0.4s' }}>
-                <ExpenseCategorizer />
-              </div>
+            <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
+              <ReceiptUpload />
             </div>
           </section>
 
@@ -126,24 +120,23 @@ const Index = () => {
               <h2 className="text-xl md:text-2xl font-semibold">Analytics & Management</h2>
             </div>
             
-            <div className="grid gap-6 xl:grid-cols-4">
+            <div className="grid gap-6 xl:grid-cols-3">
               <div className="xl:col-span-2 space-y-6">
                 <CashflowTracker />
                 <InvoiceList />
               </div>
               
-              <div className="xl:col-span-1 space-y-6">
+              <div className="space-y-6">
                 <FinancialHealthScore />
                 <ExpenseCapture />
-              </div>
-              
-              <div className="xl:col-span-1 space-y-6">
-                <AiChat />
               </div>
             </div>
           </section>
         </div>
       </main>
+      
+      {/* Floating AI Assistant */}
+      <FloatingAiChat />
     </div>
   );
 };

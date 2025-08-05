@@ -20,12 +20,14 @@ export function Header() {
         {/* Enhanced Logo */}
         <div className="mr-6 flex">
           <div className="mr-8 flex items-center space-x-3">
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-primary shadow-primary animate-pulse-glow">
-              <Brain className="h-6 w-6 text-primary-foreground" />
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-primary shadow-primary">
+              <div className="h-8 w-8 rounded-lg bg-primary-foreground flex items-center justify-center">
+                <span className="text-xs font-bold text-primary">SB</span>
+              </div>
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">Swift Books</span>
-              <span className="text-xs text-muted-foreground hidden sm:block">AI Accounting</span>
+              <span className="text-xs text-muted-foreground hidden sm:block">Smart Business Finance</span>
             </div>
           </div>
         </div>
