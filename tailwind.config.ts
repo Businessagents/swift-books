@@ -67,42 +67,19 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))',
 					elevated: 'hsl(var(--card-elevated))'
-				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius-lg)',
-				DEFAULT: 'var(--radius)',
+				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'var(--radius-sm)'
+				sm: 'calc(var(--radius) - 4px)'
 			},
-			boxShadow: {
-				sm: 'var(--shadow-sm)',
-				md: 'var(--shadow-md)',
-				lg: 'var(--shadow-lg)',
-				xl: 'var(--shadow-xl)',
-				primary: 'var(--shadow-primary)',
-				success: 'var(--shadow-success)',
-				glass: 'var(--shadow-glass)',
-				inner: 'var(--shadow-inner)'
-			},
-			backgroundImage: {
-				'gradient-primary': 'var(--gradient-primary)',
-				'gradient-success': 'var(--gradient-success)',
-				'gradient-warning': 'var(--gradient-warning)',
-				'gradient-card': 'var(--gradient-card)',
-				'gradient-glass': 'var(--gradient-glass)',
-				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-subtle': 'var(--gradient-subtle)'
+			chart: {
+				"1": "hsl(var(--chart-1))",
+				"2": "hsl(var(--chart-2))",
+				"3": "hsl(var(--chart-3))",
+				"4": "hsl(var(--chart-4))",
+				"5": "hsl(var(--chart-5))",
 			},
 			transitionProperty: {
 				'all': 'var(--transition-all)',

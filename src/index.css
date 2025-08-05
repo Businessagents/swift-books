@@ -66,24 +66,12 @@ All colors MUST be HSL for consistent theming across light/dark modes.
     --radius-sm: 0.375rem;
     --radius-lg: 0.875rem;
 
-    /* Enhanced Gradients - Modern Fintech Inspired */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(215 85% 30%));
-    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(142 76% 42%));
-    --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(35 91% 68%));
-    --gradient-card: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card-elevated)));
-    --gradient-glass: linear-gradient(135deg, hsl(var(--card) / 0.9), hsl(var(--card-elevated) / 0.8));
-    --gradient-hero: linear-gradient(135deg, hsl(215 85% 25%), hsl(215 85% 30%), hsl(142 76% 36%));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(220 20% 99%));
-
-    /* Enhanced Shadows - Glass Morphism & Depth */
-    --shadow-sm: 0 1px 3px 0 hsl(215 30% 15% / 0.1);
-    --shadow-md: 0 4px 12px 0 hsl(215 30% 15% / 0.1);
-    --shadow-lg: 0 10px 30px 0 hsl(215 30% 15% / 0.1);
-    --shadow-xl: 0 20px 50px 0 hsl(215 30% 15% / 0.15);
-    --shadow-primary: 0 8px 25px 0 hsl(var(--primary) / 0.15);
-    --shadow-success: 0 8px 25px 0 hsl(var(--success) / 0.15);
-    --shadow-glass: 0 8px 32px 0 hsl(215 30% 15% / 0.08);
-    --shadow-inner: inset 0 2px 4px 0 hsl(215 30% 15% / 0.06);
+    /* Chart Colors for Analytics */
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 142 76% 36%;
+    --chart-3: 35 91% 62%;
+    --chart-4: 0 72% 51%;
+    --chart-5: 280 100% 70%;
 
     /* Transitions */
     --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

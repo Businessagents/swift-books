@@ -105,34 +105,33 @@ const getTypeColor = (type: string) => {
 
 const Reports = () => {
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <div className="min-h-screen bg-background">
       <Header />
       
       <main className="container py-6 md:py-8 px-4 md:px-8">
         <div className="space-y-8">
-          {/* Enhanced Header */}
-          <div className="relative overflow-hidden bg-gradient-hero rounded-2xl p-6 md:p-8 shadow-lg animate-fade-in">
-            <div className="absolute inset-0 bg-gradient-glass backdrop-blur-sm"></div>
-            <div className="relative flex items-center justify-between">
+          {/* Clean Header */}
+          <div className="bg-card rounded-xl p-6 md:p-8 border shadow-sm animate-fade-in">
+            <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-card/20 backdrop-blur-sm rounded-xl">
+                  <div className="p-2 bg-primary rounded-lg">
                     <BarChart3 className="h-6 w-6 text-primary-foreground" />
                   </div>
-                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary-foreground">
+                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
                     Financial Reports
                   </h1>
                 </div>
-                <p className="text-primary-foreground/90 max-w-2xl">
+                <p className="text-muted-foreground max-w-2xl">
                   AI-powered business intelligence reports and CRA-compliant tax reporting with real-time insights
                 </p>
               </div>
               <div className="hidden md:flex gap-2">
-                <Button variant="secondary" className="bg-card/20 backdrop-blur-sm border-primary-foreground/20">
+                <Button variant="secondary">
                   <Brain className="h-4 w-4 mr-2" />
                   AI Insights
                 </Button>
-                <Button variant="secondary" className="bg-card/20 backdrop-blur-sm border-primary-foreground/20">
+                <Button variant="secondary">
                   <FileText className="h-4 w-4 mr-2" />
                   Generate Report
                 </Button>
@@ -140,15 +139,15 @@ const Reports = () => {
             </div>
           </div>
 
-          {/* Enhanced Quick Insights */}
+          {/* Quick Insights */}
           <div className="grid gap-4 md:grid-cols-3 animate-scale-in" style={{ animationDelay: '0.1s' }}>
             {quickInsights.map((insight) => {
               const Icon = insight.icon
               return (
-                <Card key={insight.title} className="bg-gradient-card border-border/50 hover:shadow-lg transition-all duration-300 group">
+                <Card key={insight.title} className="border hover:shadow-lg transition-all duration-300 group">
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between mb-3">
-                      <div className="p-2 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors">
+                      <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
                         <Icon className="h-5 w-5 text-primary" />
                       </div>
                       {insight.trend === "up" && (
