@@ -101,41 +101,68 @@ All colors MUST be HSL for consistent theming across light/dark modes.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    /* Core Dark Mode Colors */
+    --background: 222 84% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    /* Card & Surface Colors */
+    --card: 222 84% 6%;
     --card-foreground: 210 40% 98%;
+    --card-elevated: 222 84% 7%;
 
-    --popover: 222.2 84% 4.9%;
+    /* Interactive Elements */
+    --popover: 222 84% 6%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primary - Light Blue for Dark Mode */
+    --primary: 210 100% 70%;
+    --primary-foreground: 222 84% 5%;
+    --primary-hover: 210 100% 75%;
+    --primary-light: 210 100% 15%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    /* Secondary - Dark Gray */
+    --secondary: 217 33% 18%;
     --secondary-foreground: 210 40% 98%;
+    --secondary-hover: 217 33% 22%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Success - Dark Green */
+    --success: 142 76% 45%;
+    --success-foreground: 210 40% 98%;
+    --success-light: 142 76% 12%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Warning - Dark Orange */
+    --warning: 35 91% 65%;
+    --warning-foreground: 222 84% 5%;
+    --warning-light: 35 91% 15%;
 
-    --destructive: 0 62.8% 30.6%;
+    /* Destructive - Dark Red */
+    --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
+    --destructive-light: 0 63% 12%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* Muted Elements */
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    /* Accent - Dark Red */
+    --accent: 0 72% 60%;
+    --accent-foreground: 210 40% 98%;
+    --accent-light: 0 72% 15%;
+
+    /* Borders & Inputs */
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 210 100% 70%;
+
+    /* Sidebar Variables */
+    --sidebar-background: 240 6% 10%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 224 76% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
