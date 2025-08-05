@@ -128,7 +128,6 @@ const Index = () => {
               
               <div className="space-y-6">
                 <FinancialHealthScore />
-                <ExpenseCapture />
               </div>
             </div>
           </section>
