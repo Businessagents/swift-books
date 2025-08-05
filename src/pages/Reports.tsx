@@ -176,11 +176,11 @@ const Reports = () => {
             <TabsList>
               <TabsTrigger value="gst-hst" className="flex items-center gap-2">
                 <Calculator className="h-4 w-4" />
-                GST/HST Reporting
+                Tax & Compliance
               </TabsTrigger>
               <TabsTrigger value="standard" className="flex items-center gap-2">
                 <FileText className="h-4 w-4" />
-                Standard Reports
+                Business Analytics
               </TabsTrigger>
             </TabsList>
 
@@ -221,11 +221,51 @@ const Reports = () => {
                       </div>
                     </div>
                     <div className="flex gap-2 mt-4 md:mt-0">
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {
+                          // Generate mock report view
+                          const reportWindow = window.open('', '_blank');
+                          if (reportWindow) {
+                            reportWindow.document.write(`
+                              <html>
+                                <head><title>${report.title}</title></head>
+                                <body style="font-family: Arial, sans-serif; padding: 20px;">
+                                  <h1>${report.title}</h1>
+                                  <p><strong>Description:</strong> ${report.description}</p>
+                                  <p><strong>Type:</strong> ${report.type}</p>
+                                  <p><strong>Generated:</strong> ${report.lastGenerated}</p>
+                                  <p><strong>Status:</strong> ${report.status}</p>
+                                  <hr/>
+                                  <p>This is a sample report view. In a real application, this would display the actual report data.</p>
+                                </body>
+                              </html>
+                            `);
+                            reportWindow.document.close();
+                          }
+                        }}
+                      >
                         <BarChart3 className="h-4 w-4 mr-2" />
                         View
                       </Button>
-                      <Button variant="outline" size="sm" disabled={report.status !== "Ready"}>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        disabled={report.status !== "Ready"}
+                        onClick={() => {
+                          if (report.status === "Ready") {
+                            // Create and download mock PDF
+                            const element = document.createElement('a');
+                            const file = new Blob([`${report.title}\n\nGenerated: ${report.lastGenerated}\nType: ${report.type}\nStatus: ${report.status}\n\nThis is a sample PDF download. In a real application, this would be the actual report data.`], {type: 'text/plain'});
+                            element.href = URL.createObjectURL(file);
+                            element.download = `${report.title.replace(/\s+/g, '_')}.txt`;
+                            document.body.appendChild(element);
+                            element.click();
+                            document.body.removeChild(element);
+                          }
+                        }}
+                      >
                         <Download className="h-4 w-4 mr-2" />
                         Download
                       </Button>

@@ -1,11 +1,9 @@
 import { Header } from "@/components/ui/header"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { InvoiceList } from "@/components/invoices/invoice-list"
-import { EnhancedInvoiceManagement } from "@/components/invoices/enhanced-invoice-management"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Settings, Zap, FileText, TrendingUp, DollarSign, Clock } from "lucide-react"
+import { FileText, TrendingUp, DollarSign, Clock } from "lucide-react"
 
 const Invoices = () => {
   const quickStats = [
@@ -68,27 +66,10 @@ const Invoices = () => {
             })}
           </div>
 
-          {/* Main Content */}
-          <Tabs defaultValue="enhanced" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="enhanced" className="flex items-center gap-2">
-                <Zap className="h-4 w-4" />
-                Enhanced Management
-              </TabsTrigger>
-              <TabsTrigger value="standard" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
-                Standard View
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="enhanced">
-              <EnhancedInvoiceManagement />
-            </TabsContent>
-
-            <TabsContent value="standard">
-              <InvoiceList />
-            </TabsContent>
-          </Tabs>
+          {/* Main Content - Simplified Single View */}
+          <div className="space-y-4">
+            <InvoiceList />
+          </div>
         </div>
       </main>
     </div>

@@ -8,29 +8,29 @@ All colors MUST be HSL for consistent theming across light/dark modes.
 
 @layer base {
   :root {
-    /* Core Brand Colors - Deep Navy & Professional Blues */
-    --background: 220 20% 98%;
-    --foreground: 215 30% 15%;
+    /* Core Brand Colors - Professional Light Mode */
+    --background: 0 0% 100%;
+    --foreground: 222 84% 4.9%;
 
     /* Card & Surface Colors */
     --card: 0 0% 100%;
-    --card-foreground: 215 30% 15%;
-    --card-elevated: 220 30% 99%;
+    --card-foreground: 222 84% 4.9%;
+    --card-elevated: 0 0% 98%;
 
     /* Interactive Elements */
     --popover: 0 0% 100%;
-    --popover-foreground: 215 30% 15%;
+    --popover-foreground: 222 84% 4.9%;
 
-    /* Primary - Deep Navy for Trust & Finance */
-    --primary: 215 85% 25%;
-    --primary-foreground: 0 0% 98%;
-    --primary-hover: 215 85% 20%;
-    --primary-light: 215 70% 90%;
+    /* Primary - Professional Blue */
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --primary-hover: 221.2 83.2% 48%;
+    --primary-light: 221.2 83.2% 93%;
 
-    /* Secondary - Professional Gray */
-    --secondary: 220 15% 95%;
-    --secondary-foreground: 215 30% 25%;
-    --secondary-hover: 220 20% 90%;
+    /* Secondary - Light Gray */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --secondary-hover: 210 40% 91%;
 
     /* Success - Financial Green */
     --success: 142 76% 36%;
@@ -48,8 +48,8 @@ All colors MUST be HSL for consistent theming across light/dark modes.
     --destructive-light: 0 85% 95%;
 
     /* Muted Elements */
-    --muted: 220 15% 96%;
-    --muted-foreground: 215 20% 50%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
     /* Accent - Canadian Red Touch */
     --accent: 0 72% 51%;
@@ -57,9 +57,9 @@ All colors MUST be HSL for consistent theming across light/dark modes.
     --accent-light: 0 70% 95%;
 
     /* Borders & Inputs */
-    --border: 220 25% 88%;
-    --input: 220 25% 92%;
-    --ring: 215 85% 25%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
 
     /* Design System Enhancements */
     --radius: 0.625rem;
@@ -102,28 +102,28 @@ All colors MUST be HSL for consistent theming across light/dark modes.
 
   .dark {
     /* Core Dark Mode Colors */
-    --background: 222 84% 5%;
+    --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
     /* Card & Surface Colors */
-    --card: 222 84% 6%;
+    --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    --card-elevated: 222 84% 7%;
+    --card-elevated: 222.2 84% 6%;
 
     /* Interactive Elements */
-    --popover: 222 84% 6%;
+    --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
     /* Primary - Light Blue for Dark Mode */
-    --primary: 210 100% 70%;
-    --primary-foreground: 222 84% 5%;
-    --primary-hover: 210 100% 75%;
-    --primary-light: 210 100% 15%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --primary-hover: 217.2 91.2% 65%;
+    --primary-light: 217.2 91.2% 15%;
 
     /* Secondary - Dark Gray */
-    --secondary: 217 33% 18%;
+    --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-    --secondary-hover: 217 33% 22%;
+    --secondary-hover: 217.2 32.6% 22%;
 
     /* Success - Dark Green */
     --success: 142 76% 45%;
@@ -141,8 +141,8 @@ All colors MUST be HSL for consistent theming across light/dark modes.
     --destructive-light: 0 63% 12%;
 
     /* Muted Elements */
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
     /* Accent - Dark Red */
     --accent: 0 72% 60%;
@@ -150,9 +150,9 @@ All colors MUST be HSL for consistent theming across light/dark modes.
     --accent-light: 0 72% 15%;
 
     /* Borders & Inputs */
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 210 100% 70%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 217.2 91.2% 59.8%;
 
     /* Sidebar Variables */
     --sidebar-background: 240 6% 10%;
