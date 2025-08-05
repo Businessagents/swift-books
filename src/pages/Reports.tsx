@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { GSTHSTReporting } from "@/components/reports/gst-hst-reporting"
-import { BarChart3, TrendingUp, Download, Calendar, FileText, PieChart, Calculator } from "lucide-react"
+import { BarChart3, TrendingUp, Download, Calendar, FileText, PieChart, Calculator, Brain, Zap } from "lucide-react"
 
 const reports = [
   {
@@ -105,40 +105,65 @@ const getTypeColor = (type: string) => {
 
 const Reports = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-subtle">
       <Header />
       
-      <main className="container py-4 md:py-6 px-4 md:px-8">
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Financial Reports</h1>
-              <p className="text-muted-foreground">
-                Business intelligence reports and CRA-compliant tax reporting
-              </p>
+      <main className="container py-6 md:py-8 px-4 md:px-8">
+        <div className="space-y-8">
+          {/* Enhanced Header */}
+          <div className="relative overflow-hidden bg-gradient-hero rounded-2xl p-6 md:p-8 shadow-lg animate-fade-in">
+            <div className="absolute inset-0 bg-gradient-glass backdrop-blur-sm"></div>
+            <div className="relative flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-card/20 backdrop-blur-sm rounded-xl">
+                    <BarChart3 className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary-foreground">
+                    Financial Reports
+                  </h1>
+                </div>
+                <p className="text-primary-foreground/90 max-w-2xl">
+                  AI-powered business intelligence reports and CRA-compliant tax reporting with real-time insights
+                </p>
+              </div>
+              <div className="hidden md:flex gap-2">
+                <Button variant="secondary" className="bg-card/20 backdrop-blur-sm border-primary-foreground/20">
+                  <Brain className="h-4 w-4 mr-2" />
+                  AI Insights
+                </Button>
+                <Button variant="secondary" className="bg-card/20 backdrop-blur-sm border-primary-foreground/20">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Generate Report
+                </Button>
+              </div>
             </div>
-            <Button>
-              <FileText className="h-4 w-4 mr-2" />
-              Generate Report
-            </Button>
           </div>
 
-          {/* Quick Insights */}
-          <div className="grid gap-4 md:grid-cols-3">
+          {/* Enhanced Quick Insights */}
+          <div className="grid gap-4 md:grid-cols-3 animate-scale-in" style={{ animationDelay: '0.1s' }}>
             {quickInsights.map((insight) => {
               const Icon = insight.icon
               return (
-                <Card key={insight.title}>
+                <Card key={insight.title} className="bg-gradient-card border-border/50 hover:shadow-lg transition-all duration-300 group">
                   <CardContent className="pt-6">
-                    <div className="flex items-center justify-between">
-                      <Icon className="h-5 w-5 text-muted-foreground" />
-                      {insight.trend === "up" && <TrendingUp className="h-4 w-4 text-green-600" />}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="p-2 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors">
+                        <Icon className="h-5 w-5 text-primary" />
+                      </div>
+                      {insight.trend === "up" && (
+                        <div className="flex items-center gap-1 text-success">
+                          <TrendingUp className="h-4 w-4" />
+                          <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                            Improving
+                          </Badge>
+                        </div>
+                      )}
                     </div>
-                    <div className="mt-2">
+                    <div className="space-y-2">
                       <p className="text-2xl font-bold">{insight.value}</p>
-                      <p className="text-xs text-muted-foreground">{insight.title}</p>
-                      <p className="text-sm text-muted-foreground mt-1">{insight.description}</p>
+                      <p className="text-sm font-medium text-foreground">{insight.title}</p>
+                      <p className="text-xs text-muted-foreground">{insight.description}</p>
                     </div>
                   </CardContent>
                 </Card>

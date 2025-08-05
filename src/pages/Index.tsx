@@ -7,6 +7,7 @@ import { CashflowTracker } from "@/components/dashboard/cashflow-tracker"
 import { AiChat } from "@/components/ai/ai-chat"
 import { ReceiptUpload } from "@/components/receipt-upload"
 import { ExpenseCategorizer } from "@/components/ai/expense-categorizer"
+import { FinancialHealthScore } from "@/components/dashboard/financial-health-score"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Brain, Receipt, DollarSign, Zap } from "lucide-react"
@@ -126,13 +127,17 @@ const Index = () => {
             </div>
             
             <div className="grid gap-6 xl:grid-cols-4">
-              <div className="xl:col-span-3 space-y-6">
+              <div className="xl:col-span-2 space-y-6">
                 <CashflowTracker />
                 <InvoiceList />
               </div>
               
-              <div className="space-y-6">
+              <div className="xl:col-span-1 space-y-6">
+                <FinancialHealthScore />
                 <ExpenseCapture />
+              </div>
+              
+              <div className="xl:col-span-1 space-y-6">
                 <AiChat />
               </div>
             </div>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
-import { Bell, User, Settings, Brain, Menu, X, LogOut } from "lucide-react"
+import { Bell, User, Settings, Brain, Menu, X, LogOut, Banknote } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
@@ -41,6 +41,9 @@ export function Header() {
             </Link>
             <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/expenses">
               Expenses
+            </Link>
+            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/banking">
+              Banking
             </Link>
             <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/reports">
               Reports
@@ -107,6 +110,13 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Expenses
+            </Link>
+            <Link 
+              className="block px-4 py-2 text-sm font-medium transition-colors hover:text-foreground/80 text-muted-foreground rounded-md hover:bg-muted"
+              to="/banking"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Banking
             </Link>
             <Link 
               className="block px-4 py-2 text-sm font-medium transition-colors hover:text-foreground/80 text-muted-foreground rounded-md hover:bg-muted"
