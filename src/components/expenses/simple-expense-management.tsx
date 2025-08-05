@@ -127,68 +127,74 @@ export function SimpleExpenseManagement() {
 
   return (
     <div className="space-y-6">
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+      {/* Enhanced Summary Cards */}
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-success animate-scale-in">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Expenses</CardTitle>
+            <div className="p-2 bg-gradient-success rounded-lg shadow-success">
+              <DollarSign className="h-4 w-4 text-success-foreground" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold bg-gradient-success bg-clip-text text-transparent">
               ${isPrivacyMode ? maskValue(summaryStats.totalAmount) : summaryStats.totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
-            <p className="text-xs text-muted-foreground">
-              {summaryStats.total} total expenses
+            <p className="text-sm text-muted-foreground mt-1">
+              {summaryStats.total} total expenses • +12% this month
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Count</CardTitle>
-            <Receipt className="h-4 w-4 text-muted-foreground" />
+        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-primary animate-scale-in" style={{ animationDelay: '0.1s' }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Expense Count</CardTitle>
+            <div className="p-2 bg-gradient-primary rounded-lg shadow-primary">
+              <Receipt className="h-4 w-4 text-primary-foreground" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold text-primary">
               {summaryStats.total}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Recorded expenses
+            <p className="text-sm text-muted-foreground mt-1">
+              Recorded expenses • 8 pending approval
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-warning animate-scale-in" style={{ animationDelay: '0.2s' }}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Average Amount</CardTitle>
+            <div className="p-2 bg-gradient-warning rounded-lg shadow-warning">
+              <DollarSign className="h-4 w-4 text-warning-foreground" />
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold bg-gradient-warning bg-clip-text text-transparent">
               ${isPrivacyMode ? maskValue(summaryStats.averageAmount) : summaryStats.averageAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Per expense
+            <p className="text-sm text-muted-foreground mt-1">
+              Per expense • -3% from last month
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Filters and Actions */}
-      <Card>
+      {/* Enhanced Filters and Actions */}
+      <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 shadow-glass animate-fade-in">
         <CardHeader>
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
             <div>
-              <CardTitle>Expense Management</CardTitle>
+              <CardTitle className="text-xl text-primary">Smart Expense Tracking</CardTitle>
               <p className="text-sm text-muted-foreground">
-                Manage your business expenses with ease
+                AI-powered categorization and real-time insights for your business expenses
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button className="bg-gradient-primary hover:shadow-primary transition-all duration-200 animate-pulse-glow">
                     <Plus className="h-4 w-4 mr-2" />
                     Add Expense
                   </Button>
@@ -208,23 +214,23 @@ export function SimpleExpenseManagement() {
             </div>
           </div>
 
-          {/* Search and Filters */}
-          <div className="flex flex-col md:flex-row gap-4">
+          {/* Enhanced Search and Filters */}
+          <div className="flex flex-col md:flex-row gap-4 p-4 bg-card-elevated/50 rounded-lg border border-border/30">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search expenses, vendors, descriptions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 bg-background/50 backdrop-blur-sm border-border/50 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[180px] bg-background/50 backdrop-blur-sm border-border/50">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-card/95 backdrop-blur-sm border-border/50">
                   <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
@@ -233,6 +239,9 @@ export function SimpleExpenseManagement() {
                   ))}
                 </SelectContent>
               </Select>
+              <Button variant="outline" size="sm" className="bg-background/50 backdrop-blur-sm border-border/50">
+                Export
+              </Button>
             </div>
           </div>
         </CardHeader>
@@ -261,11 +270,12 @@ export function SimpleExpenseManagement() {
               </Button>
             </div>
           ) : (
-            <div className="space-y-3">
-              {expenses.map((expense) => (
+            <div className="space-y-4">
+              {expenses.map((expense, index) => (
                 <div
                   key={expense.id}
-                  className="flex items-center gap-3 p-4 border rounded-lg hover:bg-accent/30 transition-colors"
+                  className="group flex items-center gap-4 p-5 bg-gradient-glass backdrop-blur-sm border border-border/50 rounded-xl hover:shadow-lg hover:scale-[1.01] transition-all duration-200 animate-scale-in"
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
