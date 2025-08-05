@@ -15,45 +15,49 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        {/* Logo */}
-        <div className="mr-4 flex">
-          <div className="mr-6 flex items-center space-x-2">
-            <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary">
-              <Brain className="h-5 w-5 text-primary-foreground" />
+    <header className="sticky top-0 z-50 w-full border-b bg-gradient-glass backdrop-blur-lg supports-[backdrop-filter]:bg-background/80 shadow-glass">
+      <div className="container flex h-16 items-center">
+        {/* Enhanced Logo */}
+        <div className="mr-6 flex">
+          <div className="mr-8 flex items-center space-x-3">
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-primary shadow-primary animate-pulse-glow">
+              <Brain className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg">Swift Books</span>
+            <div className="flex flex-col">
+              <span className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">Swift Books</span>
+              <span className="text-xs text-muted-foreground hidden sm:block">AI Accounting</span>
+            </div>
           </div>
         </div>
         
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex flex-1 items-center justify-between space-x-2">
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            <Link className="transition-colors hover:text-foreground/80 text-foreground" to="/">
+        {/* Enhanced Desktop Navigation */}
+        <div className="hidden md:flex flex-1 items-center justify-between space-x-4">
+          <nav className="flex items-center space-x-8 text-sm font-medium">
+            <Link className="relative px-3 py-2 rounded-lg transition-all duration-200 hover:bg-primary/10 text-primary font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-gradient-primary after:rounded-full" to="/">
               Dashboard
             </Link>
-            <Link className="transition-colors hover:text-foreground/80 text-muted-foreground" to="/invoices">
+            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/invoices">
               Invoices
             </Link>
-            <Link className="transition-colors hover:text-foreground/80 text-muted-foreground" to="/expenses">
+            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/expenses">
               Expenses
             </Link>
-            <Link className="transition-colors hover:text-foreground/80 text-muted-foreground" to="/reports">
+            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/reports">
               Reports
             </Link>
           </nav>
           
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <ThemeToggle />
             <PrivacyToggle />
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 hover:text-primary transition-colors">
               <Bell className="h-4 w-4" />
+              <span className="absolute -top-1 -right-1 h-3 w-3 bg-destructive rounded-full animate-pulse"></span>
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="hover:bg-primary/10 hover:text-primary transition-colors">
               <Settings className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign Out">
+            <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign Out" className="hover:bg-destructive/10 hover:text-destructive transition-colors">
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
