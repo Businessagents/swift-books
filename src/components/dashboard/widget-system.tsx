@@ -13,17 +13,16 @@ import {
   Center,
   Flex,
   useDisclosure,
-  Heading
+  Heading,
+  DialogRoot,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogTitle,
+  DialogFooter,
+  DialogBackdrop
 } from "@chakra-ui/react"
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-} from "@chakra-ui/modal"
 import { Checkbox } from "@chakra-ui/checkbox"
 import { Card } from "@/components/ui/card"
 import { 
@@ -326,12 +325,14 @@ export function WidgetSystem({}: WidgetSystemProps) {
       </Grid>
 
       {/* Widget Customization Modal */}
-      <Modal isOpen={showCustomization} onClose={onClose} size="lg">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Customize Dashboard</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+      <DialogRoot open={showCustomization} onOpenChange={(details) => !details.open && onClose()}>
+        <DialogBackdrop />
+        <DialogContent size="lg">
+          <DialogHeader>
+            <DialogTitle>Customize Dashboard</DialogTitle>
+            <DialogCloseTrigger />
+          </DialogHeader>
+          <DialogBody pb={6}>
             <Text fontSize="sm" color="gray.500" mb={6}>
               Choose which widgets to display on your dashboard. Changes are saved automatically.
             </Text>
@@ -387,9 +388,9 @@ export function WidgetSystem({}: WidgetSystemProps) {
                 </Box>
               ))}
             </VStack>
-          </ModalBody>
+          </DialogBody>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button
               variant="outline"
               mr={3}
@@ -402,9 +403,9 @@ export function WidgetSystem({}: WidgetSystemProps) {
             <Button colorScheme="primary" onClick={onClose}>
               Done
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </DialogRoot>
     </Box>
   )
 }

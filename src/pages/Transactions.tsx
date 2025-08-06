@@ -10,11 +10,6 @@ import {
   CardBody, 
   Text, 
   Heading,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Button,
   Badge,
   SimpleGrid,
@@ -23,15 +18,19 @@ import {
   StatNumber,
   StatHelpText,
   StatArrow,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton
+  useDisclosure
+} from "@chakra-ui/react"
+import { 
+  DialogRoot,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogTitle,
+  DialogBackdrop
 } from "@chakra-ui/react"
 import { useColorMode } from "@chakra-ui/color-mode"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { SimpleExpenseManagement } from "@/components/expenses/simple-expense-management"
 import { InvoiceList } from "@/components/invoices/invoice-list"
 import { ReceiptUploadEnhanced } from "@/components/receipt-upload-enhanced"
@@ -191,31 +190,31 @@ const Transactions = () => {
           <Box>
             <VStack spacing={4} align="stretch">
               <HStack justify="space-between" wrap="wrap" spacing={4}>
-                <Tabs defaultIndex={0}>
-                  <TabList>
-                    <Tab>
+                <Tabs defaultValue="expenses">
+                  <TabsList>
+                    <TabsTrigger value="expenses">
                       <HStack spacing={2}>
                         <CreditCard size={16} />
                         <Text display={{ base: "none", sm: "inline" }}>Expenses</Text>
                       </HStack>
-                    </Tab>
-                    <Tab>
+                    </TabsTrigger>
+                    <TabsTrigger value="invoices">
                       <HStack spacing={2}>
                         <FileText size={16} />
                         <Text display={{ base: "none", sm: "inline" }}>Invoices</Text>
                       </HStack>
-                    </Tab>
-                    <Tab>
+                    </TabsTrigger>
+                    <TabsTrigger value="receipts">
                       <HStack spacing={2}>
                         <ReceiptIcon size={16} />
                         <Text display={{ base: "none", sm: "inline" }}>Receipts</Text>
                       </HStack>
-                    </Tab>
-                  </TabList>
+                    </TabsTrigger>
+                  </TabsList>
                   
-                  <TabPanels>
+                  <TabsContent value="expenses">
                     {/* Expenses Tab */}
-                    <TabPanel px={0}>
+                    <Box px={0}>
                       <Card>
                         <CardHeader>
                           <HStack spacing={2}>
@@ -232,39 +231,43 @@ const Transactions = () => {
                           <SimpleExpenseManagement />
                         </CardBody>
                       </Card>
-                    </TabPanel>
+                    </Box>
+                  </TabsContent>
 
-                    {/* Invoices Tab */}
-                    <TabPanel px={0}>
-                      <Card>
-                        <CardHeader>
-                          <HStack justify="space-between" align="start">
-                            <HStack spacing={2}>
-                              <FileText size={20} />
-                              <VStack align="start" spacing={0}>
-                                <Heading size="md">Invoice Management</Heading>
-                                <Text fontSize="sm" color="gray.600">
-                                  Create, send, and track client invoices with automated reminders
-                                </Text>
-                              </VStack>
+                  {/* Invoices Tab */}
+                  <TabsContent value="invoices">
+                    <Box px={0}>
+                        <Card>
+                          <CardHeader>
+                            <HStack justify="space-between" align="start">
+                              <HStack spacing={2}>
+                                <FileText size={20} />
+                                <VStack align="start" spacing={0}>
+                                  <Heading size="md">Invoice Management</Heading>
+                                  <Text fontSize="sm" color="gray.600">
+                                    Create, send, and track client invoices with automated reminders
+                                  </Text>
+                                </VStack>
+                              </HStack>
+                              <Button 
+                                colorScheme="blue" 
+                                size="sm"
+                                leftIcon={<Plus size={16} />}
+                              >
+                                New Invoice
+                              </Button>
                             </HStack>
-                            <Button 
-                              colorScheme="blue" 
-                              size="sm"
-                              leftIcon={<Plus size={16} />}
-                            >
-                              New Invoice
-                            </Button>
-                          </HStack>
-                        </CardHeader>
-                        <CardBody p={0}>
-                          <InvoiceList />
-                        </CardBody>
-                      </Card>
-                    </TabPanel>
+                          </CardHeader>
+                          <CardBody p={0}>
+                            <InvoiceList />
+                          </CardBody>
+                        </Card>
+                      </Box>
+                    </TabsContent>
 
-                    {/* Receipts Tab */}
-                    <TabPanel px={0}>
+                  {/* Receipts Tab */}
+                  <TabsContent value="receipts">
+                    <Box px={0}>
                       <Card>
                         <CardHeader>
                           <HStack justify="space-between" align="start">
@@ -306,8 +309,8 @@ const Transactions = () => {
                           </VStack>
                         </CardBody>
                       </Card>
-                    </TabPanel>
-                  </TabPanels>
+                    </Box>
+                  </TabsContent>
                 </Tabs>
 
                 {/* Status Overview */}
@@ -328,26 +331,28 @@ const Transactions = () => {
       </Container>
 
       {/* Receipt Upload Modal */}
-      <Modal isOpen={showReceiptUpload} onClose={closeReceiptUpload} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <VStack align="start" spacing={1}>
-              <Text>Upload Receipt</Text>
-              <Text fontSize="sm" fontWeight="normal" color="gray.600">
-                Upload a receipt image for automatic processing and categorization.
-              </Text>
-            </VStack>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+      <DialogRoot open={showReceiptUpload} onOpenChange={(details) => !details.open && closeReceiptUpload()}>
+        <DialogBackdrop />
+        <DialogContent size="xl">
+          <DialogHeader>
+            <DialogTitle>
+              <VStack align="start" spacing={1}>
+                <Text>Upload Receipt</Text>
+                <Text fontSize="sm" fontWeight="normal" color="gray.600">
+                  Upload a receipt image for automatic processing and categorization.
+                </Text>
+              </VStack>
+            </DialogTitle>
+            <DialogCloseTrigger />
+          </DialogHeader>
+          <DialogBody pb={6}>
             <ReceiptUploadEnhanced 
               onReceiptProcessed={closeReceiptUpload}
               onExpenseCreated={closeReceiptUpload}
             />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </Box>
   )
 }

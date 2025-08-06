@@ -13,19 +13,15 @@ import {
   Button,
   Switch,
   Input,
-  FormControl,
-  FormLabel,
+  Field,
   Select,
-  Divider,
+  Separator,
   Badge,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   SimpleGrid,
-  useToast
+  createToaster
 } from "@chakra-ui/react"
+import { FieldLabel } from "@chakra-ui/react"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
@@ -55,7 +51,12 @@ import {
 
 const Settings = () => {
   const [loading, setLoading] = useState(false)
-  const toast = useToast()
+  
+  // Simple toast replacement for now
+  const toast = (options: { title: string; status: string; duration?: number }) => {
+    console.log(`Toast: ${options.title} (${options.status})`)
+  }
+  
   const { colorMode } = useColorMode()
   const bg = colorMode === 'light' ? 'gray.50' : 'gray.800'
 
@@ -187,44 +188,42 @@ const Settings = () => {
           </Card>
 
           {/* Settings Content */}
-          <Tabs>
-            <TabList overflowX="auto" overflowY="hidden">
-              <Tab>
+          <Tabs defaultValue="profile">
+            <TabsList overflowX="auto" overflowY="hidden">
+              <TabsTrigger value="profile">
                 <HStack spacing={2}>
                   <User size={16} />
                   <Text display={{ base: "none", sm: "inline" }}>Profile</Text>
                 </HStack>
-              </Tab>
-              <Tab>
+              </TabsTrigger>
+              <TabsTrigger value="business">
                 <HStack spacing={2}>
                   <Building size={16} />
                   <Text display={{ base: "none", sm: "inline" }}>Business</Text>
                 </HStack>
-              </Tab>
-              <Tab>
+              </TabsTrigger>
+              <TabsTrigger value="notifications">
                 <HStack spacing={2}>
                   <Bell size={16} />
                   <Text display={{ base: "none", sm: "inline" }}>Notifications</Text>
                 </HStack>
-              </Tab>
-              <Tab>
+              </TabsTrigger>
+              <TabsTrigger value="security">
                 <HStack spacing={2}>
                   <Shield size={16} />
                   <Text display={{ base: "none", sm: "inline" }}>Security</Text>
                 </HStack>
-              </Tab>
-              <Tab>
+              </TabsTrigger>
+              <TabsTrigger value="system">
                 <HStack spacing={2}>
                   <Database size={16} />
                   <Text display={{ base: "none", sm: "inline" }}>System</Text>
                 </HStack>
-              </Tab>
-            </TabList>
+              </TabsTrigger>
+            </TabsList>
 
-            <TabPanels>
-
-              {/* Profile Settings */}
-              <TabPanel>
+            {/* Profile Settings */}
+            <TabsContent value="profile">
                 <Card>
                   <CardHeader>
                     <VStack align="start" spacing={1}>
@@ -237,54 +236,54 @@ const Settings = () => {
                   <CardBody>
                     <VStack spacing={6} align="stretch">
                       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Business Name</FormLabel>
+                        <Field>
+                          <FieldLabel>Business Name</FieldLabel>
                           <Input
                             value={settings.businessName}
                             onChange={(e) => setSettings({...settings, businessName: e.target.value})}
                           />
-                        </FormControl>
-                        <FormControl>
-                          <FormLabel>Owner Name</FormLabel>
+                        </Field>
+                        <Field>
+                          <FieldLabel>Owner Name</FieldLabel>
                           <Input
                             value={settings.ownerName}
                             onChange={(e) => setSettings({...settings, ownerName: e.target.value})}
                           />
-                        </FormControl>
+                        </Field>
                       </SimpleGrid>
                       
                       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Email Address</FormLabel>
+                        <Field>
+                          <FieldLabel>Email Address</FieldLabel>
                           <Input
                             type="email"
                             value={settings.email}
                             onChange={(e) => setSettings({...settings, email: e.target.value})}
                           />
-                        </FormControl>
-                        <FormControl>
-                          <FormLabel>Phone Number</FormLabel>
+                        </Field>
+                        <Field>
+                          <FieldLabel>Phone Number</FieldLabel>
                           <Input
                             value={settings.phone}
                             onChange={(e) => setSettings({...settings, phone: e.target.value})}
                           />
-                        </FormControl>
+                        </Field>
                       </SimpleGrid>
                       
-                      <FormControl>
-                        <FormLabel>Business Address</FormLabel>
+                      <Field>
+                        <FieldLabel>Business Address</FieldLabel>
                         <Input
                           value={settings.address}
                           onChange={(e) => setSettings({...settings, address: e.target.value})}
                         />
-                      </FormControl>
+                      </Field>
                     </VStack>
                   </CardBody>
                 </Card>
-              </TabPanel>
+              </TabsContent>
 
               {/* Business Settings */}
-              <TabPanel>
+              <TabsContent value="business">
                 <Card>
                   <CardHeader>
                     <VStack align="start" spacing={1}>
@@ -297,8 +296,8 @@ const Settings = () => {
                   <CardBody>
                     <VStack spacing={6} align="stretch">
                       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Fiscal Year Start</FormLabel>
+                        <Field>
+                          <FieldLabel>Fiscal Year Start</FieldLabel>
                           <Select 
                             value={settings.fiscalYearStart} 
                             onChange={(e) => setSettings({...settings, fiscalYearStart: e.target.value})}
@@ -308,10 +307,10 @@ const Settings = () => {
                             <option value="07-01">July 1st</option>
                             <option value="10-01">October 1st</option>
                           </Select>
-                        </FormControl>
+                        </Field>
                         
-                        <FormControl>
-                          <FormLabel>Default Currency</FormLabel>
+                        <Field>
+                          <FieldLabel>Default Currency</FieldLabel>
                           <Select 
                             value={settings.defaultCurrency} 
                             onChange={(e) => setSettings({...settings, defaultCurrency: e.target.value})}
@@ -320,12 +319,12 @@ const Settings = () => {
                             <option value="USD">USD - US Dollar</option>
                             <option value="EUR">EUR - Euro</option>
                           </Select>
-                        </FormControl>
+                        </Field>
                       </SimpleGrid>
                       
                       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Time Zone</FormLabel>
+                        <Field>
+                          <FieldLabel>Time Zone</FieldLabel>
                           <Select 
                             value={settings.timeZone} 
                             onChange={(e) => setSettings({...settings, timeZone: e.target.value})}
@@ -335,24 +334,24 @@ const Settings = () => {
                             <option value="America/Winnipeg">Central Time (Winnipeg)</option>
                             <option value="America/Toronto">Eastern Time (Toronto)</option>
                           </Select>
-                        </FormControl>
+                        </Field>
                         
-                        <FormControl>
-                          <FormLabel>Business Number</FormLabel>
+                        <Field>
+                          <FieldLabel>Business Number</FieldLabel>
                           <Input
                             value={settings.businessNumber}
                             onChange={(e) => setSettings({...settings, businessNumber: e.target.value})}
                             placeholder="123456789RT0001"
                           />
-                        </FormControl>
+                        </Field>
                       </SimpleGrid>
                     </VStack>
                   </CardBody>
                 </Card>
-              </TabPanel>
+              </TabsContent>
 
               {/* Notification Settings */}
-              <TabPanel>
+              <TabsContent value="notifications">
                 <Card>
                   <CardHeader>
                     <VStack align="start" spacing={1}>
@@ -377,7 +376,7 @@ const Settings = () => {
                         />
                       </HStack>
                       
-                      <Divider />
+                      <Separator />
                       
                       <HStack justify="space-between">
                         <VStack align="start" spacing={0} flex={1}>
@@ -420,10 +419,10 @@ const Settings = () => {
                     </VStack>
                   </CardBody>
                 </Card>
-              </TabPanel>
+              </TabsContent>
 
               {/* Security Settings */}
-              <TabPanel>
+              <TabsContent value="security">
                 <Card>
                   <CardHeader>
                     <VStack align="start" spacing={1}>
@@ -456,10 +455,10 @@ const Settings = () => {
                           </HStack>
                         </HStack>
                         
-                        <Divider />
+                        <Separator />
                         
-                        <FormControl>
-                          <FormLabel>Data Retention Policy</FormLabel>
+                        <Field>
+                          <FieldLabel>Data Retention Policy</FieldLabel>
                           <Select 
                             value={settings.dataRetention} 
                             onChange={(e) => setSettings({...settings, dataRetention: e.target.value})}
@@ -472,9 +471,9 @@ const Settings = () => {
                           <Text fontSize="xs" color="gray.500" mt={1}>
                             Canada Revenue Agency recommends keeping records for 7 years
                           </Text>
-                        </FormControl>
+                        </Field>
                         
-                        <Divider />
+                        <Separator />
                         
                         <HStack justify="space-between">
                           <VStack align="start" spacing={0} flex={1}>
@@ -487,7 +486,7 @@ const Settings = () => {
                         </HStack>
                       </VStack>
                       
-                      <Divider />
+                      <Separator />
                       
                       <VStack spacing={4} align="stretch">
                         <Heading size="sm">Data Management</Heading>
@@ -521,10 +520,10 @@ const Settings = () => {
                     </VStack>
                   </CardBody>
                 </Card>
-              </TabPanel>
+              </TabsContent>
 
               {/* System Settings */}
-              <TabPanel>
+              <TabsContent value="system">
                 <Card>
                   <CardHeader>
                     <VStack align="start" spacing={1}>
@@ -550,19 +549,19 @@ const Settings = () => {
                           />
                         </HStack>
                         
-                        <Divider />
+                        <Separator />
                         
                         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                          <FormControl>
-                            <FormLabel>Theme</FormLabel>
+                          <Field>
+                            <FieldLabel>Theme</FieldLabel>
                             <HStack spacing={2}>
                               <ThemeToggle />
                               <Text fontSize="sm" color="gray.500">System default</Text>
                             </HStack>
-                          </FormControl>
+                          </Field>
                           
-                          <FormControl>
-                            <FormLabel>Language</FormLabel>
+                          <Field>
+                            <FieldLabel>Language</FieldLabel>
                             <Select 
                               value={settings.language} 
                               onChange={(e) => setSettings({...settings, language: e.target.value})}
@@ -571,11 +570,11 @@ const Settings = () => {
                               <option value="fr-CA">Français (Canada)</option>
                               <option value="en-US">English (US)</option>
                             </Select>
-                          </FormControl>
+                          </Field>
                         </SimpleGrid>
                         
-                        <FormControl>
-                          <FormLabel>Date Format</FormLabel>
+                        <Field>
+                          <FieldLabel>Date Format</FieldLabel>
                           <Select 
                             value={settings.dateFormat} 
                             onChange={(e) => setSettings({...settings, dateFormat: e.target.value})}
@@ -584,13 +583,12 @@ const Settings = () => {
                             <option value="DD/MM/YYYY">DD/MM/YYYY (31/01/2024)</option>
                             <option value="MM/DD/YYYY">MM/DD/YYYY (01/31/2024)</option>
                           </Select>
-                        </FormControl>
+                        </Field>
                       </VStack>
                     </VStack>
                   </CardBody>
                 </Card>
-              </TabPanel>
-            </TabPanels>
+              </TabsContent>
           </Tabs>
 
           {/* Mobile Save Button */}
