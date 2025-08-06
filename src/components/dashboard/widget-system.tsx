@@ -9,14 +9,6 @@ import {
   Text,
   Button,
   Badge,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-  Checkbox,
   VStack,
   HStack,
   SimpleGrid,
@@ -27,6 +19,16 @@ import {
   useDisclosure,
   Heading
 } from "@chakra-ui/react"
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  ModalFooter,
+} from "@chakra-ui/modal"
+import { Checkbox } from "@chakra-ui/checkbox"
 import { 
   DollarSign, 
   TrendingUp, 
@@ -372,8 +374,8 @@ export function WidgetSystem({}: WidgetSystemProps) {
                       >
                         <HStack spacing={3}>
                           <Checkbox
-                            isChecked={widget.enabled}
-                            onChange={() => toggleWidget(widget.id)}
+                            checked={widget.enabled}
+                            onCheckedChange={() => toggleWidget(widget.id)}
                           />
                           <VStack align="start" spacing={1}>
                             <Text fontSize="sm" fontWeight="medium">

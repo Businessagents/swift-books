@@ -1,13 +1,42 @@
 import { useState } from "react"
 import { Header } from "@/components/ui/header"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { 
+  Box, 
+  Container, 
+  VStack, 
+  HStack, 
+  Card, 
+  CardHeader, 
+  CardBody, 
+  Text, 
+  Heading,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  Button,
+  Badge,
+  useColorModeValue,
+  SimpleGrid,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  useDisclosure
+} from "@chakra-ui/react"
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/modal"
 import { SimpleExpenseManagement } from "@/components/expenses/simple-expense-management"
 import { InvoiceList } from "@/components/invoices/invoice-list"
 import { ReceiptUploadEnhanced } from "@/components/receipt-upload-enhanced"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { 
   CreditCard, 
   FileText, 
@@ -22,7 +51,8 @@ import {
 } from "lucide-react"
 
 const Transactions = () => {
-  const [showReceiptUpload, setShowReceiptUpload] = useState(false)
+  const { isOpen: showReceiptUpload, onOpen: openReceiptUpload, onClose: closeReceiptUpload } = useDisclosure()
+  const bg = useColorModeValue('gray.50', 'gray.800')
 
   // Mock stats - in real implementation, these would come from hooks/API
   const transactionStats = {
@@ -38,36 +68,30 @@ const Transactions = () => {
       title: "New Expense",
       description: "Add a manual expense entry",
       icon: CreditCard,
-      action: () => {
-        // This would typically open an expense form or navigate to expense creation
-        console.log("Open new expense form")
-      },
-      color: "bg-red-50 text-red-600 hover:bg-red-100"
+      action: () => console.log("Open new expense form"),
+      colorScheme: "red"
     },
     {
-      title: "Create Invoice",
+      title: "Create Invoice", 
       description: "Generate a new client invoice",
       icon: FileText,
-      action: () => {
-        // This would typically open an invoice form or navigate to invoice creation
-        console.log("Open new invoice form")
-      },
-      color: "bg-blue-50 text-blue-600 hover:bg-blue-100"
+      action: () => console.log("Open new invoice form"),
+      colorScheme: "blue"
     },
     {
       title: "Upload Receipt",
       description: "Process receipt with AI",
       icon: ReceiptIcon,
-      action: () => setShowReceiptUpload(true),
-      color: "bg-green-50 text-green-600 hover:bg-green-100"
+      action: openReceiptUpload,
+      colorScheme: "green"
     }
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <Box minH="100vh" bg={bg}>
       <Header />
       
-      <main className="container py-6 md:py-8 px-4 md:px-8">
+      <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
         <div className="space-y-8">
           {/* Header Section */}
           <div className="bg-card rounded-xl p-6 md:p-8 border shadow-sm animate-fade-in">

@@ -7,14 +7,16 @@ import {
   IconButton, 
   useColorModeValue,
   useDisclosure,
+  Button,
+  Badge
+} from "@chakra-ui/react"
+import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-  Button,
-  Badge
-} from "@chakra-ui/react"
+} from "@chakra-ui/modal"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
 import { Bell, Settings, LayoutDashboard, Menu, X, LogOut, CreditCard, BarChart3 } from "lucide-react"
