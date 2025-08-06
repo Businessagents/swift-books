@@ -8,9 +8,12 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Camera, Upload, Check, Clock, X, AlertCircle, Edit3 } from "lucide-react"
+import { Camera, Upload, Check, Clock, X, AlertCircle, Edit3, RefreshCw } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
+import { ReceiptImage } from "@/components/ui/receipt-image"
+import { ReceiptErrorBoundary } from "@/components/ui/receipt-error-boundary"
+import { thumbnailGenerator, THUMBNAIL_PRESETS, ThumbnailResult } from "@/lib/thumbnail-generator"
 
 interface ReceiptUploadProps {
   onReceiptProcessed?: (receipt: any) => void
@@ -24,6 +27,16 @@ interface ExtractedData {
   date: string
   category: string
   confidence: number
+}
+
+interface UploadedReceipt {
+  id: string
+  filePath: string
+  fileName: string
+  fileSize: number
+  previewUrl: string
+  thumbnailResult?: ThumbnailResult
+  status: string
 }
 
 const EXPENSE_CATEGORIES = [
@@ -55,6 +68,9 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(null)
   const [receiptData, setReceiptData] = useState<any>(null)
   const [reviewData, setReviewData] = useState<any>({})
+  const [uploadedReceipts, setUploadedReceipts] = useState<UploadedReceipt[]>([])
+  const [retryCount, setRetryCount] = useState(0)
+  const [ocrError, setOcrError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
 
@@ -89,7 +105,8 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
   const processReceipt = async (file: File) => {
     try {
       setUploading(true)
-      setProgress(20)
+      setProgress(10)
+      setOcrError(null)
 
       // Get user
       const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -97,19 +114,40 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
         throw new Error('You must be logged in to upload receipts')
       }
 
+      // Generate thumbnail first for immediate display
+      const shouldGenerateThumbnail = await thumbnailGenerator.shouldGenerateThumbnail(file)
+      let thumbnailResult: ThumbnailResult | undefined
+      
+      if (shouldGenerateThumbnail.needsThumbnail) {
+        thumbnailResult = await thumbnailGenerator.generateThumbnail(file, THUMBNAIL_PRESETS.MEDIUM)
+      }
+
+      setProgress(25)
+
       // Generate unique filename
       const fileExt = file.name.split('.').pop()
       const fileName = `${user.id}/${Date.now()}.${fileExt}`
       
+      // Create preview URL for immediate display
+      const previewUrl = thumbnailResult?.dataUrl || await thumbnailGenerator.createPreviewUrl(file)
+      
       setProgress(40)
 
-      // Upload to Supabase Storage
+      // Upload original file to Supabase Storage
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('receipts')
         .upload(fileName, file)
 
       if (uploadError) {
         throw uploadError
+      }
+
+      // Upload thumbnail if generated
+      if (thumbnailResult) {
+        const thumbnailPath = `thumbnails/${fileName}`
+        await supabase.storage
+          .from('receipts')
+          .upload(thumbnailPath, thumbnailResult.file, { upsert: true })
       }
 
       setProgress(60)
@@ -132,30 +170,85 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
         throw receiptError
       }
 
+      // Add to uploaded receipts list for immediate display
+      const newUploadedReceipt: UploadedReceipt = {
+        id: receiptRecord.id,
+        filePath: uploadData.path,
+        fileName: file.name,
+        fileSize: file.size,
+        previewUrl,
+        thumbnailResult,
+        status: 'pending'
+      }
+      
+      setUploadedReceipts(prev => [...prev, newUploadedReceipt])
+
       setProgress(80)
       setUploading(false)
       setProcessing(true)
 
+      // Start OCR processing with retry capability
+      await startOCRProcessing(receiptRecord, file)
+
+    } catch (error: any) {
+      console.error('Receipt processing error:', error)
+      setUploading(false)
+      setProcessing(false)
+      setProgress(0)
+      
+      toast({
+        title: "Failed to process receipt",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const startOCRProcessing = async (receiptRecord: any, file: File) => {
+    try {
       // Convert file to base64 for OCR processing
       const base64 = await fileToBase64(file)
       
-      // Call OCR processing function
+      // Call OCR processing function with retry support
       const { data: ocrData, error: ocrError } = await supabase.functions.invoke(
         'process-receipt-ocr',
         {
           body: {
             receiptId: receiptRecord.id,
-            imageData: base64
+            imageData: base64,
+            retryCount
           }
         }
       )
 
       if (ocrError) {
+        // Check if this is a retryable error
+        if (ocrError.message?.includes('retryable') && retryCount < 3) {
+          const retryAfter = parseInt(ocrError.message.match(/retryAfter:(\d+)/)?.[1] || '2000')
+          setOcrError(`OCR failed, retrying in ${Math.ceil(retryAfter / 1000)} seconds...`)
+          
+          setTimeout(() => {
+            setRetryCount(prev => prev + 1)
+            startOCRProcessing(receiptRecord, file)
+          }, retryAfter)
+          return
+        }
         throw ocrError
       }
 
       setProgress(100)
       setProcessing(false)
+      setRetryCount(0)
+      setOcrError(null)
+
+      // Update uploaded receipt status
+      setUploadedReceipts(prev => 
+        prev.map(receipt => 
+          receipt.id === receiptRecord.id 
+            ? { ...receipt, status: 'processed' }
+            : receipt
+        )
+      )
 
       // Store extracted data for review
       const extracted: ExtractedData = {
@@ -195,16 +288,25 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
 
       // Reset progress after a delay
       setTimeout(() => setProgress(0), 2000)
-
+      
     } catch (error: any) {
-      console.error('Receipt processing error:', error)
-      setUploading(false)
+      console.error('OCR processing error:', error)
       setProcessing(false)
       setProgress(0)
+      setOcrError(error.message || 'OCR processing failed')
+      
+      // Update receipt status to failed
+      setUploadedReceipts(prev => 
+        prev.map(receipt => 
+          receipt.id === receiptRecord.id 
+            ? { ...receipt, status: 'failed' }
+            : receipt
+        )
+      )
       
       toast({
-        title: "Failed to process receipt",
-        description: error.message || "An unexpected error occurred",
+        title: "OCR processing failed",
+        description: error.message || "An unexpected error occurred during text extraction",
         variant: "destructive",
       })
     }
@@ -316,11 +418,69 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
     }
   }
 
+  const retryOCR = async (receipt: UploadedReceipt) => {
+    const receiptRecord = { id: receipt.id }
+    
+    // Convert the file back from data URL for retry
+    try {
+      const response = await fetch(receipt.previewUrl)
+      const blob = await response.blob()
+      const file = new File([blob], receipt.fileName, { type: blob.type })
+      
+      setProcessing(true)
+      setProgress(80)
+      setRetryCount(0)
+      
+      await startOCRProcessing(receiptRecord, file)
+    } catch (error: any) {
+      toast({
+        title: "Retry failed",
+        description: error.message || "Could not retry OCR processing",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const deleteReceipt = async (receipt: UploadedReceipt) => {
+    try {
+      // Delete from storage
+      await supabase.storage
+        .from('receipts')
+        .remove([receipt.filePath])
+      
+      // Delete thumbnail if exists
+      await supabase.storage
+        .from('receipts')
+        .remove([`thumbnails/${receipt.filePath}`])
+      
+      // Delete from database
+      await supabase
+        .from('receipts')
+        .delete()
+        .eq('id', receipt.id)
+      
+      // Remove from state
+      setUploadedReceipts(prev => prev.filter(r => r.id !== receipt.id))
+      
+      toast({
+        title: "Receipt deleted",
+        description: "Receipt has been removed from your account",
+      })
+    } catch (error: any) {
+      toast({
+        title: "Delete failed",
+        description: error.message || "Could not delete receipt",
+        variant: "destructive",
+      })
+    }
+  }
+
   const isProcessingActive = uploading || processing
 
   return (
-    <>
-      <Card>
+    <ReceiptErrorBoundary>
+      <div className="space-y-6">
+        <Card>
         <CardHeader>
           <CardTitle>Receipt Upload</CardTitle>
           <CardDescription>
@@ -432,6 +592,82 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
           </div>
         </CardContent>
       </Card>
+
+      {/* OCR Error Display */}
+      {ocrError && (
+        <Card className="border-amber-200 bg-amber-50">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2 text-amber-800">
+              <AlertCircle className="h-4 w-4" />
+              <span className="text-sm font-medium">OCR Processing</span>
+            </div>
+            <p className="text-sm text-amber-700 mt-1">{ocrError}</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Uploaded Receipts Display */}
+      {uploadedReceipts.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-medium">Uploaded Receipts</h3>
+            <Badge variant="secondary">
+              {uploadedReceipts.length} receipt{uploadedReceipts.length !== 1 ? 's' : ''}
+            </Badge>
+          </div>
+          
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {uploadedReceipts.map((receipt) => (
+              <div key={receipt.id} className="space-y-2">
+                {receipt.previewUrl ? (
+                  <ReceiptImage
+                    receiptId={receipt.id}
+                    filePath={receipt.filePath}
+                    fileName={receipt.fileName}
+                    fileSize={receipt.fileSize}
+                    status={receipt.status}
+                    onDelete={() => deleteReceipt(receipt)}
+                  />
+                ) : (
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2">
+                        <div className="h-10 w-10 bg-muted rounded flex items-center justify-center">
+                          <Upload className="h-5 w-5 text-muted-foreground" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium truncate">{receipt.fileName}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {(receipt.fileSize / 1024).toFixed(1)} KB
+                          </p>
+                        </div>
+                        <Badge 
+                          variant={receipt.status === 'failed' ? 'destructive' : 'secondary'}
+                        >
+                          {receipt.status}
+                        </Badge>
+                      </div>
+                      
+                      {receipt.status === 'failed' && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => retryOCR(receipt)}
+                          className="w-full mt-3 flex items-center gap-2"
+                        >
+                          <RefreshCw className="h-3 w-3" />
+                          Retry OCR
+                        </Button>
+                      )}
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
 
       {/* Review Dialog */}
       <Dialog open={showReviewDialog} onOpenChange={setShowReviewDialog}>
@@ -610,6 +846,6 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </ReceiptErrorBoundary>
   )
 }

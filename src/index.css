@@ -1,172 +1,50 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Swift-Books Application Styles with Chakra UI */
 
-/* UFCH Design System - Professional Fintech Interface
-All colors MUST be HSL for consistent theming across light/dark modes.
-*/
+/* Import Inter font for consistent typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-@layer base {
-  :root {
-    /* Core Brand Colors - Professional Light Mode */
-    --background: 0 0% 100%;
-    --foreground: 222 84% 4.9%;
-
-    /* Card & Surface Colors */
-    --card: 0 0% 100%;
-    --card-foreground: 222 84% 4.9%;
-    --card-elevated: 0 0% 98%;
-
-    /* Interactive Elements */
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 84% 4.9%;
-
-    /* Primary - Professional Blue */
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --primary-hover: 221.2 83.2% 48%;
-    --primary-light: 221.2 83.2% 93%;
-
-    /* Secondary - Light Gray */
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --secondary-hover: 210 40% 91%;
-
-    /* Success - Financial Green */
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 98%;
-    --success-light: 142 60% 92%;
-
-    /* Warning - Attention Orange */
-    --warning: 35 91% 62%;
-    --warning-foreground: 0 0% 98%;
-    --warning-light: 35 85% 94%;
-
-    /* Destructive - Alert Red */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --destructive-light: 0 85% 95%;
-
-    /* Muted Elements */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    /* Accent - Canadian Red Touch */
-    --accent: 0 72% 51%;
-    --accent-foreground: 0 0% 98%;
-    --accent-light: 0 70% 95%;
-
-    /* Borders & Inputs */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-
-    /* Design System Enhancements */
-    --radius: 0.625rem;
-    --radius-sm: 0.375rem;
-    --radius-lg: 0.875rem;
-
-    /* Chart Colors for Analytics */
-    --chart-1: 221.2 83.2% 53.3%;
-    --chart-2: 142 76% 36%;
-    --chart-3: 35 91% 62%;
-    --chart-4: 0 72% 51%;
-    --chart-5: 280 100% 70%;
-
-    /* Transitions */
-    --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-colors: color, background-color, border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Sidebar Variables */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 215 30% 25%;
-    --sidebar-primary: 215 85% 25%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 15% 95%;
-    --sidebar-accent-foreground: 215 30% 25%;
-    --sidebar-border: 220 25% 88%;
-    --sidebar-ring: 215 85% 25%;
-  }
-
-  .dark {
-    /* Core Dark Mode Colors */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    /* Card & Surface Colors */
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --card-elevated: 222.2 84% 6%;
-
-    /* Interactive Elements */
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    /* Primary - Light Blue for Dark Mode */
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --primary-hover: 217.2 91.2% 65%;
-    --primary-light: 217.2 91.2% 15%;
-
-    /* Secondary - Dark Gray */
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --secondary-hover: 217.2 32.6% 22%;
-
-    /* Success - Dark Green */
-    --success: 142 76% 45%;
-    --success-foreground: 210 40% 98%;
-    --success-light: 142 76% 12%;
-
-    /* Warning - Dark Orange */
-    --warning: 35 91% 65%;
-    --warning-foreground: 222 84% 5%;
-    --warning-light: 35 91% 15%;
-
-    /* Destructive - Dark Red */
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --destructive-light: 0 63% 12%;
-
-    /* Muted Elements */
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    /* Accent - Dark Red */
-    --accent: 0 72% 60%;
-    --accent-foreground: 210 40% 98%;
-    --accent-light: 0 72% 15%;
-
-    /* Borders & Inputs */
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217.2 91.2% 59.8%;
-
-    /* Sidebar Variables */
-    --sidebar-background: 240 6% 10%;
-    --sidebar-foreground: 240 5% 96%;
-    --sidebar-primary: 224 76% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 4% 16%;
-    --sidebar-accent-foreground: 240 5% 96%;
-    --sidebar-border: 240 4% 16%;
-    --sidebar-ring: 217 91% 60%;
-  }
+/* Base styles for better mobile experience */
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* iOS safe area support */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  /* Smooth scrolling for mobile */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+}
 
-  body {
-    @apply bg-background text-foreground;
-    /* iOS safe area support */
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-    /* Smooth scrolling for mobile */
-    -webkit-overflow-scrolling: touch;
-  }
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode scrollbar */
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Mobile optimizations */
@@ -185,5 +63,61 @@ All colors MUST be HSL for consistent theming across light/dark modes.
   .mobile-tap-target {
     min-height: 48px;
     min-width: 48px;
+  }
+}
+
+/* Animation keyframes for custom animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Utility classes for enhanced UX */
+.slide-in-animation {
+  animation: slideIn 0.3s ease-out;
+}
+
+.fade-in-animation {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Focus styles for better accessibility */
+.focus-ring:focus {
+  outline: 2px solid #2B6CB0;
+  outline-offset: 2px;
+}
+
+/* Custom shadow utilities */
+.shadow-soft {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-medium {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-strong {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  button, input, select, textarea {
+    border: 2px solid currentColor;
   }
 }

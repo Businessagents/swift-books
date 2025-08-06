@@ -1,83 +1,89 @@
 import { Header } from "@/components/ui/header"
 import { FloatingAiChat } from "@/components/ai/floating-ai-chat"
-import { ReceiptUpload } from "@/components/receipt-upload"
-import { Badge } from "@/components/ui/badge"
-import { Brain, Receipt } from "lucide-react"
+import { WidgetSystem } from "@/components/dashboard/widget-system"
+import { Box, Container, VStack, HStack, Heading, Text, Badge, SimpleGrid, Center, Icon, useColorModeValue } from "@chakra-ui/react"
+import { Brain, LayoutDashboard } from "lucide-react"
 
 const Index = () => {
+  const heroBg = useColorModeValue('primary.500', 'primary.600')
+  const heroText = useColorModeValue('white', 'white')
+  
   return (
-    <div className="min-h-screen bg-background">
+    <Box minH="100vh" bg={useColorModeValue('gray.50', 'gray.800')}>
       <Header />
       
-      <main className="container py-8 md:py-12 px-4 md:px-8">
-        <div className="space-y-12">
-          {/* Clean Hero Section */}
-          <div className="bg-primary rounded-3xl p-8 md:p-12 shadow-lg animate-fade-in">
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary-foreground/10 rounded-2xl">
-                  <Brain className="h-8 w-8 text-primary-foreground" />
-                </div>
-                <div>
-                  <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary-foreground">
-                    Swift Books
-                  </h1>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/20">AI-Powered</Badge>
-                    <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/20">Canadian Compliant</Badge>
-                  </div>
-                </div>
-              </div>
-              <p className="text-lg md:text-xl text-primary-foreground/90 max-w-3xl leading-relaxed">
-                Transform your freelance accounting with AI. Capture expenses instantly, generate compliant reports, and cut bookkeeping time by 80% while staying CRA compliant.
-              </p>
+      <Container as="main" maxW="container.xl" py={{ base: 8, md: 12 }} px={{ base: 4, md: 8 }}>
+        <VStack spacing={12} align="stretch">
+          {/* Hero Section */}
+          <Box 
+            bg={heroBg} 
+            borderRadius="3xl" 
+            p={{ base: 8, md: 12 }} 
+            shadow="lg"
+            className="animate-fade-in"
+          >
+            <VStack spacing={6} align="start">
+              <HStack spacing={4} align="start">
+                <Box p={3} bg="whiteAlpha.200" borderRadius="2xl">
+                  <Icon as={LayoutDashboard} boxSize={8} color={heroText} />
+                </Box>
+                <VStack align="start" spacing={2}>
+                  <Heading 
+                    size={{ base: '2xl', md: '4xl' }} 
+                    fontWeight="bold" 
+                    color={heroText}
+                    letterSpacing="tight"
+                  >
+                    Dashboard
+                  </Heading>
+                  <HStack spacing={2}>
+                    <Badge colorScheme="whiteAlpha" variant="solid" bg="whiteAlpha.200" color={heroText}>
+                      AI-Powered
+                    </Badge>
+                    <Badge colorScheme="whiteAlpha" variant="solid" bg="whiteAlpha.200" color={heroText}>
+                      Real-time
+                    </Badge>
+                  </HStack>
+                </VStack>
+              </HStack>
               
-              {/* Quick Stats Row */}
-              <div className="grid grid-cols-3 gap-6 pt-4">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary-foreground">80%</div>
-                  <div className="text-sm text-primary-foreground/80">Time Saved</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary-foreground">$2.8k</div>
-                  <div className="text-sm text-primary-foreground/80">This Month</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary-foreground">47</div>
-                  <div className="text-sm text-primary-foreground/80">Active Clients</div>
-                </div>
-              </div>
-            </div>
-          </div>
+              <Text 
+                fontSize={{ base: 'lg', md: 'xl' }} 
+                color="whiteAlpha.900" 
+                maxW="3xl" 
+                lineHeight="relaxed"
+              >
+                Your personalized business overview with customizable widgets, real-time insights, and quick actions.
+              </Text>
+              
+              {/* Quick Stats */}
+              <SimpleGrid columns={3} spacing={6} pt={4} w="full">
+                <Center flexDir="column">
+                  <Text fontSize="3xl" fontWeight="bold" color={heroText}>$287K</Text>
+                  <Text fontSize="sm" color="whiteAlpha.800">Revenue YTD</Text>
+                </Center>
+                <Center flexDir="column">
+                  <Text fontSize="3xl" fontWeight="bold" color={heroText}>+18%</Text>
+                  <Text fontSize="sm" color="whiteAlpha.800">Growth Rate</Text>
+                </Center>
+                <Center flexDir="column">
+                  <Text fontSize="3xl" fontWeight="bold" color={heroText}>47</Text>
+                  <Text fontSize="sm" color="whiteAlpha.800">Active Clients</Text>
+                </Center>
+              </SimpleGrid>
+            </VStack>
+          </Box>
 
-          {/* Clean Expense Capture Section */}
-          <section className="space-y-6 animate-scale-in" style={{ animationDelay: '0.2s' }}>
-            <div className="flex items-center gap-4 mb-8">
-              <div className="p-2 bg-success rounded-xl">
-                <Receipt className="h-6 w-6 text-success-foreground" />
-              </div>
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground">Capture Expenses</h2>
-                <p className="text-muted-foreground">AI-powered receipt processing with instant categorization</p>
-              </div>
-              <div className="ml-auto hidden md:block">
-                <Badge variant="outline" className="bg-success/10 border-success/20 text-success">
-                  99% Accuracy
-                </Badge>
-              </div>
-            </div>
-            
-            <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
-              <ReceiptUpload />
-            </div>
-          </section>
-
-        </div>
-      </main>
+          {/* Widget Dashboard */}
+          <Box className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+            <WidgetSystem />
+          </Box>
+        </VStack>
+      </Container>
       
       {/* Floating AI Assistant */}
       <FloatingAiChat />
-    </div>
+    </Box>
   );
 };
 

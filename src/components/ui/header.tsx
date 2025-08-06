@@ -1,16 +1,69 @@
-import { Button } from "@/components/ui/button"
+import { 
+  Box, 
+  Flex, 
+  HStack, 
+  VStack,
+  Text, 
+  IconButton, 
+  useColorModeValue,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  Button,
+  Badge
+} from "@chakra-ui/react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
-import { Bell, User, Settings, Brain, Menu, X, LogOut, Banknote } from "lucide-react"
+import { Bell, Settings, LayoutDashboard, Menu, X, LogOut, CreditCard, BarChart3 } from "lucide-react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useAuth } from "@/hooks/use-auth"
 
 export function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { isOpen: isMobileMenuOpen, onOpen, onClose } = useDisclosure()
   const { signOut } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
+
+  const bg = useColorModeValue('white', 'gray.800')
+  const borderColor = useColorModeValue('gray.200', 'gray.600')
+  const logoColor = useColorModeValue('primary.500', 'primary.400')
+
+  // Keyboard shortcuts for navigation (already includes shortcuts)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.altKey) {
+        switch (event.key) {
+          case '1':
+          case 'd':
+            event.preventDefault()
+            navigate('/')
+            break
+          case '2':
+          case 't':
+            event.preventDefault()
+            navigate('/transactions')
+            break
+          case '3':
+          case 'r':
+            event.preventDefault()
+            navigate('/reports')
+            break
+          case '4':
+          case 's':
+            event.preventDefault()
+            navigate('/settings')
+            break
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [navigate])
 
   const handleSignOut = async () => {
     await signOut()
@@ -18,207 +71,214 @@ export function Header() {
   }
 
   const isActiveRoute = (path: string) => {
-    return location.pathname === path
+    return location.pathname === path || 
+           (path === '/' && (location.pathname === '/dashboard'))
   }
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-lg shadow-sm">
-      <div className="container flex h-16 items-center">
-        {/* Clean Logo */}
-        <div className="mr-6 flex">
-          <div className="mr-8 flex items-center space-x-3">
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-primary">
-              <div className="h-8 w-8 rounded-lg bg-primary-foreground flex items-center justify-center">
-                <span className="text-xs font-bold text-primary">SB</span>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-xl text-foreground">Swift Books</span>
-              <span className="text-xs text-muted-foreground hidden sm:block">Smart Business Finance</span>
-            </div>
-          </div>
-        </div>
-        
-        {/* Clean Desktop Navigation */}
-        <div className="hidden md:flex flex-1 items-center justify-between space-x-4">
-          <nav className="flex items-center space-x-8 text-sm font-medium">
-            <Link 
-              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
-                isActiveRoute('/') 
-                  ? 'bg-primary/10 text-primary font-semibold' 
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
-              }`} 
-              to="/"
-            >
-              Dashboard
-            </Link>
-            <Link 
-              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
-                isActiveRoute('/invoices') 
-                  ? 'bg-primary/10 text-primary font-semibold' 
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
-              }`} 
-              to="/invoices"
-            >
-              Invoices
-            </Link>
-            <Link 
-              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
-                isActiveRoute('/expenses') 
-                  ? 'bg-primary/10 text-primary font-semibold' 
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
-              }`} 
-              to="/expenses"
-            >
-              Expenses
-            </Link>
-            <Link 
-              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
-                isActiveRoute('/receipts') 
-                  ? 'bg-primary/10 text-primary font-semibold' 
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
-              }`} 
-              to="/receipts"
-            >
-              Receipts
-            </Link>
-            <Link 
-              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
-                isActiveRoute('/banking') 
-                  ? 'bg-primary/10 text-primary font-semibold' 
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
-              }`} 
-              to="/banking"
-            >
-              Banking
-            </Link>
-            <Link 
-              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
-                isActiveRoute('/reports') 
-                  ? 'bg-primary/10 text-primary font-semibold' 
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
-              }`} 
-              to="/reports"
-            >
-              Reports
-            </Link>
-          </nav>
-          
-          <div className="flex items-center space-x-3">
-            <ThemeToggle />
-            <PrivacyToggle />
-            <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 hover:text-primary transition-colors">
-              <Bell className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 h-3 w-3 bg-destructive rounded-full animate-pulse"></span>
-            </Button>
-            <Button variant="ghost" size="icon" className="hover:bg-primary/10 hover:text-primary transition-colors">
-              <Settings className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign Out" className="hover:bg-destructive/10 hover:text-destructive transition-colors">
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+  const NavLink = ({ to, icon: Icon, children, isActive, ...props }: any) => (
+    <Button
+      as={Link}
+      to={to}
+      variant={isActive ? 'solid' : 'ghost'}
+      colorScheme={isActive ? 'primary' : 'gray'}
+      leftIcon={<Icon size={18} />}
+      size="sm"
+      fontWeight="semibold"
+      transition="all 0.2s"
+      _hover={{ transform: 'translateY(-1px)', shadow: 'md' }}
+      {...props}
+    >
+      {children}
+    </Button>
+  )
 
-        {/* Mobile Controls */}
-        <div className="flex md:hidden flex-1 items-center justify-end space-x-2">
+  return (
+    <Box 
+      as="header" 
+      position="sticky" 
+      top="0" 
+      zIndex="50" 
+      bg={`${bg}95`} 
+      backdropFilter="blur(10px)"
+      borderBottomWidth="1px"
+      borderColor={borderColor}
+      shadow="sm"
+    >
+      <Flex h="16" px={6} align="center" maxW="container.xl" mx="auto">
+        {/* Logo */}
+        <HStack spacing={3} mr={8}>
+          <Box
+            w={10}
+            h={10}
+            bg={logoColor}
+            rounded="xl"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box
+              w={8}
+              h={8}
+              bg="white"
+              rounded="lg"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text fontSize="xs" fontWeight="bold" color={logoColor}>
+                SB
+              </Text>
+            </Box>
+          </Box>
+          <VStack align="start" spacing={0}>
+            <Text fontSize="xl" fontWeight="bold">
+              Swift Books
+            </Text>
+            <Text fontSize="xs" color="gray.500" display={{ base: 'none', sm: 'block' }}>
+              Smart Business Finance
+            </Text>
+          </VStack>
+        </HStack>
+
+        {/* Desktop Navigation */}
+        <HStack spacing={2} flex="1" display={{ base: 'none', md: 'flex' }}>
+          <NavLink
+            to="/"
+            icon={LayoutDashboard}
+            isActive={isActiveRoute('/')}
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/transactions"
+            icon={CreditCard}
+            isActive={isActiveRoute('/transactions') || isActiveRoute('/expenses') || isActiveRoute('/invoices') || isActiveRoute('/receipts')}
+          >
+            Transactions
+          </NavLink>
+          <NavLink
+            to="/reports"
+            icon={BarChart3}
+            isActive={isActiveRoute('/reports')}
+          >
+            Reports
+          </NavLink>
+          <NavLink
+            to="/settings"
+            icon={Settings}
+            isActive={isActiveRoute('/settings')}
+          >
+            Settings
+          </NavLink>
+        </HStack>
+
+        {/* Right Side Controls */}
+        <HStack spacing={2} ml="auto">
           <ThemeToggle />
           <PrivacyToggle />
-          <Button variant="ghost" size="icon">
-            <Bell className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign Out">
-            <LogOut className="h-4 w-4" />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </Button>
-        </div>
-      </div>
+          <Box position="relative">
+            <IconButton
+              aria-label="Notifications"
+              icon={<Bell size={18} />}
+              variant="ghost"
+              size="sm"
+            />
+            <Badge
+              position="absolute"
+              top="-1"
+              right="-1"
+              colorScheme="red"
+              rounded="full"
+              w={3}
+              h={3}
+              p={0}
+            />
+          </Box>
+          <IconButton
+            aria-label="Sign Out"
+            icon={<LogOut size={18} />}
+            variant="ghost"
+            size="sm"
+            colorScheme="red"
+            onClick={handleSignOut}
+          />
+          <IconButton
+            aria-label="Menu"
+            icon={<Menu size={18} />}
+            variant="ghost"
+            size="sm"
+            display={{ base: 'flex', md: 'none' }}
+            onClick={onOpen}
+          />
+        </HStack>
+      </Flex>
 
-      {/* Mobile Navigation Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t bg-background/95 backdrop-blur">
-          <nav className="container py-4 space-y-2">
-            <Link 
-              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
-                isActiveRoute('/') 
-                  ? 'text-primary bg-primary/10 font-semibold' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-              to="/"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <Link 
-              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
-                isActiveRoute('/invoices') 
-                  ? 'text-primary bg-primary/10 font-semibold' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-              to="/invoices"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Invoices
-            </Link>
-            <Link 
-              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
-                isActiveRoute('/expenses') 
-                  ? 'text-primary bg-primary/10 font-semibold' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-              to="/expenses"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Expenses
-            </Link>
-            <Link 
-              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
-                isActiveRoute('/receipts') 
-                  ? 'text-primary bg-primary/10 font-semibold' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-              to="/receipts"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Receipts
-            </Link>
-            <Link 
-              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
-                isActiveRoute('/banking') 
-                  ? 'text-primary bg-primary/10 font-semibold' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-              to="/banking"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Banking
-            </Link>
-            <Link 
-              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
-                isActiveRoute('/reports') 
-                  ? 'text-primary bg-primary/10 font-semibold' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-              to="/reports"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Reports
-            </Link>
-            <div className="px-4 py-2">
-              <Button variant="ghost" size="sm" className="w-full justify-start">
-                <Settings className="h-4 w-4 mr-2" />
+      {/* Mobile Navigation Drawer */}
+      <Drawer isOpen={isMobileMenuOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader borderBottomWidth="1px">
+            <HStack justify="space-between" align="center">
+              <Text fontSize="lg" fontWeight="bold">Navigation</Text>
+              <IconButton
+                aria-label="Close menu"
+                icon={<X size={18} />}
+                variant="ghost"
+                size="sm"
+                onClick={onClose}
+              />
+            </HStack>
+          </DrawerHeader>
+          <DrawerBody pt={4}>
+            <VStack spacing={3} align="stretch">
+              <Button
+                as={Link}
+                to="/"
+                variant={isActiveRoute('/') ? 'solid' : 'ghost'}
+                colorScheme="primary"
+                leftIcon={<LayoutDashboard size={18} />}
+                justifyContent="flex-start"
+                onClick={onClose}
+              >
+                Dashboard
+              </Button>
+              <Button
+                as={Link}
+                to="/transactions"
+                variant={isActiveRoute('/transactions') ? 'solid' : 'ghost'}
+                colorScheme="primary"
+                leftIcon={<CreditCard size={18} />}
+                justifyContent="flex-start"
+                onClick={onClose}
+              >
+                Transactions
+              </Button>
+              <Button
+                as={Link}
+                to="/reports"
+                variant={isActiveRoute('/reports') ? 'solid' : 'ghost'}
+                colorScheme="primary"
+                leftIcon={<BarChart3 size={18} />}
+                justifyContent="flex-start"
+                onClick={onClose}
+              >
+                Reports
+              </Button>
+              <Button
+                as={Link}
+                to="/settings"
+                variant={isActiveRoute('/settings') ? 'solid' : 'ghost'}
+                colorScheme="primary"
+                leftIcon={<Settings size={18} />}
+                justifyContent="flex-start"
+                onClick={onClose}
+              >
                 Settings
               </Button>
-            </div>
-          </nav>
-        </div>
-      )}
-    </header>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </Box>
   )
 }

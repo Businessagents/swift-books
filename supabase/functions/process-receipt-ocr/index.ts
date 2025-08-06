@@ -2,6 +2,11 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
+// Retry configuration
+const MAX_RETRIES = 3;
+const INITIAL_RETRY_DELAY = 1000; // 1 second
+const RETRY_DELAY_MULTIPLIER = 2;
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -17,72 +22,56 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  let receiptId: string | null = null;
+  let supabase: any;
+
   try {
     console.log('Processing receipt OCR request');
     
-    const supabase = createClient(supabaseUrl, supabaseKey, {
+    supabase = createClient(supabaseUrl, supabaseKey, {
       global: { headers: { Authorization: req.headers.get('Authorization')! } }
     });
 
-    const { receiptId, imageData } = await req.json();
+    const requestBody = await req.json();
+    receiptId = requestBody.receiptId;
+    const imageData = requestBody.imageData;
+    const retryCount = requestBody.retryCount || 0;
     
     if (!receiptId || !imageData) {
       throw new Error('Receipt ID and image data are required');
     }
 
-    console.log(`Processing receipt: ${receiptId}`);
+    console.log(`Processing receipt: ${receiptId} (attempt ${retryCount + 1})`);
 
     // Update receipt status to processing
     await supabase
       .from('receipts')
-      .update({ status: 'processing' })
+      .update({ 
+        status: 'processing',
+        processed_at: retryCount === 0 ? new Date().toISOString() : undefined
+      })
       .eq('id', receiptId);
 
-    // Call Google Vision API for OCR
-    const visionResponse = await fetch(
-      `https://vision.googleapis.com/v1/images:annotate?key=${googleVisionApiKey}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          requests: [
-            {
-              image: {
-                content: imageData.split(',')[1], // Remove data:image/jpeg;base64, prefix
-              },
-              features: [
-                { type: 'TEXT_DETECTION', maxResults: 1 }
-              ],
-            },
-          ],
-        }),
-      }
+    // Call Google Vision API for OCR with retry logic
+    const ocrResult = await performOCRWithRetry(
+      imageData, 
+      googleVisionApiKey, 
+      retryCount
     );
 
-    if (!visionResponse.ok) {
-      throw new Error(`Google Vision API error: ${visionResponse.statusText}`);
-    }
-
-    const visionData = await visionResponse.json();
-    const textAnnotations = visionData.responses[0]?.textAnnotations;
-    
-    if (!textAnnotations || textAnnotations.length === 0) {
-      throw new Error('No text detected in the image');
-    }
-
-    const ocrText = textAnnotations[0].description;
-    const confidence = textAnnotations[0].confidence || 0.5;
-
+    const { ocrText, confidence } = ocrResult;
     console.log('OCR extracted text:', ocrText.substring(0, 200) + '...');
 
     // Extract receipt details using regex patterns
     const extractedData = extractReceiptData(ocrText);
     console.log('Extracted data:', extractedData);
 
-    // Get AI category suggestion
-    const categoryData = await getCategorySuggestion(ocrText, extractedData);
+    // Get AI category suggestion with retry
+    const categoryData = await getCategorySuggestionWithRetry(
+      ocrText, 
+      extractedData, 
+      retryCount
+    );
     console.log('AI category suggestion:', categoryData);
 
     // Update receipt with OCR results
@@ -124,25 +113,65 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error processing receipt:', error);
     
-    // Try to update receipt status to failed if we have the receiptId
-    try {
-      const { receiptId } = await req.json();
-      if (receiptId) {
-        const supabase = createClient(supabaseUrl, supabaseKey, {
-          global: { headers: { Authorization: req.headers.get('Authorization')! } }
-        });
-        
+    // Determine if this is a retryable error
+    const isRetryable = isRetryableError(error);
+    const requestBody = await req.clone().json().catch(() => ({}));
+    const currentRetryCount = requestBody.retryCount || 0;
+    
+    if (isRetryable && currentRetryCount < MAX_RETRIES - 1) {
+      console.log(`Retryable error, scheduling retry ${currentRetryCount + 1}`);
+      
+      // Update receipt status to indicate retry
+      if (receiptId && supabase) {
+        try {
+          await supabase
+            .from('receipts')
+            .update({ 
+              status: 'processing',
+              processed_at: new Date().toISOString()
+            })
+            .eq('id', receiptId);
+        } catch (updateError) {
+          console.error('Failed to update receipt status for retry:', updateError);
+        }
+      }
+      
+      // Return error with retry instruction
+      return new Response(
+        JSON.stringify({ 
+          error: error.message,
+          retryable: true,
+          retryAfter: INITIAL_RETRY_DELAY * Math.pow(RETRY_DELAY_MULTIPLIER, currentRetryCount),
+          currentRetry: currentRetryCount
+        }),
+        {
+          status: 503, // Service Unavailable, indicating retry
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+    
+    // Update receipt status to failed if we can't retry
+    if (receiptId && supabase) {
+      try {
         await supabase
           .from('receipts')
-          .update({ status: 'failed' })
+          .update({ 
+            status: 'failed',
+            processed_at: new Date().toISOString()
+          })
           .eq('id', receiptId);
+      } catch (updateError) {
+        console.error('Failed to update receipt status:', updateError);
       }
-    } catch (updateError) {
-      console.error('Failed to update receipt status:', updateError);
     }
 
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        retryable: false,
+        finalAttempt: true
+      }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -227,6 +256,88 @@ function extractReceiptData(text: string) {
     tax,
     date: date || new Date().toISOString().split('T')[0], // Default to today
   };
+}
+
+async function performOCRWithRetry(
+  imageData: string, 
+  apiKey: string | undefined, 
+  retryCount: number
+): Promise<{ ocrText: string; confidence: number }> {
+  if (!apiKey) {
+    throw new Error('Google Vision API key not configured');
+  }
+
+  const visionResponse = await fetch(
+    `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        requests: [
+          {
+            image: {
+              content: imageData.split(',')[1], // Remove data:image/jpeg;base64, prefix
+            },
+            features: [
+              { type: 'TEXT_DETECTION', maxResults: 1 }
+            ],
+          },
+        ],
+      }),
+    }
+  );
+
+  if (!visionResponse.ok) {
+    const errorText = await visionResponse.text();
+    throw new Error(`Google Vision API error (${visionResponse.status}): ${errorText}`);
+  }
+
+  const visionData = await visionResponse.json();
+  const textAnnotations = visionData.responses[0]?.textAnnotations;
+  
+  if (!textAnnotations || textAnnotations.length === 0) {
+    throw new Error('No text detected in the image');
+  }
+
+  return {
+    ocrText: textAnnotations[0].description,
+    confidence: textAnnotations[0].confidence || 0.5
+  };
+}
+
+async function getCategorySuggestionWithRetry(
+  ocrText: string, 
+  extractedData: any, 
+  retryCount: number
+): Promise<{ category: string; confidence: number }> {
+  try {
+    return await getCategorySuggestion(ocrText, extractedData);
+  } catch (error) {
+    console.error(`Category suggestion failed (attempt ${retryCount + 1}):`, error);
+    // Return rule-based fallback
+    return getRuleBasedCategory(ocrText, extractedData);
+  }
+}
+
+function isRetryableError(error: any): boolean {
+  if (!error) return false;
+  
+  const message = error.message?.toLowerCase() || '';
+  const retryableErrors = [
+    'network error',
+    'timeout',
+    'rate limit',
+    'quota exceeded',
+    'service unavailable',
+    'internal server error',
+    'bad gateway',
+    'gateway timeout',
+    'temporarily unavailable'
+  ];
+  
+  return retryableErrors.some(errorType => message.includes(errorType));
 }
 
 async function getCategorySuggestion(ocrText: string, extractedData: any) {

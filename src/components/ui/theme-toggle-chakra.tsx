@@ -2,7 +2,7 @@ import * as React from "react"
 import { IconButton, useColorMode } from "@chakra-ui/react"
 import { Moon, Sun } from "lucide-react"
 
-export function ThemeToggle() {
+const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode()
 
   return (
@@ -11,7 +11,7 @@ export function ThemeToggle() {
       icon={colorMode === 'light' ? <Moon size={20} /> : <Sun size={20} />}
       onClick={toggleColorMode}
       variant="ghost"
-      size="sm"
+      size="md"
       transition="all 0.2s ease-in-out"
       _hover={{
         transform: 'scale(1.1)',
@@ -20,3 +20,5 @@ export function ThemeToggle() {
     />
   )
 }
+
+export { ThemeToggle }
