@@ -3,11 +3,11 @@ import { FloatingAiChat } from "@/components/ai/floating-ai-chat"
 import { WidgetSystem } from "@/components/dashboard/widget-system"
 import { Box, Container, VStack, HStack, Heading, Text, Badge, SimpleGrid, Center, Icon } from "@chakra-ui/react"
 import { useColorMode } from "@chakra-ui/color-mode"
-import { LayoutDashboard } from "lucide-react"
+import { Brain, LayoutDashboard } from "lucide-react"
 
 const Index = () => {
   const { colorMode } = useColorMode()
-  const heroBg = colorMode === 'light' ? 'blue.500' : 'blue.600'
+  const heroBg = colorMode === 'light' ? 'primary.500' : 'primary.600'
   const heroText = 'white'
   const bgColor = colorMode === 'light' ? 'gray.50' : 'gray.800'
   
