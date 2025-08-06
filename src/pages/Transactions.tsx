@@ -17,23 +17,21 @@ import {
   TabPanel,
   Button,
   Badge,
-  useColorModeValue,
   SimpleGrid,
   Stat,
   StatLabel,
   StatNumber,
   StatHelpText,
   StatArrow,
-  useDisclosure
-} from "@chakra-ui/react"
-import {
+  useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/modal"
+  ModalCloseButton
+} from "@chakra-ui/react"
+import { useColorMode } from "@chakra-ui/color-mode"
 import { SimpleExpenseManagement } from "@/components/expenses/simple-expense-management"
 import { InvoiceList } from "@/components/invoices/invoice-list"
 import { ReceiptUploadEnhanced } from "@/components/receipt-upload-enhanced"
@@ -52,15 +50,16 @@ import {
 
 const Transactions = () => {
   const { isOpen: showReceiptUpload, onOpen: openReceiptUpload, onClose: closeReceiptUpload } = useDisclosure()
-  const bg = useColorModeValue('gray.50', 'gray.800')
+  const { colorMode } = useColorMode()
+  const bg = colorMode === 'light' ? 'gray.50' : 'gray.800'
 
-  // Mock stats - in real implementation, these would come from hooks/API
+  // Transaction stats - TODO: Implement real data from hooks/API
   const transactionStats = {
-    totalIncome: 24750,
-    totalExpenses: 8432,
-    pendingInvoices: 6,
-    processedReceipts: 23,
-    monthlyChange: 12.5
+    totalIncome: 0,
+    totalExpenses: 0,
+    pendingInvoices: 0,
+    processedReceipts: 0,
+    monthlyChange: 0
   }
 
   const quickActions = [
@@ -92,206 +91,264 @@ const Transactions = () => {
       <Header />
       
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
-        <div className="space-y-8">
+        <VStack spacing={8} align="stretch">
           {/* Header Section */}
-          <div className="bg-card rounded-xl p-6 md:p-8 border shadow-sm animate-fade-in">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary rounded-lg">
-                    <CreditCard className="h-6 w-6 text-primary-foreground" />
-                  </div>
-                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-                    Transactions
-                  </h1>
-                </div>
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                  Unified view of all your business transactions - expenses, invoices, and receipts in one place
-                </p>
-              </div>
-              
-              {/* Quick Stats Overview */}
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-                <div className="text-center p-4 bg-muted rounded-lg border">
-                  <div className="flex items-center justify-center gap-1 text-success mb-1">
-                    <ArrowUpRight className="h-4 w-4" />
-                    <span className="text-lg font-bold">${transactionStats.totalIncome.toLocaleString()}</span>
-                  </div>
-                  <div className="text-xs text-muted-foreground">Income</div>
-                </div>
-                <div className="text-center p-4 bg-muted rounded-lg border">
-                  <div className="flex items-center justify-center gap-1 text-destructive mb-1">
-                    <ArrowDownLeft className="h-4 w-4" />
-                    <span className="text-lg font-bold">${transactionStats.totalExpenses.toLocaleString()}</span>
-                  </div>
-                  <div className="text-xs text-muted-foreground">Expenses</div>
-                </div>
-                <div className="text-center p-4 bg-muted rounded-lg border lg:block hidden">
-                  <div className="flex items-center justify-center gap-1 text-primary mb-1">
-                    <TrendingUp className="h-4 w-4" />
-                    <span className="text-lg font-bold">+{transactionStats.monthlyChange}%</span>
-                  </div>
-                  <div className="text-xs text-muted-foreground">Growth</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Card>
+            <CardBody>
+              <VStack spacing={6} align="stretch">
+                <VStack spacing={3} align="start">
+                  <HStack spacing={3}>
+                    <Box p={2} bg="primary.500" rounded="lg">
+                      <CreditCard size={24} color="white" />
+                    </Box>
+                    <Heading size={{ base: "xl", md: "2xl" }}>
+                      Transactions
+                    </Heading>
+                  </HStack>
+                  <Text fontSize={{ base: "md", md: "lg" }} color="gray.600" maxW="2xl">
+                    Unified view of all your business transactions - expenses, invoices, and receipts in one place
+                  </Text>
+                </VStack>
+                
+                {/* Quick Stats Overview */}
+                <SimpleGrid columns={{ base: 2, lg: 3 }} spacing={{ base: 4, lg: 6 }}>
+                  <Card size="sm">
+                    <CardBody textAlign="center">
+                      <HStack justify="center" color="green.500" mb={1}>
+                        <ArrowUpRight size={16} />
+                        <Text fontSize="lg" fontWeight="bold">
+                          ${transactionStats.totalIncome.toLocaleString()}
+                        </Text>
+                      </HStack>
+                      <Text fontSize="xs" color="gray.500">Income</Text>
+                    </CardBody>
+                  </Card>
+                  <Card size="sm">
+                    <CardBody textAlign="center">
+                      <HStack justify="center" color="red.500" mb={1}>
+                        <ArrowDownLeft size={16} />
+                        <Text fontSize="lg" fontWeight="bold">
+                          ${transactionStats.totalExpenses.toLocaleString()}
+                        </Text>
+                      </HStack>
+                      <Text fontSize="xs" color="gray.500">Expenses</Text>
+                    </CardBody>
+                  </Card>
+                  <Card size="sm" display={{ base: "none", lg: "block" }}>
+                    <CardBody textAlign="center">
+                      <HStack justify="center" color="primary.500" mb={1}>
+                        <TrendingUp size={16} />
+                        <Text fontSize="lg" fontWeight="bold">
+                          +{transactionStats.monthlyChange}%
+                        </Text>
+                      </HStack>
+                      <Text fontSize="xs" color="gray.500">Growth</Text>
+                    </CardBody>
+                  </Card>
+                </SimpleGrid>
+              </VStack>
+            </CardBody>
+          </Card>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-scale-in" style={{ animationDelay: '0.1s' }}>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
             {quickActions.map((action) => {
               const Icon = action.icon
               return (
-                <Card key={action.title} className="hover:shadow-md transition-all duration-300 cursor-pointer group" onClick={action.action}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-xl transition-colors ${action.color}`}>
-                        <Icon className="h-6 w-6" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                <Card 
+                  key={action.title} 
+                  cursor="pointer"
+                  transition="all 0.3s"
+                  _hover={{ shadow: "md", transform: "translateY(-2px)" }}
+                  onClick={action.action}
+                >
+                  <CardBody>
+                    <HStack spacing={4}>
+                      <Box 
+                        p={3} 
+                        rounded="xl" 
+                        bg={`${action.colorScheme}.100`}
+                        color={`${action.colorScheme}.600`}
+                      >
+                        <Icon size={24} />
+                      </Box>
+                      <VStack align="start" spacing={1} flex={1}>
+                        <Text fontWeight="semibold">
                           {action.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
+                        </Text>
+                        <Text fontSize="sm" color="gray.600">
                           {action.description}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
+                        </Text>
+                      </VStack>
+                    </HStack>
+                  </CardBody>
                 </Card>
               )
             })}
-          </div>
+          </SimpleGrid>
 
           {/* Main Content Tabs */}
-          <Tabs defaultValue="expenses" className="space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <TabsList className="grid w-full sm:w-auto grid-cols-3">
-                <TabsTrigger value="expenses" className="flex items-center gap-2">
-                  <CreditCard className="h-4 w-4" />
-                  <span className="hidden sm:inline">Expenses</span>
-                </TabsTrigger>
-                <TabsTrigger value="invoices" className="flex items-center gap-2">
-                  <FileText className="h-4 w-4" />
-                  <span className="hidden sm:inline">Invoices</span>
-                </TabsTrigger>
-                <TabsTrigger value="receipts" className="flex items-center gap-2">
-                  <ReceiptIcon className="h-4 w-4" />
-                  <span className="hidden sm:inline">Receipts</span>
-                </TabsTrigger>
-              </TabsList>
+          <Box>
+            <VStack spacing={4} align="stretch">
+              <HStack justify="space-between" wrap="wrap" spacing={4}>
+                <Tabs defaultIndex={0}>
+                  <TabList>
+                    <Tab>
+                      <HStack spacing={2}>
+                        <CreditCard size={16} />
+                        <Text display={{ base: "none", sm: "inline" }}>Expenses</Text>
+                      </HStack>
+                    </Tab>
+                    <Tab>
+                      <HStack spacing={2}>
+                        <FileText size={16} />
+                        <Text display={{ base: "none", sm: "inline" }}>Invoices</Text>
+                      </HStack>
+                    </Tab>
+                    <Tab>
+                      <HStack spacing={2}>
+                        <ReceiptIcon size={16} />
+                        <Text display={{ base: "none", sm: "inline" }}>Receipts</Text>
+                      </HStack>
+                    </Tab>
+                  </TabList>
+                  
+                  <TabPanels>
+                    {/* Expenses Tab */}
+                    <TabPanel px={0}>
+                      <Card>
+                        <CardHeader>
+                          <HStack spacing={2}>
+                            <CreditCard size={20} />
+                            <VStack align="start" spacing={0}>
+                              <Heading size="md">Expense Management</Heading>
+                              <Text fontSize="sm" color="gray.600">
+                                Track and categorize your business expenses with AI-powered insights
+                              </Text>
+                            </VStack>
+                          </HStack>
+                        </CardHeader>
+                        <CardBody p={0}>
+                          <SimpleExpenseManagement />
+                        </CardBody>
+                      </Card>
+                    </TabPanel>
 
-              {/* Status Overview for Current Tab */}
-              <div className="flex gap-2">
-                <Badge variant="outline" className="text-xs">
-                  <Clock className="h-3 w-3 mr-1" />
-                  {transactionStats.pendingInvoices} Pending
-                </Badge>
-                <Badge variant="secondary" className="text-xs">
-                  {transactionStats.processedReceipts} Processed
-                </Badge>
-              </div>
-            </div>
+                    {/* Invoices Tab */}
+                    <TabPanel px={0}>
+                      <Card>
+                        <CardHeader>
+                          <HStack justify="space-between" align="start">
+                            <HStack spacing={2}>
+                              <FileText size={20} />
+                              <VStack align="start" spacing={0}>
+                                <Heading size="md">Invoice Management</Heading>
+                                <Text fontSize="sm" color="gray.600">
+                                  Create, send, and track client invoices with automated reminders
+                                </Text>
+                              </VStack>
+                            </HStack>
+                            <Button 
+                              colorScheme="blue" 
+                              size="sm"
+                              leftIcon={<Plus size={16} />}
+                            >
+                              New Invoice
+                            </Button>
+                          </HStack>
+                        </CardHeader>
+                        <CardBody p={0}>
+                          <InvoiceList />
+                        </CardBody>
+                      </Card>
+                    </TabPanel>
 
-            {/* Expenses Tab */}
-            <TabsContent value="expenses" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CreditCard className="h-5 w-5" />
-                    Expense Management
-                  </CardTitle>
-                  <CardDescription>
-                    Track and categorize your business expenses with AI-powered insights
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <SimpleExpenseManagement />
-                </CardContent>
-              </Card>
-            </TabsContent>
+                    {/* Receipts Tab */}
+                    <TabPanel px={0}>
+                      <Card>
+                        <CardHeader>
+                          <HStack justify="space-between" align="start">
+                            <HStack spacing={2}>
+                              <ReceiptIcon size={20} />
+                              <VStack align="start" spacing={0}>
+                                <Heading size="md">Receipt Processing</Heading>
+                                <Text fontSize="sm" color="gray.600">
+                                  AI-powered receipt scanning and automatic expense categorization
+                                </Text>
+                              </VStack>
+                            </HStack>
+                            <Button 
+                              colorScheme="green" 
+                              size="sm" 
+                              onClick={openReceiptUpload}
+                              leftIcon={<Plus size={16} />}
+                            >
+                              Upload Receipt
+                            </Button>
+                          </HStack>
+                        </CardHeader>
+                        <CardBody>
+                          <VStack spacing={4} py={8}>
+                            <ReceiptIcon size={48} opacity={0.5} />
+                            <VStack spacing={2}>
+                              <Heading size="md">Receipt Processing Hub</Heading>
+                              <Text color="gray.600" textAlign="center">
+                                Upload receipts to automatically extract data and create expense entries
+                              </Text>
+                            </VStack>
+                            <Button 
+                              colorScheme="green" 
+                              onClick={openReceiptUpload}
+                              leftIcon={<Plus size={16} />}
+                            >
+                              Upload First Receipt
+                            </Button>
+                          </VStack>
+                        </CardBody>
+                      </Card>
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
 
-            {/* Invoices Tab */}
-            <TabsContent value="invoices" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2">
-                        <FileText className="h-5 w-5" />
-                        Invoice Management
-                      </CardTitle>
-                      <CardDescription>
-                        Create, send, and track client invoices with automated reminders
-                      </CardDescription>
-                    </div>
-                    <Button>
-                      <Plus className="h-4 w-4 mr-2" />
-                      New Invoice
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <InvoiceList />
-                </CardContent>
-              </Card>
-            </TabsContent>
+                {/* Status Overview */}
+                <HStack spacing={2}>
+                  <Badge colorScheme="yellow" variant="outline">
+                    <Clock size={12} />
+                    <Text ml={1} fontSize="xs">{transactionStats.pendingInvoices} Pending</Text>
+                  </Badge>
+                  <Badge colorScheme="green">
+                    <Text fontSize="xs">{transactionStats.processedReceipts} Processed</Text>
+                  </Badge>
+                </HStack>
+              </HStack>
+            </VStack>
+          </Box>
 
-            {/* Receipts Tab */}
-            <TabsContent value="receipts" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2">
-                        <ReceiptIcon className="h-5 w-5" />
-                        Receipt Processing
-                      </CardTitle>
-                      <CardDescription>
-                        AI-powered receipt scanning and automatic expense categorization
-                      </CardDescription>
-                    </div>
-                    <Button onClick={() => setShowReceiptUpload(true)}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Upload Receipt
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8">
-                    <ReceiptIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <h3 className="text-lg font-medium mb-2">Receipt Processing Hub</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Upload receipts to automatically extract data and create expense entries
-                    </p>
-                    <Button onClick={() => setShowReceiptUpload(true)}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Upload First Receipt
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </main>
+        </VStack>
+      </Container>
 
-      {/* Receipt Upload Dialog */}
-      <Dialog open={showReceiptUpload} onOpenChange={setShowReceiptUpload}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Upload Receipt</DialogTitle>
-            <DialogDescription>
-              Upload a receipt image for automatic processing and categorization.
-            </DialogDescription>
-          </DialogHeader>
-          <ReceiptUploadEnhanced 
-            onReceiptProcessed={() => setShowReceiptUpload(false)}
-            onExpenseCreated={() => setShowReceiptUpload(false)}
-          />
-        </DialogContent>
-      </Dialog>
-    </div>
+      {/* Receipt Upload Modal */}
+      <Modal isOpen={showReceiptUpload} onClose={closeReceiptUpload} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <VStack align="start" spacing={1}>
+              <Text>Upload Receipt</Text>
+              <Text fontSize="sm" fontWeight="normal" color="gray.600">
+                Upload a receipt image for automatic processing and categorization.
+              </Text>
+            </VStack>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <ReceiptUploadEnhanced 
+              onReceiptProcessed={closeReceiptUpload}
+              onExpenseCreated={closeReceiptUpload}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </Box>
   )
 }
 

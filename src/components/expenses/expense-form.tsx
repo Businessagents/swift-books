@@ -225,7 +225,10 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="category_id">Category</Label>
-              <Select onValueChange={(value) => setValue("category_id", value)}>
+              <Select 
+                value={watch("category_id") || ""}
+                onValueChange={(value) => setValue("category_id", value)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -252,7 +255,10 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="tax_code_id">Tax Code</Label>
-              <Select onValueChange={(value) => setValue("tax_code_id", value)}>
+              <Select 
+                value={watch("tax_code_id") || ""}
+                onValueChange={(value) => setValue("tax_code_id", value)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select tax code" />
                 </SelectTrigger>
@@ -281,7 +287,10 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="payment_method">Payment Method</Label>
-              <Select onValueChange={(value) => setValue("payment_method", value)}>
+              <Select 
+                value={watch("payment_method") || ""}
+                onValueChange={(value) => setValue("payment_method", value)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select payment method" />
                 </SelectTrigger>
@@ -309,6 +318,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="is_billable"
+                  checked={watch("is_billable")}
                   onCheckedChange={(checked) => setValue("is_billable", checked as boolean)}
                 />
                 <Label htmlFor="is_billable">Billable to client</Label>
@@ -316,6 +326,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="is_personal"
+                  checked={watch("is_personal")}
                   onCheckedChange={(checked) => setValue("is_personal", checked as boolean)}
                 />
                 <Label htmlFor="is_personal">Personal expense (non-deductible)</Label>

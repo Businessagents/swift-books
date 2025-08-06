@@ -55,7 +55,7 @@ export function ExpenseList() {
       }
 
       if (categoryFilter !== "all") {
-        query = query.eq('category.code', categoryFilter)
+        query = query.eq('category_id', categoryFilter)
       }
 
       if (dateFilter !== "all") {
@@ -236,7 +236,7 @@ export function ExpenseList() {
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
                 {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.code}>
+                  <SelectItem key={category.id} value={category.id}>
                     {category.name}
                   </SelectItem>
                 ))}

@@ -1,14 +1,14 @@
-import { useTheme } from "next-themes"
+import { useColorMode } from "@chakra-ui/color-mode"
 import { Toaster as Sonner, toast } from "sonner"
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const { colorMode } = useColorMode()
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={colorMode === 'system' ? 'system' : colorMode as ToasterProps["theme"]}
       className="toaster group"
       toastOptions={{
         classNames: {

@@ -84,15 +84,23 @@ serve(async (req) => {
 
     console.log('Email sent successfully:', emailResponse.data?.id);
 
+    // Get current user for reminder record
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
     // Update reminder record
     const { error: reminderError } = await supabase
       .from('reminders')
       .insert({
+        user_id: user.id,
         invoice_id: invoiceId,
         subject: subject,
         message: emailBody,
         tone: tone,
         status: 'delivered',
+        scheduled_at: new Date().toISOString(),
         sent_at: new Date().toISOString(),
         delivered_at: new Date().toISOString(),
       });

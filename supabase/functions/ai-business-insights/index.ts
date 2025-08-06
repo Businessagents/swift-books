@@ -40,12 +40,18 @@ serve(async (req) => {
     let financialContext = '';
     
     if (includeFinancialData) {
-      // Fetch recent expenses
+      // Fetch recent expenses with category information
       const { data: expenses } = await supabase
         .from('expenses')
-        .select('amount, category, description, date, tax_amount')
+        .select(`
+          amount, 
+          description, 
+          expense_date, 
+          tax_amount,
+          expense_categories!category_id(name)
+        `)
         .eq('user_id', user.id)
-        .order('date', { ascending: false })
+        .order('expense_date', { ascending: false })
         .limit(50);
 
       // Fetch recent invoices
@@ -64,7 +70,7 @@ serve(async (req) => {
 
       // Group expenses by category
       const categoryBreakdown = expenses?.reduce((acc, exp) => {
-        const category = exp.category || 'Uncategorized';
+        const category = exp.expense_categories?.name || 'Uncategorized';
         acc[category] = (acc[category] || 0) + (exp.amount || 0);
         return acc;
       }, {} as Record<string, number>) || {};
@@ -85,7 +91,7 @@ ${Object.entries(categoryBreakdown)
 
 Recent Expenses:
 ${expenses?.slice(0, 10).map(exp => 
-  `- ${exp.description || 'No description'}: $${exp.amount?.toFixed(2)} CAD (${exp.category || 'Uncategorized'})`
+  `- ${exp.description || 'No description'}: $${exp.amount?.toFixed(2)} CAD (${exp.expense_categories?.name || 'Uncategorized'})`
 ).join('\n') || 'No recent expenses'}
 `;
     }

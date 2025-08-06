@@ -294,10 +294,12 @@ export function WidgetSystem({}: WidgetSystemProps) {
         </Box>
         <Button 
           variant="outline" 
-          leftIcon={<Icon as={Settings} boxSize={4} />}
           onClick={onOpen}
         >
-          Customize
+          <HStack spacing={2}>
+            <Icon as={Settings} boxSize={4} />
+            <Text>Customize</Text>
+          </HStack>
         </Button>
       </Flex>
 

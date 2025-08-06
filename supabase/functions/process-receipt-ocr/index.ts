@@ -47,8 +47,7 @@ serve(async (req) => {
     await supabase
       .from('receipts')
       .update({ 
-        status: 'processing',
-        processed_at: retryCount === 0 ? new Date().toISOString() : undefined
+        status: 'processing'
       })
       .eq('id', receiptId);
 
@@ -86,8 +85,7 @@ serve(async (req) => {
         tax_amount: extractedData.tax,
         receipt_date: extractedData.date,
         ai_suggested_category: categoryData.category,
-        ai_confidence: categoryData.confidence,
-        processed_at: new Date().toISOString(),
+        ai_confidence: categoryData.confidence
       })
       .eq('id', receiptId);
 
@@ -127,8 +125,7 @@ serve(async (req) => {
           await supabase
             .from('receipts')
             .update({ 
-              status: 'processing',
-              processed_at: new Date().toISOString()
+              status: 'processing'
             })
             .eq('id', receiptId);
         } catch (updateError) {
@@ -157,8 +154,7 @@ serve(async (req) => {
         await supabase
           .from('receipts')
           .update({ 
-            status: 'failed',
-            processed_at: new Date().toISOString()
+            status: 'failed'
           })
           .eq('id', receiptId);
       } catch (updateError) {

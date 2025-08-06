@@ -1,23 +1,24 @@
 import { Eye, EyeOff } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { IconButton } from "@chakra-ui/react"
 import { usePrivacy } from "@/hooks/use-privacy"
 
 export function PrivacyToggle() {
   const { isPrivacyMode, togglePrivacy } = usePrivacy()
 
   return (
-    <Button
+    <IconButton
+      aria-label="Toggle privacy mode"
       variant="ghost"
       size="sm"
       onClick={togglePrivacy}
-      className="h-9 w-9 px-0"
+      transition="all 0.2s ease-in-out"
+      _hover={{
+        transform: 'scale(1.1)',
+        bg: 'gray.100',
+        _dark: { bg: 'gray.700' }
+      }}
     >
-      {isPrivacyMode ? (
-        <EyeOff className="h-[1.2rem] w-[1.2rem]" />
-      ) : (
-        <Eye className="h-[1.2rem] w-[1.2rem]" />
-      )}
-      <span className="sr-only">Toggle privacy mode</span>
-    </Button>
+      {isPrivacyMode ? <EyeOff size={20} /> : <Eye size={20} />}
+    </IconButton>
   )
 }

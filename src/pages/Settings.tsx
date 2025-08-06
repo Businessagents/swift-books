@@ -1,14 +1,32 @@
 import { useState } from "react"
 import { Header } from "@/components/ui/header"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
+import {
+  Box,
+  Container,
+  VStack,
+  HStack,
+  Card,
+  CardBody,
+  CardHeader,
+  Text,
+  Heading,
+  Button,
+  Switch,
+  Input,
+  FormControl,
+  FormLabel,
+  Select,
+  Divider,
+  Badge,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  SimpleGrid,
+  useToast
+} from "@chakra-ui/react"
+import { useColorMode } from "@chakra-ui/color-mode"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
 import { 
@@ -34,20 +52,21 @@ import {
   Clock,
   DollarSign
 } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
 
 const Settings = () => {
   const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
+  const toast = useToast()
+  const { colorMode } = useColorMode()
+  const bg = colorMode === 'light' ? 'gray.50' : 'gray.800'
 
-  // Mock settings state - in real app, this would come from context/API
+  // Settings state - TODO: Implement real data from context/API
   const [settings, setSettings] = useState({
     // Profile settings
-    businessName: "Swift Consulting Inc.",
-    ownerName: "John Smith",
-    email: "john@swiftconsulting.com",
-    phone: "+1 (555) 123-4567",
-    address: "123 Business St, Vancouver, BC V6B 1A1",
+    businessName: "",
+    ownerName: "",
+    email: "",
+    phone: "",
+    address: "",
     
     // Business settings
     fiscalYearStart: "01-01",
@@ -82,12 +101,17 @@ const Settings = () => {
       toast({
         title: "Settings saved",
         description: "Your preferences have been updated successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
       })
     } catch (error) {
       toast({
         title: "Save failed",
         description: "Failed to save settings. Please try again.",
-        variant: "destructive",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
       })
     } finally {
       setLoading(false)
@@ -98,6 +122,9 @@ const Settings = () => {
     toast({
       title: "Export started",
       description: "Your data export will be ready shortly and sent to your email.",
+      status: "info",
+      duration: 3000,
+      isClosable: true,
     })
   }
 
@@ -105,449 +132,484 @@ const Settings = () => {
     toast({
       title: "Import feature",
       description: "Data import functionality will be available in the next update.",
+      status: "info", 
+      duration: 3000,
+      isClosable: true,
     })
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <Box minH="100vh" bg={bg}>
       <Header />
       
-      <main className="container py-6 md:py-8 px-4 md:px-8">
-        <div className="space-y-8">
+      <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
+        <VStack spacing={8} align="stretch">
           {/* Header Section */}
-          <div className="bg-card rounded-xl p-6 md:p-8 border shadow-sm animate-fade-in">
-            <div className="flex items-center justify-between">
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary rounded-lg">
-                    <SettingsIcon className="h-6 w-6 text-primary-foreground" />
-                  </div>
-                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-                    Settings
-                  </h1>
-                </div>
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                  Customize your Swift Books experience and manage your business preferences
-                </p>
-              </div>
-              
-              <div className="hidden md:flex gap-2">
-                <Button 
-                  variant="outline" 
-                  onClick={handleExportData}
-                  className="flex items-center gap-2"
-                >
-                  <Download className="h-4 w-4" />
-                  Export Data
-                </Button>
-                <Button 
-                  onClick={handleSave} 
-                  disabled={loading}
-                  className="flex items-center gap-2"
-                >
-                  <Save className="h-4 w-4" />
-                  {loading ? "Saving..." : "Save Changes"}
-                </Button>
-              </div>
-            </div>
-          </div>
+          <Card>
+            <CardBody>
+              <HStack justify="space-between" align="start" flexWrap="wrap" spacing={4}>
+                <VStack align="start" spacing={2}>
+                  <HStack spacing={3}>
+                    <Box p={2} bg="primary.500" rounded="lg">
+                      <SettingsIcon size={24} color="white" />
+                    </Box>
+                    <Heading size={{ base: "xl", md: "2xl" }}>
+                      Settings
+                    </Heading>
+                  </HStack>
+                  <Text fontSize={{ base: "md", md: "lg" }} color="gray.600" maxW="2xl">
+                    Customize your Swift Books experience and manage your business preferences
+                  </Text>
+                </VStack>
+                
+                <HStack spacing={2} display={{ base: "none", md: "flex" }}>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleExportData}
+                    size="sm"
+                    leftIcon={<Download size={16} />}
+                  >
+                    Export Data
+                  </Button>
+                  <Button 
+                    onClick={handleSave} 
+                    isLoading={loading}
+                    loadingText="Saving..."
+                    colorScheme="primary"
+                    size="sm"
+                    leftIcon={<Save size={16} />}
+                  >
+                    Save Changes
+                  </Button>
+                </HStack>
+              </HStack>
+            </CardBody>
+          </Card>
 
           {/* Settings Content */}
-          <Tabs defaultValue="profile" className="space-y-4">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
-              <TabsTrigger value="profile" className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Profile</span>
-              </TabsTrigger>
-              <TabsTrigger value="business" className="flex items-center gap-2">
-                <Building className="h-4 w-4" />
-                <span className="hidden sm:inline">Business</span>
-              </TabsTrigger>
-              <TabsTrigger value="notifications" className="flex items-center gap-2">
-                <Bell className="h-4 w-4" />
-                <span className="hidden sm:inline">Notifications</span>
-              </TabsTrigger>
-              <TabsTrigger value="security" className="flex items-center gap-2">
-                <Shield className="h-4 w-4" />
-                <span className="hidden sm:inline">Security</span>
-              </TabsTrigger>
-              <TabsTrigger value="system" className="flex items-center gap-2">
-                <Database className="h-4 w-4" />
-                <span className="hidden sm:inline">System</span>
-              </TabsTrigger>
-            </TabsList>
+          <Tabs>
+            <TabList overflowX="auto" overflowY="hidden">
+              <Tab>
+                <HStack spacing={2}>
+                  <User size={16} />
+                  <Text display={{ base: "none", sm: "inline" }}>Profile</Text>
+                </HStack>
+              </Tab>
+              <Tab>
+                <HStack spacing={2}>
+                  <Building size={16} />
+                  <Text display={{ base: "none", sm: "inline" }}>Business</Text>
+                </HStack>
+              </Tab>
+              <Tab>
+                <HStack spacing={2}>
+                  <Bell size={16} />
+                  <Text display={{ base: "none", sm: "inline" }}>Notifications</Text>
+                </HStack>
+              </Tab>
+              <Tab>
+                <HStack spacing={2}>
+                  <Shield size={16} />
+                  <Text display={{ base: "none", sm: "inline" }}>Security</Text>
+                </HStack>
+              </Tab>
+              <Tab>
+                <HStack spacing={2}>
+                  <Database size={16} />
+                  <Text display={{ base: "none", sm: "inline" }}>System</Text>
+                </HStack>
+              </Tab>
+            </TabList>
 
-            {/* Profile Settings */}
-            <TabsContent value="profile" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Profile Information</CardTitle>
-                  <CardDescription>
-                    Update your business and contact information
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="businessName">Business Name</Label>
-                      <Input
-                        id="businessName"
-                        value={settings.businessName}
-                        onChange={(e) => setSettings({...settings, businessName: e.target.value})}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="ownerName">Owner Name</Label>
-                      <Input
-                        id="ownerName"
-                        value={settings.ownerName}
-                        onChange={(e) => setSettings({...settings, ownerName: e.target.value})}
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={settings.email}
-                        onChange={(e) => setSettings({...settings, email: e.target.value})}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <Input
-                        id="phone"
-                        value={settings.phone}
-                        onChange={(e) => setSettings({...settings, phone: e.target.value})}
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="address">Business Address</Label>
-                    <Input
-                      id="address"
-                      value={settings.address}
-                      onChange={(e) => setSettings({...settings, address: e.target.value})}
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+            <TabPanels>
 
-            {/* Business Settings */}
-            <TabsContent value="business" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Business Configuration</CardTitle>
-                  <CardDescription>
-                    Configure your business preferences and accounting settings
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="fiscalYear">Fiscal Year Start</Label>
-                      <Select value={settings.fiscalYearStart} onValueChange={(value) => setSettings({...settings, fiscalYearStart: value})}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="01-01">January 1st</SelectItem>
-                          <SelectItem value="04-01">April 1st</SelectItem>
-                          <SelectItem value="07-01">July 1st</SelectItem>
-                          <SelectItem value="10-01">October 1st</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="currency">Default Currency</Label>
-                      <Select value={settings.defaultCurrency} onValueChange={(value) => setSettings({...settings, defaultCurrency: value})}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="CAD">CAD - Canadian Dollar</SelectItem>
-                          <SelectItem value="USD">USD - US Dollar</SelectItem>
-                          <SelectItem value="EUR">EUR - Euro</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="timezone">Time Zone</Label>
-                      <Select value={settings.timeZone} onValueChange={(value) => setSettings({...settings, timeZone: value})}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="America/Vancouver">Pacific Time (Vancouver)</SelectItem>
-                          <SelectItem value="America/Edmonton">Mountain Time (Calgary)</SelectItem>
-                          <SelectItem value="America/Winnipeg">Central Time (Winnipeg)</SelectItem>
-                          <SelectItem value="America/Toronto">Eastern Time (Toronto)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="businessNumber">Business Number</Label>
-                      <Input
-                        id="businessNumber"
-                        value={settings.businessNumber}
-                        onChange={(e) => setSettings({...settings, businessNumber: e.target.value})}
-                        placeholder="123456789RT0001"
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Notification Settings */}
-            <TabsContent value="notifications" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Notification Preferences</CardTitle>
-                  <CardDescription>
-                    Configure how and when you receive notifications
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Email Notifications</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Receive important updates via email
-                        </p>
-                      </div>
-                      <Switch
-                        checked={settings.emailNotifications}
-                        onCheckedChange={(checked) => setSettings({...settings, emailNotifications: checked})}
-                      />
-                    </div>
-                    
-                    <Separator />
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Invoice Reminders</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Automatic reminders for overdue invoices
-                        </p>
-                      </div>
-                      <Switch
-                        checked={settings.invoiceReminders}
-                        onCheckedChange={(checked) => setSettings({...settings, invoiceReminders: checked})}
-                      />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Expense Alerts</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Notifications for unusual spending patterns
-                        </p>
-                      </div>
-                      <Switch
-                        checked={settings.expenseAlerts}
-                        onCheckedChange={(checked) => setSettings({...settings, expenseAlerts: checked})}
-                      />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Report Scheduling</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Weekly and monthly report delivery
-                        </p>
-                      </div>
-                      <Switch
-                        checked={settings.reportScheduling}
-                        onCheckedChange={(checked) => setSettings({...settings, reportScheduling: checked})}
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Security Settings */}
-            <TabsContent value="security" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Security & Privacy</CardTitle>
-                  <CardDescription>
-                    Manage your account security and data privacy settings
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Two-Factor Authentication</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Add an extra layer of security to your account
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {settings.twoFactorAuth && (
-                          <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
-                            Enabled
-                          </Badge>
-                        )}
-                        <Switch
-                          checked={settings.twoFactorAuth}
-                          onCheckedChange={(checked) => setSettings({...settings, twoFactorAuth: checked})}
-                        />
-                      </div>
-                    </div>
-                    
-                    <Separator />
-                    
-                    <div className="space-y-2">
-                      <Label>Data Retention Policy</Label>
-                      <Select value={settings.dataRetention} onValueChange={(value) => setSettings({...settings, dataRetention: value})}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1year">1 Year</SelectItem>
-                          <SelectItem value="3years">3 Years</SelectItem>
-                          <SelectItem value="7years">7 Years (CRA Recommended)</SelectItem>
-                          <SelectItem value="indefinite">Indefinite</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <p className="text-xs text-muted-foreground">
-                        Canada Revenue Agency recommends keeping records for 7 years
-                      </p>
-                    </div>
-                    
-                    <Separator />
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Privacy Mode</Label>
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm text-muted-foreground">Hide sensitive financial data</p>
-                          <PrivacyToggle />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <Separator />
-                  
-                  <div className="space-y-4">
-                    <h4 className="font-medium">Data Management</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <Button variant="outline" onClick={handleExportData} className="flex items-center gap-2">
-                        <Download className="h-4 w-4" />
-                        Export Data
-                      </Button>
-                      <Button variant="outline" onClick={handleImportData} className="flex items-center gap-2">
-                        <Upload className="h-4 w-4" />
-                        Import Data
-                      </Button>
-                      <Button variant="destructive" className="flex items-center gap-2">
-                        <Trash2 className="h-4 w-4" />
-                        Delete Account
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* System Settings */}
-            <TabsContent value="system" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>System Preferences</CardTitle>
-                  <CardDescription>
-                    Configure application behavior and appearance
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Automatic Backups</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Automatically backup your data daily
-                        </p>
-                      </div>
-                      <Switch
-                        checked={settings.autoBackup}
-                        onCheckedChange={(checked) => setSettings({...settings, autoBackup: checked})}
-                      />
-                    </div>
-                    
-                    <Separator />
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Theme</Label>
-                        <div className="flex items-center gap-2">
-                          <ThemeToggle />
-                          <span className="text-sm text-muted-foreground">System default</span>
-                        </div>
-                      </div>
+              {/* Profile Settings */}
+              <TabPanel>
+                <Card>
+                  <CardHeader>
+                    <VStack align="start" spacing={1}>
+                      <Heading size="md">Profile Information</Heading>
+                      <Text fontSize="sm" color="gray.600">
+                        Update your business and contact information
+                      </Text>
+                    </VStack>
+                  </CardHeader>
+                  <CardBody>
+                    <VStack spacing={6} align="stretch">
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                        <FormControl>
+                          <FormLabel>Business Name</FormLabel>
+                          <Input
+                            value={settings.businessName}
+                            onChange={(e) => setSettings({...settings, businessName: e.target.value})}
+                          />
+                        </FormControl>
+                        <FormControl>
+                          <FormLabel>Owner Name</FormLabel>
+                          <Input
+                            value={settings.ownerName}
+                            onChange={(e) => setSettings({...settings, ownerName: e.target.value})}
+                          />
+                        </FormControl>
+                      </SimpleGrid>
                       
-                      <div className="space-y-2">
-                        <Label>Language</Label>
-                        <Select value={settings.language} onValueChange={(value) => setSettings({...settings, language: value})}>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="en-CA">English (Canada)</SelectItem>
-                            <SelectItem value="fr-CA">Français (Canada)</SelectItem>
-                            <SelectItem value="en-US">English (US)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label>Date Format</Label>
-                      <Select value={settings.dateFormat} onValueChange={(value) => setSettings({...settings, dateFormat: value})}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="YYYY-MM-DD">YYYY-MM-DD (2024-01-31)</SelectItem>
-                          <SelectItem value="DD/MM/YYYY">DD/MM/YYYY (31/01/2024)</SelectItem>
-                          <SelectItem value="MM/DD/YYYY">MM/DD/YYYY (01/31/2024)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                        <FormControl>
+                          <FormLabel>Email Address</FormLabel>
+                          <Input
+                            type="email"
+                            value={settings.email}
+                            onChange={(e) => setSettings({...settings, email: e.target.value})}
+                          />
+                        </FormControl>
+                        <FormControl>
+                          <FormLabel>Phone Number</FormLabel>
+                          <Input
+                            value={settings.phone}
+                            onChange={(e) => setSettings({...settings, phone: e.target.value})}
+                          />
+                        </FormControl>
+                      </SimpleGrid>
+                      
+                      <FormControl>
+                        <FormLabel>Business Address</FormLabel>
+                        <Input
+                          value={settings.address}
+                          onChange={(e) => setSettings({...settings, address: e.target.value})}
+                        />
+                      </FormControl>
+                    </VStack>
+                  </CardBody>
+                </Card>
+              </TabPanel>
+
+              {/* Business Settings */}
+              <TabPanel>
+                <Card>
+                  <CardHeader>
+                    <VStack align="start" spacing={1}>
+                      <Heading size="md">Business Configuration</Heading>
+                      <Text fontSize="sm" color="gray.600">
+                        Configure your business preferences and accounting settings
+                      </Text>
+                    </VStack>
+                  </CardHeader>
+                  <CardBody>
+                    <VStack spacing={6} align="stretch">
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                        <FormControl>
+                          <FormLabel>Fiscal Year Start</FormLabel>
+                          <Select 
+                            value={settings.fiscalYearStart} 
+                            onChange={(e) => setSettings({...settings, fiscalYearStart: e.target.value})}
+                          >
+                            <option value="01-01">January 1st</option>
+                            <option value="04-01">April 1st</option>
+                            <option value="07-01">July 1st</option>
+                            <option value="10-01">October 1st</option>
+                          </Select>
+                        </FormControl>
+                        
+                        <FormControl>
+                          <FormLabel>Default Currency</FormLabel>
+                          <Select 
+                            value={settings.defaultCurrency} 
+                            onChange={(e) => setSettings({...settings, defaultCurrency: e.target.value})}
+                          >
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="EUR">EUR - Euro</option>
+                          </Select>
+                        </FormControl>
+                      </SimpleGrid>
+                      
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                        <FormControl>
+                          <FormLabel>Time Zone</FormLabel>
+                          <Select 
+                            value={settings.timeZone} 
+                            onChange={(e) => setSettings({...settings, timeZone: e.target.value})}
+                          >
+                            <option value="America/Vancouver">Pacific Time (Vancouver)</option>
+                            <option value="America/Edmonton">Mountain Time (Calgary)</option>
+                            <option value="America/Winnipeg">Central Time (Winnipeg)</option>
+                            <option value="America/Toronto">Eastern Time (Toronto)</option>
+                          </Select>
+                        </FormControl>
+                        
+                        <FormControl>
+                          <FormLabel>Business Number</FormLabel>
+                          <Input
+                            value={settings.businessNumber}
+                            onChange={(e) => setSettings({...settings, businessNumber: e.target.value})}
+                            placeholder="123456789RT0001"
+                          />
+                        </FormControl>
+                      </SimpleGrid>
+                    </VStack>
+                  </CardBody>
+                </Card>
+              </TabPanel>
+
+              {/* Notification Settings */}
+              <TabPanel>
+                <Card>
+                  <CardHeader>
+                    <VStack align="start" spacing={1}>
+                      <Heading size="md">Notification Preferences</Heading>
+                      <Text fontSize="sm" color="gray.600">
+                        Configure how and when you receive notifications
+                      </Text>
+                    </VStack>
+                  </CardHeader>
+                  <CardBody>
+                    <VStack spacing={4} align="stretch">
+                      <HStack justify="space-between">
+                        <VStack align="start" spacing={0} flex={1}>
+                          <Text fontWeight="medium">Email Notifications</Text>
+                          <Text fontSize="sm" color="gray.600">
+                            Receive important updates via email
+                          </Text>
+                        </VStack>
+                        <Switch
+                          isChecked={settings.emailNotifications}
+                          onChange={(e) => setSettings({...settings, emailNotifications: e.target.checked})}
+                        />
+                      </HStack>
+                      
+                      <Divider />
+                      
+                      <HStack justify="space-between">
+                        <VStack align="start" spacing={0} flex={1}>
+                          <Text fontWeight="medium">Invoice Reminders</Text>
+                          <Text fontSize="sm" color="gray.600">
+                            Automatic reminders for overdue invoices
+                          </Text>
+                        </VStack>
+                        <Switch
+                          isChecked={settings.invoiceReminders}
+                          onChange={(e) => setSettings({...settings, invoiceReminders: e.target.checked})}
+                        />
+                      </HStack>
+                      
+                      <HStack justify="space-between">
+                        <VStack align="start" spacing={0} flex={1}>
+                          <Text fontWeight="medium">Expense Alerts</Text>
+                          <Text fontSize="sm" color="gray.600">
+                            Notifications for unusual spending patterns
+                          </Text>
+                        </VStack>
+                        <Switch
+                          isChecked={settings.expenseAlerts}
+                          onChange={(e) => setSettings({...settings, expenseAlerts: e.target.checked})}
+                        />
+                      </HStack>
+                      
+                      <HStack justify="space-between">
+                        <VStack align="start" spacing={0} flex={1}>
+                          <Text fontWeight="medium">Report Scheduling</Text>
+                          <Text fontSize="sm" color="gray.600">
+                            Weekly and monthly report delivery
+                          </Text>
+                        </VStack>
+                        <Switch
+                          isChecked={settings.reportScheduling}
+                          onChange={(e) => setSettings({...settings, reportScheduling: e.target.checked})}
+                        />
+                      </HStack>
+                    </VStack>
+                  </CardBody>
+                </Card>
+              </TabPanel>
+
+              {/* Security Settings */}
+              <TabPanel>
+                <Card>
+                  <CardHeader>
+                    <VStack align="start" spacing={1}>
+                      <Heading size="md">Security & Privacy</Heading>
+                      <Text fontSize="sm" color="gray.600">
+                        Manage your account security and data privacy settings
+                      </Text>
+                    </VStack>
+                  </CardHeader>
+                  <CardBody>
+                    <VStack spacing={6} align="stretch">
+                      <VStack spacing={4} align="stretch">
+                        <HStack justify="space-between">
+                          <VStack align="start" spacing={0} flex={1}>
+                            <Text fontWeight="medium">Two-Factor Authentication</Text>
+                            <Text fontSize="sm" color="gray.600">
+                              Add an extra layer of security to your account
+                            </Text>
+                          </VStack>
+                          <HStack spacing={2}>
+                            {settings.twoFactorAuth && (
+                              <Badge colorScheme="green" variant="subtle">
+                                Enabled
+                              </Badge>
+                            )}
+                            <Switch
+                              isChecked={settings.twoFactorAuth}
+                              onChange={(e) => setSettings({...settings, twoFactorAuth: e.target.checked})}
+                            />
+                          </HStack>
+                        </HStack>
+                        
+                        <Divider />
+                        
+                        <FormControl>
+                          <FormLabel>Data Retention Policy</FormLabel>
+                          <Select 
+                            value={settings.dataRetention} 
+                            onChange={(e) => setSettings({...settings, dataRetention: e.target.value})}
+                          >
+                            <option value="1year">1 Year</option>
+                            <option value="3years">3 Years</option>
+                            <option value="7years">7 Years (CRA Recommended)</option>
+                            <option value="indefinite">Indefinite</option>
+                          </Select>
+                          <Text fontSize="xs" color="gray.500" mt={1}>
+                            Canada Revenue Agency recommends keeping records for 7 years
+                          </Text>
+                        </FormControl>
+                        
+                        <Divider />
+                        
+                        <HStack justify="space-between">
+                          <VStack align="start" spacing={0} flex={1}>
+                            <Text fontWeight="medium">Privacy Mode</Text>
+                            <HStack spacing={2}>
+                              <Text fontSize="sm" color="gray.600">Hide sensitive financial data</Text>
+                              <PrivacyToggle />
+                            </HStack>
+                          </VStack>
+                        </HStack>
+                      </VStack>
+                      
+                      <Divider />
+                      
+                      <VStack spacing={4} align="stretch">
+                        <Heading size="sm">Data Management</Heading>
+                        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+                          <Button 
+                            variant="outline" 
+                            onClick={handleExportData} 
+                            size="sm"
+                            leftIcon={<Download size={16} />}
+                          >
+                            Export Data
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            onClick={handleImportData} 
+                            size="sm"
+                            leftIcon={<Upload size={16} />}
+                          >
+                            Import Data
+                          </Button>
+                          <Button 
+                            colorScheme="red" 
+                            variant="outline" 
+                            size="sm"
+                            leftIcon={<Trash2 size={16} />}
+                          >
+                            Delete Account
+                          </Button>
+                        </SimpleGrid>
+                      </VStack>
+                    </VStack>
+                  </CardBody>
+                </Card>
+              </TabPanel>
+
+              {/* System Settings */}
+              <TabPanel>
+                <Card>
+                  <CardHeader>
+                    <VStack align="start" spacing={1}>
+                      <Heading size="md">System Preferences</Heading>
+                      <Text fontSize="sm" color="gray.600">
+                        Configure application behavior and appearance
+                      </Text>
+                    </VStack>
+                  </CardHeader>
+                  <CardBody>
+                    <VStack spacing={6} align="stretch">
+                      <VStack spacing={4} align="stretch">
+                        <HStack justify="space-between">
+                          <VStack align="start" spacing={0} flex={1}>
+                            <Text fontWeight="medium">Automatic Backups</Text>
+                            <Text fontSize="sm" color="gray.600">
+                              Automatically backup your data daily
+                            </Text>
+                          </VStack>
+                          <Switch
+                            isChecked={settings.autoBackup}
+                            onChange={(e) => setSettings({...settings, autoBackup: e.target.checked})}
+                          />
+                        </HStack>
+                        
+                        <Divider />
+                        
+                        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                          <FormControl>
+                            <FormLabel>Theme</FormLabel>
+                            <HStack spacing={2}>
+                              <ThemeToggle />
+                              <Text fontSize="sm" color="gray.500">System default</Text>
+                            </HStack>
+                          </FormControl>
+                          
+                          <FormControl>
+                            <FormLabel>Language</FormLabel>
+                            <Select 
+                              value={settings.language} 
+                              onChange={(e) => setSettings({...settings, language: e.target.value})}
+                            >
+                              <option value="en-CA">English (Canada)</option>
+                              <option value="fr-CA">Français (Canada)</option>
+                              <option value="en-US">English (US)</option>
+                            </Select>
+                          </FormControl>
+                        </SimpleGrid>
+                        
+                        <FormControl>
+                          <FormLabel>Date Format</FormLabel>
+                          <Select 
+                            value={settings.dateFormat} 
+                            onChange={(e) => setSettings({...settings, dateFormat: e.target.value})}
+                          >
+                            <option value="YYYY-MM-DD">YYYY-MM-DD (2024-01-31)</option>
+                            <option value="DD/MM/YYYY">DD/MM/YYYY (31/01/2024)</option>
+                            <option value="MM/DD/YYYY">MM/DD/YYYY (01/31/2024)</option>
+                          </Select>
+                        </FormControl>
+                      </VStack>
+                    </VStack>
+                  </CardBody>
+                </Card>
+              </TabPanel>
+            </TabPanels>
           </Tabs>
 
           {/* Mobile Save Button */}
-          <div className="md:hidden">
+          <Box display={{ base: "block", md: "none" }}>
             <Button 
               onClick={handleSave} 
-              disabled={loading}
-              className="w-full flex items-center gap-2"
+              isLoading={loading}
+              loadingText="Saving..."
+              colorScheme="primary"
+              w="full"
+              size="lg"
+              leftIcon={<Save size={16} />}
             >
-              <Save className="h-4 w-4" />
-              {loading ? "Saving..." : "Save Changes"}
+              Save Changes
             </Button>
-          </div>
-        </div>
-      </main>
-    </div>
+          </Box>
+        </VStack>
+      </Container>
+    </Box>
   )
 }
 

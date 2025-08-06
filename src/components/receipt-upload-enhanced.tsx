@@ -321,9 +321,33 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
         throw new Error('You must be logged in to create expenses')
       }
 
-      // Get the selected category and tax code IDs
-      const selectedCategory = EXPENSE_CATEGORIES.find(cat => cat.name === reviewData.category)
-      const selectedTaxCode = TAX_CODES.find(tax => tax.name === reviewData.tax_code)
+      // Get the selected category ID from database
+      let categoryId = null
+      if (reviewData.category && reviewData.category !== '') {
+        const { data: categories } = await supabase
+          .from('expense_categories')
+          .select('id')
+          .eq('name', reviewData.category)
+          .single()
+        
+        if (categories) {
+          categoryId = categories.id
+        }
+      }
+
+      // Get the selected tax code ID from database  
+      let taxCodeId = null
+      if (reviewData.tax_code && reviewData.tax_code !== '') {
+        const { data: taxCodes } = await supabase
+          .from('tax_codes')
+          .select('id')
+          .eq('name', reviewData.tax_code)
+          .single()
+        
+        if (taxCodes) {
+          taxCodeId = taxCodes.id
+        }
+      }
 
       // Create expense record
       const { data: expenseData, error: expenseError } = await supabase
@@ -335,7 +359,9 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
           vendor: reviewData.vendor,
           expense_date: reviewData.expense_date,
           amount: parseFloat(reviewData.amount),
-          tax_amount: parseFloat(reviewData.tax_amount),
+          tax_amount: parseFloat(reviewData.tax_amount || '0'),
+          category_id: categoryId,
+          tax_code_id: taxCodeId,
           notes: reviewData.notes,
           is_billable: reviewData.is_billable,
           is_personal: reviewData.is_personal,

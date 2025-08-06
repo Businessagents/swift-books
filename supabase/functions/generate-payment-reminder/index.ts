@@ -100,10 +100,17 @@ The email should be professional, clear about the payment expectation, and appro
       generatedMessage = generateTemplateMessage(tone, clientName, invoiceNumber, amount, dueDate, daysOverdue);
     }
 
+    // Get current user for reminder record
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
     // Log the reminder generation
     await supabase
       .from('reminders')
       .insert({
+        user_id: user.id,
         invoice_id: invoiceId,
         subject: `Payment Reminder - Invoice ${invoiceNumber}`,
         message: generatedMessage,

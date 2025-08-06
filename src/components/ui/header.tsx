@@ -5,18 +5,18 @@ import {
   VStack,
   Text, 
   IconButton, 
-  useColorModeValue,
   useDisclosure,
   Button,
   Badge
 } from "@chakra-ui/react"
+import { useColorMode } from "@chakra-ui/color-mode"
 import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-} from "@chakra-ui/modal"
+} from "@chakra-ui/react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
 import { Bell, Settings, LayoutDashboard, Menu, X, LogOut, CreditCard, BarChart3 } from "lucide-react"
@@ -29,10 +29,11 @@ export function Header() {
   const { signOut } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
+  const { colorMode } = useColorMode()
 
-  const bg = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.200', 'gray.600')
-  const logoColor = useColorModeValue('primary.500', 'primary.400')
+  const bg = colorMode === 'light' ? 'white' : 'gray.800'
+  const borderColor = colorMode === 'light' ? 'gray.200' : 'gray.600'
+  const logoColor = colorMode === 'light' ? 'primary.500' : 'primary.400'
 
   // Keyboard shortcuts for navigation (already includes shortcuts)
   useEffect(() => {
@@ -83,14 +84,16 @@ export function Header() {
       to={to}
       variant={isActive ? 'solid' : 'ghost'}
       colorScheme={isActive ? 'primary' : 'gray'}
-      leftIcon={<Icon size={18} />}
       size="sm"
       fontWeight="semibold"
       transition="all 0.2s"
       _hover={{ transform: 'translateY(-1px)', shadow: 'md' }}
       {...props}
     >
-      {children}
+      <HStack spacing={2}>
+        <Icon size={18} />
+        <Text>{children}</Text>
+      </HStack>
     </Button>
   )
 
@@ -240,44 +243,52 @@ export function Header() {
                 to="/"
                 variant={isActiveRoute('/') ? 'solid' : 'ghost'}
                 colorScheme="primary"
-                leftIcon={<LayoutDashboard size={18} />}
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                Dashboard
+                <HStack spacing={2}>
+                  <LayoutDashboard size={18} />
+                  <Text>Dashboard</Text>
+                </HStack>
               </Button>
               <Button
                 as={Link}
                 to="/transactions"
                 variant={isActiveRoute('/transactions') ? 'solid' : 'ghost'}
                 colorScheme="primary"
-                leftIcon={<CreditCard size={18} />}
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                Transactions
+                <HStack spacing={2}>
+                  <CreditCard size={18} />
+                  <Text>Transactions</Text>
+                </HStack>
               </Button>
               <Button
                 as={Link}
                 to="/reports"
                 variant={isActiveRoute('/reports') ? 'solid' : 'ghost'}
                 colorScheme="primary"
-                leftIcon={<BarChart3 size={18} />}
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                Reports
+                <HStack spacing={2}>
+                  <BarChart3 size={18} />
+                  <Text>Reports</Text>
+                </HStack>
               </Button>
               <Button
                 as={Link}
                 to="/settings"
                 variant={isActiveRoute('/settings') ? 'solid' : 'ghost'}
                 colorScheme="primary"
-                leftIcon={<Settings size={18} />}
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                Settings
+                <HStack spacing={2}>
+                  <Settings size={18} />
+                  <Text>Settings</Text>
+                </HStack>
               </Button>
             </VStack>
           </DrawerBody>

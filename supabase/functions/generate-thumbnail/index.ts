@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!; // Use service role for storage operations
+const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!; // Use service role for storage operations
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -18,7 +18,7 @@ serve(async (req) => {
   try {
     console.log('Generating thumbnail request');
     
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { filePath, maxWidth = 400, maxHeight = 300, quality = 0.8 } = await req.json();
     
     if (!filePath) {
@@ -50,7 +50,7 @@ serve(async (req) => {
     const { error: uploadError } = await supabase.storage
       .from('receipts')
       .upload(thumbnailPath, thumbnailBuffer, {
-        contentType: originalData.type,
+        contentType: 'image/jpeg', // Default to JPEG for thumbnails
         upsert: true // Allow overwriting existing thumbnails
       });
 
