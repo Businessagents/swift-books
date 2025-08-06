@@ -9,9 +9,6 @@ export function ThemeToggle() {
   return (
     <IconButton
       aria-label="Toggle theme"
-    >
-      {colorMode === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-    </IconButton>
       onClick={toggleColorMode}
       variant="ghost"
       size="sm"
@@ -20,6 +17,8 @@ export function ThemeToggle() {
         transform: 'scale(1.1)',
         bg: colorMode === 'light' ? 'gray.100' : 'gray.700'
       }}
-    />
+    >
+      {colorMode === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+    </IconButton>
   )
 }
