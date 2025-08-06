@@ -3,16 +3,12 @@ import {
   Box,
   Grid,
   GridItem,
-  Card,
-  CardHeader,
-  CardBody,
   Text,
   Button,
   Badge,
   VStack,
   HStack,
   SimpleGrid,
-  useColorModeValue,
   Icon,
   Center,
   Flex,
@@ -29,6 +25,7 @@ import {
   ModalFooter,
 } from "@chakra-ui/modal"
 import { Checkbox } from "@chakra-ui/checkbox"
+import { Card } from "@/components/ui/card"
 import { 
   DollarSign, 
   TrendingUp, 
@@ -55,61 +52,55 @@ export interface Widget {
 
 // Individual Widget Components
 export function RevenueWidget() {
-  const cardBg = useColorModeValue('white', 'gray.700')
-  
   return (
-    <Card bg={cardBg} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <CardHeader>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Monthly Revenue</Text>
           <Icon as={DollarSign} boxSize={4} color="green.500" />
         </HStack>
-      </CardHeader>
-      <CardBody pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold" color="green.500">$287,650</Text>
-        <HStack spacing={2} mt={2}>
+        <HStack gap={2} mt={2}>
           <Icon as={TrendingUp} boxSize={3} color="green.500" />
           <Text fontSize="xs" color="gray.500">+18% from last month</Text>
         </HStack>
-      </CardBody>
+      </Box>
     </Card>
   )
 }
 
 export function ExpensesWidget() {
-  const cardBg = useColorModeValue('white', 'gray.700')
-  
   return (
-    <Card bg={cardBg} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <CardHeader>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Monthly Expenses</Text>
           <Icon as={CreditCard} boxSize={4} color="red.500" />
         </HStack>
-      </CardHeader>
-      <CardBody pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold">$48,230</Text>
-        <HStack spacing={2} mt={2}>
+        <HStack gap={2} mt={2}>
           <Icon as={TrendingDown} boxSize={3} color="red.500" />
           <Text fontSize="xs" color="gray.500">-5% from last month</Text>
         </HStack>
-      </CardBody>
+      </Box>
     </Card>
   )
 }
 
 export function InvoicesWidget() {
-  const cardBg = useColorModeValue('white', 'gray.700')
-  
   return (
-    <Card bg={cardBg} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <CardHeader>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Pending Invoices</Text>
           <Icon as={FileText} boxSize={4} color="orange.500" />
         </HStack>
-      </CardHeader>
-      <CardBody pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold">12</Text>
         <Text fontSize="xs" color="gray.500" mt={1}>
           $43,280 outstanding
@@ -117,23 +108,21 @@ export function InvoicesWidget() {
         <Badge colorScheme="orange" variant="outline" mt={2} size="sm">
           3 overdue
         </Badge>
-      </CardBody>
+      </Box>
     </Card>
   )
 }
 
 export function ReceiptsWidget() {
-  const cardBg = useColorModeValue('white', 'gray.700')
-  
   return (
-    <Card bg={cardBg} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <CardHeader>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Recent Receipts</Text>
           <Icon as={Receipt} boxSize={4} color="primary.500" />
         </HStack>
-      </CardHeader>
-      <CardBody pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold">23</Text>
         <Text fontSize="xs" color="gray.500" mt={1}>
           8 pending processing
@@ -141,23 +130,20 @@ export function ReceiptsWidget() {
         <Badge colorScheme="blue" variant="solid" mt={2} size="sm">
           AI Processing
         </Badge>
-      </CardBody>
+      </Box>
     </Card>
   )
 }
 
 export function CashFlowWidget() {
-  const cardBg = useColorModeValue('white', 'gray.700')
-  const chartBg = useColorModeValue('gray.50', 'gray.600')
-  
   return (
-    <Card bg={cardBg} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <CardHeader>
+    <Card variant="elevated">
+      <Box p={4}>
         <Text fontSize="sm" fontWeight="medium" color="gray.500">Cash Flow Trend</Text>
-      </CardHeader>
-      <CardBody pt={0}>
-        <VStack spacing={4} align="stretch">
-          <SimpleGrid columns={3} spacing={4}>
+      </Box>
+      <Box px={4} pb={4}>
+        <VStack gap={4} align="stretch">
+          <SimpleGrid columns={3} gap={4}>
             <Center flexDir="column">
               <Text fontSize="lg" fontWeight="bold" color="green.500">+$45K</Text>
               <Text fontSize="xs" color="gray.500">This Month</Text>
@@ -192,21 +178,19 @@ export function CashFlowWidget() {
             ))}
           </Box>
         </VStack>
-      </CardBody>
+      </Box>
     </Card>
   )
 }
 
 export function QuickActionsWidget() {
-  const cardBg = useColorModeValue('white', 'gray.700')
-  
   return (
-    <Card bg={cardBg} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <CardHeader>
+    <Card variant="elevated">
+      <Box p={4}>
         <Text fontSize="sm" fontWeight="medium" color="gray.500">Quick Actions</Text>
-      </CardHeader>
-      <CardBody pt={0}>
-        <SimpleGrid columns={2} spacing={3}>
+      </Box>
+      <Box px={4} pb={4}>
+        <SimpleGrid columns={2} gap={3}>
           <Button variant="outline" h="16" flexDir="column" gap={1}>
             <Icon as={Receipt} boxSize={5} />
             <Text fontSize="xs">Upload Receipt</Text>
@@ -224,7 +208,7 @@ export function QuickActionsWidget() {
             <Text fontSize="xs">View Reports</Text>
           </Button>
         </SimpleGrid>
-      </CardBody>
+      </Box>
     </Card>
   )
 }

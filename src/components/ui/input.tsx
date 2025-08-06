@@ -10,8 +10,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <ChakraInput
         ref={ref}
-        focusBorderColor="primary.500"
-        errorBorderColor="red.500"
+        borderColor="gray.300"
+        _focus={{ borderColor: "primary.500" }}
+        _invalid={{ borderColor: "red.500" }}
         {...props}
       />
     )

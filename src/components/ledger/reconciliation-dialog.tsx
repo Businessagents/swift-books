@@ -501,7 +501,7 @@ export function ReconciliationDialog({ isOpen, onClose, accountId }: Reconciliat
                                 <Badge variant={transaction.type === 'bank' ? 'default' : 'secondary'} className="text-xs">
                                   {transaction.type === 'bank' ? 'Bank' : 'Manual'}
                                 </Badge>
-                                {transaction.vendor && (
+                                {transaction.type === 'expense' && 'vendor' in transaction && transaction.vendor && (
                                   <span className="text-xs text-muted-foreground">
                                     {transaction.vendor}
                                   </span>

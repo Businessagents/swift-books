@@ -129,7 +129,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
       const fileName = `${user.id}/${Date.now()}.${fileExt}`
       
       // Create preview URL for immediate display
-      const previewUrl = thumbnailResult?.dataUrl || await thumbnailGenerator.createPreviewUrl(file)
+      const previewUrl = thumbnailResult?.dataUrl || URL.createObjectURL(file)
       
       setProgress(40)
 

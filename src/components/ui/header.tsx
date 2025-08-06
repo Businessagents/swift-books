@@ -108,7 +108,7 @@ export function Header() {
     >
       <Flex h="16" px={6} align="center" maxW="container.xl" mx="auto">
         {/* Logo */}
-        <HStack spacing={3} mr={8}>
+        <HStack gap={3} mr={8}>
           <Box
             w={10}
             h={10}
@@ -132,7 +132,7 @@ export function Header() {
               </Text>
             </Box>
           </Box>
-          <VStack align="start" spacing={0}>
+          <VStack align="start" gap={0}>
             <Text fontSize="xl" fontWeight="bold">
               Swift Books
             </Text>
@@ -143,7 +143,7 @@ export function Header() {
         </HStack>
 
         {/* Desktop Navigation */}
-        <HStack spacing={2} flex="1" display={{ base: 'none', md: 'flex' }}>
+        <HStack gap={2} flex="1" display={{ base: 'none', md: 'flex' }}>
           <NavLink
             to="/"
             icon={LayoutDashboard}
@@ -175,16 +175,17 @@ export function Header() {
         </HStack>
 
         {/* Right Side Controls */}
-        <HStack spacing={2} ml="auto">
+        <HStack gap={2} ml="auto">
           <ThemeToggle />
           <PrivacyToggle />
           <Box position="relative">
             <IconButton
               aria-label="Notifications"
-              icon={<Bell size={18} />}
               variant="ghost"
               size="sm"
-            />
+            >
+              <Bell size={18} />
+            </IconButton>
             <Badge
               position="absolute"
               top="-1"
@@ -198,12 +199,13 @@ export function Header() {
           </Box>
           <IconButton
             aria-label="Sign Out"
-            icon={<LogOut size={18} />}
             variant="ghost"
             size="sm"
             colorScheme="red"
             onClick={handleSignOut}
-          />
+          >
+            <LogOut size={18} />
+          </IconButton>
           <IconButton
             aria-label="Menu"
             icon={<Menu size={18} />}

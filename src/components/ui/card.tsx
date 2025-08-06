@@ -12,17 +12,24 @@ import {
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { variant?: 'elevated' | 'outline' }
->(({ variant = 'elevated', ...props }, ref) => (
-  <ChakraCard
+>(({ variant = 'elevated', children, ...props }, ref) => (
+  <Box
     ref={ref}
-    variant={variant}
+    bg="white"
+    _dark={{ bg: "gray.800" }}
+    shadow={variant === 'elevated' ? 'md' : 'none'}
+    borderWidth={variant === 'outline' ? 1 : 0}
+    borderColor="gray.200"
+    borderRadius="lg"
     transition="all 0.2s ease-in-out"
     _hover={{
       transform: 'translateY(-2px)',
       boxShadow: 'xl'
     }}
     {...props}
-  />
+  >
+    {children}
+  </Box>
 ))
 Card.displayName = "Card"
 

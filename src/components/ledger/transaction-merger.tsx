@@ -111,8 +111,7 @@ export function useTransactionMerger(filters?: {
           is_billable,
           category_id,
           category:expense_categories(name, code),
-          receipt:receipts(file_name),
-          bank_transaction_id
+          receipt:receipts(file_name)
         `)
         .eq('user_id', user.id)
 
@@ -148,7 +147,7 @@ export function useTransactionMerger(filters?: {
           issue_date,
           due_date,
           status,
-          payment_date
+          paid_at
         `)
         .eq('user_id', user.id)
 
@@ -195,7 +194,6 @@ export function useTransactionMerger(filters?: {
 
     // Add unlinked expenses
     expenses
-      .filter(expense => !expense.bank_transaction_id)
       .forEach(expense => {
         transactions.push({
           id: `expense-${expense.id}`,
