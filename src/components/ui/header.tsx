@@ -6,24 +6,19 @@ import {
   Text, 
   IconButton, 
   useColorModeValue,
-  useDisclosure,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerHeader,
-  DrawerBody,
   Button,
   Badge
 } from "@chakra-ui/react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Bell, Settings, LayoutDashboard, Menu, X, LogOut, CreditCard, BarChart3 } from "lucide-react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useAuth } from "@/hooks/use-auth"
 
 export function Header() {
-  const { isOpen: isMobileMenuOpen, onOpen, onClose } = useDisclosure()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { signOut } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
@@ -202,83 +197,71 @@ export function Header() {
             colorScheme="red"
             onClick={handleSignOut}
           />
-          <IconButton
-            aria-label="Menu"
-            icon={<Menu size={18} />}
-            variant="ghost"
-            size="sm"
-            display={{ base: 'flex', md: 'none' }}
-            onClick={onOpen}
-          />
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <IconButton
+                aria-label="Menu"
+                icon={<Menu size={18} />}
+                variant="ghost"
+                size="sm"
+                display={{ base: 'flex', md: 'none' }}
+              />
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Navigation</SheetTitle>
+              </SheetHeader>
+              <VStack spacing={3} align="stretch" mt={6}>
+                <Button
+                  as={Link}
+                  to="/"
+                  variant={isActiveRoute('/') ? 'solid' : 'ghost'}
+                  colorScheme="primary"
+                  leftIcon={<LayoutDashboard size={18} />}
+                  justifyContent="flex-start"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </Button>
+                <Button
+                  as={Link}
+                  to="/transactions"
+                  variant={isActiveRoute('/transactions') ? 'solid' : 'ghost'}
+                  colorScheme="primary"
+                  leftIcon={<CreditCard size={18} />}
+                  justifyContent="flex-start"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Transactions
+                </Button>
+                <Button
+                  as={Link}
+                  to="/reports"
+                  variant={isActiveRoute('/reports') ? 'solid' : 'ghost'}
+                  colorScheme="primary"
+                  leftIcon={<BarChart3 size={18} />}
+                  justifyContent="flex-start"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Reports
+                </Button>
+                <Button
+                  as={Link}
+                  to="/settings"
+                  variant={isActiveRoute('/settings') ? 'solid' : 'ghost'}
+                  colorScheme="primary"
+                  leftIcon={<Settings size={18} />}
+                  justifyContent="flex-start"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Settings
+                </Button>
+              </VStack>
+            </SheetContent>
+          </Sheet>
         </HStack>
       </Flex>
 
-      {/* Mobile Navigation Drawer */}
-      <Drawer isOpen={isMobileMenuOpen} placement="right" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">
-            <HStack justify="space-between" align="center">
-              <Text fontSize="lg" fontWeight="bold">Navigation</Text>
-              <IconButton
-                aria-label="Close menu"
-                icon={<X size={18} />}
-                variant="ghost"
-                size="sm"
-                onClick={onClose}
-              />
-            </HStack>
-          </DrawerHeader>
-          <DrawerBody pt={4}>
-            <VStack spacing={3} align="stretch">
-              <Button
-                as={Link}
-                to="/"
-                variant={isActiveRoute('/') ? 'solid' : 'ghost'}
-                colorScheme="primary"
-                leftIcon={<LayoutDashboard size={18} />}
-                justifyContent="flex-start"
-                onClick={onClose}
-              >
-                Dashboard
-              </Button>
-              <Button
-                as={Link}
-                to="/transactions"
-                variant={isActiveRoute('/transactions') ? 'solid' : 'ghost'}
-                colorScheme="primary"
-                leftIcon={<CreditCard size={18} />}
-                justifyContent="flex-start"
-                onClick={onClose}
-              >
-                Transactions
-              </Button>
-              <Button
-                as={Link}
-                to="/reports"
-                variant={isActiveRoute('/reports') ? 'solid' : 'ghost'}
-                colorScheme="primary"
-                leftIcon={<BarChart3 size={18} />}
-                justifyContent="flex-start"
-                onClick={onClose}
-              >
-                Reports
-              </Button>
-              <Button
-                as={Link}
-                to="/settings"
-                variant={isActiveRoute('/settings') ? 'solid' : 'ghost'}
-                colorScheme="primary"
-                leftIcon={<Settings size={18} />}
-                justifyContent="flex-start"
-                onClick={onClose}
-              >
-                Settings
-              </Button>
-            </VStack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
     </Box>
   )
 }
