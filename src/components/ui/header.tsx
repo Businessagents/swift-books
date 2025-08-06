@@ -11,11 +11,14 @@ import {
 } from "@chakra-ui/react"
 import { useColorMode } from "@chakra-ui/color-mode"
 import {
-  Drawer,
-  DrawerOverlay,
+  DrawerRoot,
+  DrawerBackdrop,
   DrawerContent,
   DrawerHeader,
   DrawerBody,
+  DrawerTrigger,
+  DrawerTitle,
+  DrawerCloseTrigger
 } from "@chakra-ui/react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
@@ -111,7 +114,7 @@ export function Header() {
     >
       <Flex h="16" px={6} align="center" maxW="container.xl" mx="auto">
         {/* Logo */}
-        <HStack gap={3} mr={8}>
+        <HStack spacing={3} mr={8}>
           <Box
             w={10}
             h={10}
@@ -135,7 +138,7 @@ export function Header() {
               </Text>
             </Box>
           </Box>
-          <VStack align="start" gap={0}>
+          <VStack align="start" spacing={0}>
             <Text fontSize="xl" fontWeight="bold">
               Swift Books
             </Text>
@@ -146,7 +149,7 @@ export function Header() {
         </HStack>
 
         {/* Desktop Navigation */}
-        <HStack gap={2} flex="1" display={{ base: 'none', md: 'flex' }}>
+        <HStack spacing={2} flex="1" display={{ base: 'none', md: 'flex' }}>
           <NavLink
             to="/"
             icon={LayoutDashboard}
@@ -178,7 +181,7 @@ export function Header() {
         </HStack>
 
         {/* Right Side Controls */}
-        <HStack gap={2} ml="auto">
+        <HStack spacing={2} ml="auto">
           <ThemeToggle />
           <PrivacyToggle />
           <Box position="relative">
@@ -221,19 +224,21 @@ export function Header() {
       </Flex>
 
       {/* Mobile Navigation Drawer */}
-      <Drawer isOpen={isMobileMenuOpen} placement="right" onClose={onClose}>
-        <DrawerOverlay />
+      <DrawerRoot open={isMobileMenuOpen} onOpenChange={(details) => details.open ? onOpen() : onClose()} placement="end">
+        <DrawerBackdrop />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">
             <HStack justify="space-between" align="center">
-              <Text fontSize="lg" fontWeight="bold">Navigation</Text>
-              <IconButton
-                aria-label="Close menu"
-                icon={<X size={18} />}
-                variant="ghost"
-                size="sm"
-                onClick={onClose}
-              />
+              <DrawerTitle fontSize="lg" fontWeight="bold">Navigation</DrawerTitle>
+              <DrawerCloseTrigger asChild>
+                <IconButton
+                  aria-label="Close menu"
+                  variant="ghost"
+                  size="sm"
+                >
+                  <X size={18} />
+                </IconButton>
+              </DrawerCloseTrigger>
             </HStack>
           </DrawerHeader>
           <DrawerBody pt={4}>
@@ -293,7 +298,7 @@ export function Header() {
             </VStack>
           </DrawerBody>
         </DrawerContent>
-      </Drawer>
+      </DrawerRoot>
     </Box>
   )
 }
