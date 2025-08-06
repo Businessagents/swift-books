@@ -414,19 +414,19 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
           {/* Features grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-muted-foreground">
             <div className="flex items-start space-x-2">
-              <Check className="h-3 w-3 text-green-600 mt-0.5 flex-shrink-0" />
+              <Check className="h-3 w-3 text-success mt-0.5 flex-shrink-0" />
               <span>Automatic vendor detection</span>
             </div>
             <div className="flex items-start space-x-2">
-              <Check className="h-3 w-3 text-green-600 mt-0.5 flex-shrink-0" />
+              <Check className="h-3 w-3 text-success mt-0.5 flex-shrink-0" />
               <span>CRA-compliant categorization</span>
             </div>
             <div className="flex items-start space-x-2">
-              <Check className="h-3 w-3 text-green-600 mt-0.5 flex-shrink-0" />
+              <Check className="h-3 w-3 text-success mt-0.5 flex-shrink-0" />
               <span>Tax amount extraction</span>
             </div>
             <div className="flex items-start space-x-2">
-              <Check className="h-3 w-3 text-green-600 mt-0.5 flex-shrink-0" />
+              <Check className="h-3 w-3 text-success mt-0.5 flex-shrink-0" />
               <span>Automatic expense creation</span>
             </div>
           </div>

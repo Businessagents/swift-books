@@ -2,16 +2,23 @@ import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
 import { Bell, User, Settings, Brain, Menu, X, LogOut, Banknote } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { useAuth } from "@/hooks/use-auth"
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { signOut } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const handleSignOut = async () => {
     await signOut()
+    navigate('/auth')
+  }
+
+  const isActiveRoute = (path: string) => {
+    return location.pathname === path
   }
 
   return (
@@ -35,19 +42,64 @@ export function Header() {
         {/* Clean Desktop Navigation */}
         <div className="hidden md:flex flex-1 items-center justify-between space-x-4">
           <nav className="flex items-center space-x-8 text-sm font-medium">
-            <Link className="px-3 py-2 rounded-lg transition-all duration-200 bg-primary/10 text-primary font-semibold" to="/">
+            <Link 
+              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                isActiveRoute('/') 
+                  ? 'bg-primary/10 text-primary font-semibold' 
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+              }`} 
+              to="/"
+            >
               Dashboard
             </Link>
-            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/invoices">
+            <Link 
+              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                isActiveRoute('/invoices') 
+                  ? 'bg-primary/10 text-primary font-semibold' 
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+              }`} 
+              to="/invoices"
+            >
               Invoices
             </Link>
-            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/expenses">
+            <Link 
+              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                isActiveRoute('/expenses') 
+                  ? 'bg-primary/10 text-primary font-semibold' 
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+              }`} 
+              to="/expenses"
+            >
               Expenses
             </Link>
-            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/banking">
+            <Link 
+              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                isActiveRoute('/receipts') 
+                  ? 'bg-primary/10 text-primary font-semibold' 
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+              }`} 
+              to="/receipts"
+            >
+              Receipts
+            </Link>
+            <Link 
+              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                isActiveRoute('/banking') 
+                  ? 'bg-primary/10 text-primary font-semibold' 
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+              }`} 
+              to="/banking"
+            >
               Banking
             </Link>
-            <Link className="px-3 py-2 rounded-lg transition-all duration-200 hover:bg-muted text-muted-foreground hover:text-foreground" to="/reports">
+            <Link 
+              className={`px-3 py-2 rounded-lg transition-all duration-200 ${
+                isActiveRoute('/reports') 
+                  ? 'bg-primary/10 text-primary font-semibold' 
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+              }`} 
+              to="/reports"
+            >
               Reports
             </Link>
           </nav>
@@ -93,35 +145,66 @@ export function Header() {
         <div className="md:hidden border-t bg-background/95 backdrop-blur">
           <nav className="container py-4 space-y-2">
             <Link 
-              className="block px-4 py-2 text-sm font-medium transition-colors hover:text-foreground/80 text-foreground rounded-md hover:bg-muted"
+              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                isActiveRoute('/') 
+                  ? 'text-primary bg-primary/10 font-semibold' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
               to="/"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Dashboard
             </Link>
             <Link 
-              className="block px-4 py-2 text-sm font-medium transition-colors hover:text-foreground/80 text-muted-foreground rounded-md hover:bg-muted"
+              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                isActiveRoute('/invoices') 
+                  ? 'text-primary bg-primary/10 font-semibold' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
               to="/invoices"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Invoices
             </Link>
             <Link 
-              className="block px-4 py-2 text-sm font-medium transition-colors hover:text-foreground/80 text-muted-foreground rounded-md hover:bg-muted"
+              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                isActiveRoute('/expenses') 
+                  ? 'text-primary bg-primary/10 font-semibold' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
               to="/expenses"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Expenses
             </Link>
             <Link 
-              className="block px-4 py-2 text-sm font-medium transition-colors hover:text-foreground/80 text-muted-foreground rounded-md hover:bg-muted"
+              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                isActiveRoute('/receipts') 
+                  ? 'text-primary bg-primary/10 font-semibold' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+              to="/receipts"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Receipts
+            </Link>
+            <Link 
+              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                isActiveRoute('/banking') 
+                  ? 'text-primary bg-primary/10 font-semibold' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
               to="/banking"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Banking
             </Link>
             <Link 
-              className="block px-4 py-2 text-sm font-medium transition-colors hover:text-foreground/80 text-muted-foreground rounded-md hover:bg-muted"
+              className={`block px-4 py-2 text-sm font-medium transition-colors rounded-md ${
+                isActiveRoute('/reports') 
+                  ? 'text-primary bg-primary/10 font-semibold' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
               to="/reports"
               onClick={() => setIsMobileMenuOpen(false)}
             >
