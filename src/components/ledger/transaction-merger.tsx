@@ -195,7 +195,6 @@ export function useTransactionMerger(filters?: {
 
     // Add unlinked expenses
     expenses
-      .filter(expense => !expense.bank_transaction_id)
       .forEach(expense => {
         transactions.push({
           id: `expense-${expense.id}`,
