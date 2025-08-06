@@ -1,70 +1,92 @@
 import { Header } from "@/components/ui/header"
 import { FloatingAiChat } from "@/components/ai/floating-ai-chat"
 import { WidgetSystem } from "@/components/dashboard/widget-system"
-import { Badge } from "@/components/ui/badge"
+import { Box, Container, VStack, HStack, Heading, Text, Badge, SimpleGrid, Center, Icon } from "@chakra-ui/react"
+import { useColorMode } from "@chakra-ui/color-mode"
 import { LayoutDashboard } from "lucide-react"
 
 const Index = () => {
+  const { colorMode } = useColorMode()
+  const heroBg = colorMode === 'light' ? 'blue.500' : 'blue.600'
+  const heroText = 'white'
+  const bgColor = colorMode === 'light' ? 'gray.50' : 'gray.800'
+  
   return (
-    <div className="min-h-screen bg-background">
+    <Box minH="100vh" bg={bgColor}>
       <Header />
       
-      <main className="container mx-auto py-8 md:py-12 px-4 md:px-8">
-        <div className="space-y-12">
+      <Container as="main" maxW="container.xl" py={{ base: 8, md: 12 }} px={{ base: 4, md: 8 }}>
+        <VStack gap={12} align="stretch">
           {/* Hero Section */}
-          <div className="bg-primary rounded-3xl p-8 md:p-12 shadow-lg animate-fade-in">
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-white/20 rounded-2xl">
-                  <LayoutDashboard className="h-8 w-8 text-white" />
-                </div>
-                <div className="space-y-2">
-                  <h1 className="text-2xl md:text-4xl font-bold text-white tracking-tight">
+          <Box 
+            bg={heroBg} 
+            borderRadius="3xl" 
+            p={{ base: 8, md: 12 }} 
+            shadow="lg"
+            className="animate-fade-in"
+          >
+            <VStack gap={6} align="start">
+              <HStack gap={4} align="start">
+                <Box p={3} bg="whiteAlpha.200" borderRadius="2xl">
+                  <Icon as={LayoutDashboard} boxSize={8} color={heroText} />
+                </Box>
+                <VStack align="start" gap={2}>
+                  <Heading 
+                    size={{ base: '2xl', md: '4xl' }} 
+                    fontWeight="bold" 
+                    color={heroText}
+                    letterSpacing="tight"
+                  >
                     Dashboard
-                  </h1>
-                  <div className="flex gap-2">
-                    <Badge variant="secondary" className="bg-white/20 text-white">
+                  </Heading>
+                  <HStack gap={2}>
+                    <Badge colorScheme="whiteAlpha" variant="solid" bg="whiteAlpha.200" color={heroText}>
                       AI-Powered
                     </Badge>
-                    <Badge variant="secondary" className="bg-white/20 text-white">
+                    <Badge colorScheme="whiteAlpha" variant="solid" bg="whiteAlpha.200" color={heroText}>
                       Real-time
                     </Badge>
-                  </div>
-                </div>
-              </div>
+                  </HStack>
+                </VStack>
+              </HStack>
               
-              <p className="text-lg md:text-xl text-white/90 max-w-3xl leading-relaxed">
+              <Text 
+                fontSize={{ base: 'lg', md: 'xl' }} 
+                color="whiteAlpha.900" 
+                maxW="3xl" 
+                lineHeight="relaxed"
+              >
                 Your personalized business overview with customizable widgets, real-time insights, and quick actions.
-              </p>
+              </Text>
               
               {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-4">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white">$287K</div>
-                  <div className="text-sm text-white/80">Revenue YTD</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white">+18%</div>
-                  <div className="text-sm text-white/80">Growth Rate</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white">47</div>
-                  <div className="text-sm text-white/80">Active Clients</div>
-                </div>
-              </div>
-            </div>
-          </div>
+              <SimpleGrid columns={3} gap={6} pt={4} w="full">
+                <Center flexDir="column">
+                  <Text fontSize="3xl" fontWeight="bold" color={heroText}>$287K</Text>
+                  <Text fontSize="sm" color="whiteAlpha.800">Revenue YTD</Text>
+                </Center>
+                <Center flexDir="column">
+                  <Text fontSize="3xl" fontWeight="bold" color={heroText}>+18%</Text>
+                  <Text fontSize="sm" color="whiteAlpha.800">Growth Rate</Text>
+                </Center>
+                <Center flexDir="column">
+                  <Text fontSize="3xl" fontWeight="bold" color={heroText}>47</Text>
+                  <Text fontSize="sm" color="whiteAlpha.800">Active Clients</Text>
+                </Center>
+              </SimpleGrid>
+            </VStack>
+          </Box>
 
           {/* Widget Dashboard */}
-          <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+          <Box className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
             <WidgetSystem />
-          </div>
-        </div>
-      </main>
+          </Box>
+        </VStack>
+      </Container>
       
       {/* Floating AI Assistant */}
       <FloatingAiChat />
-    </div>
+    </Box>
   );
 };
 
