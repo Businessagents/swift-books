@@ -16,7 +16,7 @@ const getChakraVariant = (variant?: string) => {
     case 'ghost':
       return 'ghost'
     case 'link':
-      return 'link'
+      return 'ghost'
     case 'success':
       return 'solid'
     case 'warning':

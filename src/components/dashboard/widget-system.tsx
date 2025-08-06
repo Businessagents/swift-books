@@ -3,28 +3,21 @@ import {
   Box,
   Grid,
   GridItem,
-  Card,
   Text,
   Button,
   Badge,
-  Dialog,
-  DialogOverlay,
-  DialogContent,
-  DialogHeader,
-  DialogBody,
-  DialogCloseTrigger,
-  DialogFooter,
-  Checkbox,
   VStack,
   HStack,
   SimpleGrid,
-  useTheme,
   Icon,
   Center,
   Flex,
   useDisclosure,
   Heading
 } from "@chakra-ui/react"
+import { Card } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Checkbox } from "@/components/ui/checkbox"
 import { 
   DollarSign, 
   TrendingUp, 
@@ -51,61 +44,55 @@ export interface Widget {
 
 // Individual Widget Components
 export function RevenueWidget() {
-  const theme = useTheme()
-  
   return (
-    <Card.Root bg="white" _dark={{ bg: "gray.700" }} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <Card.Header>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Monthly Revenue</Text>
           <Icon as={DollarSign} boxSize={4} color="green.500" />
         </HStack>
-      </Card.Header>
-      <Card.Body pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold" color="green.500">$287,650</Text>
         <HStack gap={2} mt={2}>
           <Icon as={TrendingUp} boxSize={3} color="green.500" />
           <Text fontSize="xs" color="gray.500">+18% from last month</Text>
         </HStack>
-      </Card.Body>
-    </Card.Root>
+      </Box>
+    </Card>
   )
 }
 
 export function ExpensesWidget() {
-  const theme = useTheme()
-  
   return (
-    <Card.Root bg="white" _dark={{ bg: "gray.700" }} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <Card.Header>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Monthly Expenses</Text>
           <Icon as={CreditCard} boxSize={4} color="red.500" />
         </HStack>
-      </Card.Header>
-      <Card.Body pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold">$48,230</Text>
         <HStack gap={2} mt={2}>
           <Icon as={TrendingDown} boxSize={3} color="red.500" />
           <Text fontSize="xs" color="gray.500">-5% from last month</Text>
         </HStack>
-      </Card.Body>
-    </Card.Root>
+      </Box>
+    </Card>
   )
 }
 
 export function InvoicesWidget() {
-  const theme = useTheme()
-  
   return (
-    <Card.Root bg="white" _dark={{ bg: "gray.700" }} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <Card.Header>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Pending Invoices</Text>
           <Icon as={FileText} boxSize={4} color="orange.500" />
         </HStack>
-      </Card.Header>
-      <Card.Body pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold">12</Text>
         <Text fontSize="xs" color="gray.500" mt={1}>
           $43,280 outstanding
@@ -113,23 +100,21 @@ export function InvoicesWidget() {
         <Badge colorScheme="orange" variant="outline" mt={2} size="sm">
           3 overdue
         </Badge>
-      </Card.Body>
-    </Card.Root>
+      </Box>
+    </Card>
   )
 }
 
 export function ReceiptsWidget() {
-  const theme = useTheme()
-  
   return (
-    <Card.Root bg="white" _dark={{ bg: "gray.700" }} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <Card.Header>
+    <Card variant="elevated">
+      <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Recent Receipts</Text>
           <Icon as={Receipt} boxSize={4} color="primary.500" />
         </HStack>
-      </Card.Header>
-      <Card.Body pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold">23</Text>
         <Text fontSize="xs" color="gray.500" mt={1}>
           8 pending processing
@@ -137,20 +122,18 @@ export function ReceiptsWidget() {
         <Badge colorScheme="blue" variant="solid" mt={2} size="sm">
           AI Processing
         </Badge>
-      </Card.Body>
-    </Card.Root>
+      </Box>
+    </Card>
   )
 }
 
 export function CashFlowWidget() {
-  const theme = useTheme()
-  
   return (
-    <Card.Root bg="white" _dark={{ bg: "gray.700" }} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <Card.Header>
+    <Card variant="elevated">
+      <Box p={4}>
         <Text fontSize="sm" fontWeight="medium" color="gray.500">Cash Flow Trend</Text>
-      </Card.Header>
-      <Card.Body pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <VStack gap={4} align="stretch">
           <SimpleGrid columns={3} gap={4}>
             <Center flexDir="column">
@@ -187,20 +170,18 @@ export function CashFlowWidget() {
             ))}
           </Box>
         </VStack>
-      </Card.Body>
-    </Card.Root>
+      </Box>
+    </Card>
   )
 }
 
 export function QuickActionsWidget() {
-  const theme = useTheme()
-  
   return (
-    <Card.Root bg="white" _dark={{ bg: "gray.700" }} shadow="sm" _hover={{ shadow: 'md' }} transition="shadow 0.2s">
-      <Card.Header>
+    <Card variant="elevated">
+      <Box p={4}>
         <Text fontSize="sm" fontWeight="medium" color="gray.500">Quick Actions</Text>
-      </Card.Header>
-      <Card.Body pt={0}>
+      </Box>
+      <Box px={4} pb={4}>
         <SimpleGrid columns={2} gap={3}>
           <Button variant="outline" h="16" flexDir="column" gap={1}>
             <Icon as={Receipt} boxSize={5} />
@@ -219,8 +200,8 @@ export function QuickActionsWidget() {
             <Text fontSize="xs">View Reports</Text>
           </Button>
         </SimpleGrid>
-      </Card.Body>
-    </Card.Root>
+      </Box>
+    </Card>
   )
 }
 
@@ -335,93 +316,85 @@ export function WidgetSystem({}: WidgetSystemProps) {
       </Grid>
 
       {/* Widget Customization Dialog */}
-      <Dialog.Root open={showCustomization} onOpenChange={({ open }) => open ? onOpen() : onClose()} size="lg">
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content>
-            <Dialog.Header>
-              <Dialog.Title>Customize Dashboard</Dialog.Title>
-              <Dialog.CloseTrigger />
-            </Dialog.Header>
-            <Dialog.Body pb={6}>
-              <Text fontSize="sm" color="gray.500" mb={6}>
-                Choose which widgets to display on your dashboard. Changes are saved automatically.
-              </Text>
-              
-              <VStack gap={6} align="stretch">
-                {['finance', 'operations', 'analytics'].map((category) => (
-                  <Box key={category}>
-                    <Text 
-                      fontSize="sm" 
-                      fontWeight="semibold" 
-                      textTransform="uppercase" 
-                      color="gray.500"
-                      mb={3}
-                    >
-                      {category}
-                    </Text>
-                    <VStack gap={2} align="stretch">
-                      {widgets.filter(w => w.category === category).map((widget) => (
-                        <Flex 
-                          key={widget.id} 
-                          justify="space-between" 
-                          align="center"
-                          p={3} 
-                          borderWidth={1} 
-                          borderRadius="md"
-                        >
-                          <HStack gap={3}>
-                            <Checkbox.Root
-                              checked={widget.enabled}
-                              onCheckedChange={() => toggleWidget(widget.id)}
-                            >
-                              <Checkbox.HiddenInput />
-                              <Checkbox.Control />
-                              <Checkbox.Indicator />
-                            </Checkbox.Root>
-                            <VStack align="start" gap={1}>
-                              <Text fontSize="sm" fontWeight="medium">
-                                {widget.title}
-                              </Text>
-                              <Badge colorScheme="gray" size="sm">
-                                {widget.size}
-                              </Badge>
-                            </VStack>
-                          </HStack>
-                          
-                          <HStack gap={2}>
-                            <Icon 
-                              as={widget.enabled ? Eye : EyeOff} 
-                              boxSize={4} 
-                              color={widget.enabled ? 'green.500' : 'gray.400'}
-                            />
-                            <Icon as={Grip} boxSize={4} color="gray.400" cursor="move" />
-                          </HStack>
-                        </Flex>
-                      ))}
-                    </VStack>
-                  </Box>
-                ))}
-              </VStack>
-            </Dialog.Body>
+      <Dialog open={showCustomization} onOpenChange={(open) => open ? onOpen() : onClose()}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Customize Dashboard</DialogTitle>
+          </DialogHeader>
+          <Box pb={6}>
+            <Text fontSize="sm" color="gray.500" mb={6}>
+              Choose which widgets to display on your dashboard. Changes are saved automatically.
+            </Text>
+            
+            <VStack gap={6} align="stretch">
+              {['finance', 'operations', 'analytics'].map((category) => (
+                <Box key={category}>
+                  <Text 
+                    fontSize="sm" 
+                    fontWeight="semibold" 
+                    textTransform="uppercase" 
+                    color="gray.500"
+                    mb={3}
+                  >
+                    {category}
+                  </Text>
+                  <VStack gap={2} align="stretch">
+                    {widgets.filter(w => w.category === category).map((widget) => (
+                      <Flex 
+                        key={widget.id} 
+                        justify="space-between" 
+                        align="center"
+                        p={3} 
+                        borderWidth={1} 
+                        borderRadius="md"
+                      >
+                        <HStack gap={3}>
+                          <Checkbox
+                            checked={widget.enabled}
+                            onCheckedChange={() => toggleWidget(widget.id)}
+                          />
+                          <VStack align="start" gap={1}>
+                            <Text fontSize="sm" fontWeight="medium">
+                              {widget.title}
+                            </Text>
+                            <Badge colorScheme="gray" size="sm">
+                              {widget.size}
+                            </Badge>
+                          </VStack>
+                        </HStack>
+                        
+                        <HStack gap={2}>
+                          <Icon 
+                            as={widget.enabled ? Eye : EyeOff} 
+                            boxSize={4} 
+                            color={widget.enabled ? 'green.500' : 'gray.400'}
+                          />
+                          <Icon as={Grip} boxSize={4} color="gray.400" cursor="move" />
+                        </HStack>
+                      </Flex>
+                    ))}
+                  </VStack>
+                </Box>
+              ))}
+            </VStack>
+          </Box>
 
-            <Dialog.Footer>
-              <Button
-                variant="outline"
-                mr={3}
-                onClick={() => {
-                  setWidgets(availableWidgets.map(w => ({ ...w, enabled: true })))
-                }}
-              >
-                Reset to Default
-              </Button>
-              <Button colorScheme="primary" onClick={onClose}>
-                Done
-              </Button>
-            </Dialog.Footer>
-          </Dialog.Content>
-        </Dialog.Positioner>
-      </Dialog.Root>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              mr={3}
+              onClick={() => {
+                setWidgets(availableWidgets.map(w => ({ ...w, enabled: true })))
+              }}
+            >
+              Reset to Default
+            </Button>
+            <Button colorScheme="primary" onClick={onClose}>
+              Done
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Box>
   )
 }
