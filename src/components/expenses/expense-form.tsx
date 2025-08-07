@@ -227,18 +227,15 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               <Label htmlFor="category_id">Category</Label>
               <Select 
                 value={watch("category_id") || ""}
-                onValueChange={(value) => setValue("category_id", value)}
+                onChange={(e) => setValue("category_id", e.target.value)}
+                placeholder="Select category"
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
+                <option value="">Select category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </Select>
             </div>
           </CardContent>
@@ -257,18 +254,15 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               <Label htmlFor="tax_code_id">Tax Code</Label>
               <Select 
                 value={watch("tax_code_id") || ""}
-                onValueChange={(value) => setValue("tax_code_id", value)}
+                onChange={(e) => setValue("tax_code_id", e.target.value)}
+                placeholder="Select tax code"
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select tax code" />
-                </SelectTrigger>
-                <SelectContent>
-                  {taxCodes.map((taxCode) => (
-                    <SelectItem key={taxCode.id} value={taxCode.id}>
-                      {taxCode.name} ({(taxCode.rate * 100).toFixed(1)}%)
-                    </SelectItem>
-                  ))}
-                </SelectContent>
+                <option value="">Select tax code</option>
+                {taxCodes.map((taxCode) => (
+                  <option key={taxCode.id} value={taxCode.id}>
+                    {taxCode.name} ({(taxCode.rate * 100).toFixed(1)}%)
+                  </option>
+                ))}
               </Select>
             </div>
 
