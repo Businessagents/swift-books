@@ -1,12 +1,54 @@
 import { 
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  CardDescription
+  Box,
+  Heading,
+  Text
 } from "@chakra-ui/react"
 
-// Export only Chakra UI v3 native Card components
-// Remove custom shadcn/ui Card compatibility exports
+// Implementing Card components using Chakra UI Box as the base
+// This ensures Chakra UI v3 API compliance while maintaining compatibility
+const Card = ({ children, ...props }: any) => (
+  <Box
+    bg="white"
+    border="1px"
+    borderColor="gray.200"
+    borderRadius="lg"
+    boxShadow="sm"
+    _dark={{ bg: "gray.800", borderColor: "gray.600" }}
+    {...props}
+  >
+    {children}
+  </Box>
+)
+
+const CardHeader = ({ children, ...props }: any) => (
+  <Box p={6} pb={3} {...props}>
+    {children}
+  </Box>
+)
+
+const CardBody = ({ children, ...props }: any) => (
+  <Box p={6} pt={0} {...props}>
+    {children}
+  </Box>
+)
+
+const CardFooter = ({ children, ...props }: any) => (
+  <Box p={6} pt={3} display="flex" alignItems="center" {...props}>
+    {children}
+  </Box>
+)
+
+const CardTitle = ({ children, ...props }: any) => (
+  <Heading as="h3" size="md" {...props}>
+    {children}
+  </Heading>
+)
+
+const CardDescription = ({ children, ...props }: any) => (
+  <Text color="gray.600" fontSize="sm" {...props}>
+    {children}
+  </Text>
+)
+
+// Export Chakra UI v3 API-compliant Card components
 export { Card, CardHeader, CardBody, CardFooter, CardTitle, CardDescription }
