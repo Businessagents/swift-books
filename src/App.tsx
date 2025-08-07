@@ -10,7 +10,6 @@ import Settings from "./pages/Settings";
 import Ledger from "./pages/Ledger";
 import NotFound from "./pages/NotFound";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@chakra-ui/react";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +17,6 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <PrivacyProvider>
-        <Toaster />
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<AuthSimple />} />
