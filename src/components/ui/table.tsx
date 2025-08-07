@@ -1,107 +1,123 @@
 import * as React from "react"
-
-import { cn } from "@/lib/utils"
+import { 
+  Table as ChakraTable,
+  TableRoot,
+  TableHeader as ChakraTableHeader,
+  TableBody as ChakraTableBody,
+  TableFooter as ChakraTableFooter,
+  TableRow as ChakraTableRow,
+  TableCell as ChakraTableCell,
+  TableColumnHeader,
+  TableCaption as ChakraTableCaption,
+  TableScrollArea
+} from "@chakra-ui/react"
 
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
-    <table
-      ref={ref}
-      className={cn("w-full caption-bottom text-sm", className)}
-      {...props}
-    />
-  </div>
+>(({ children, ...props }, ref) => (
+  <TableScrollArea>
+    <TableRoot ref={ref} variant="simple" size="sm" {...props}>
+      {children}
+    </TableRoot>
+  </TableScrollArea>
 ))
 Table.displayName = "Table"
 
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+>(({ children, ...props }, ref) => (
+  <ChakraTableHeader ref={ref} {...props}>
+    {children}
+  </ChakraTableHeader>
 ))
 TableHeader.displayName = "TableHeader"
 
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tbody
-    ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
-    {...props}
-  />
+>(({ children, ...props }, ref) => (
+  <ChakraTableBody ref={ref} {...props}>
+    {children}
+  </ChakraTableBody>
 ))
 TableBody.displayName = "TableBody"
 
 const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tfoot
-    ref={ref}
-    className={cn(
-      "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
-      className
-    )}
+>(({ children, ...props }, ref) => (
+  <ChakraTableFooter 
+    ref={ref} 
+    bg="gray.50" 
+    _dark={{ bg: "gray.700" }}
+    fontWeight="medium"
     {...props}
-  />
+  >
+    {children}
+  </ChakraTableFooter>
 ))
 TableFooter.displayName = "TableFooter"
 
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
->(({ className, ...props }, ref) => (
-  <tr
+>(({ children, ...props }, ref) => (
+  <ChakraTableRow
     ref={ref}
-    className={cn(
-      "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
-      className
-    )}
+    _hover={{ bg: "gray.50", _dark: { bg: "gray.700" } }}
     {...props}
-  />
+  >
+    {children}
+  </ChakraTableRow>
 ))
 TableRow.displayName = "TableRow"
 
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <th
+>(({ children, ...props }, ref) => (
+  <TableColumnHeader
     ref={ref}
-    className={cn(
-      "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
-      className
-    )}
+    color="gray.600"
+    _dark={{ color: "gray.300" }}
+    fontWeight="medium"
+    fontSize="sm"
     {...props}
-  />
+  >
+    {children}
+  </TableColumnHeader>
 ))
 TableHead.displayName = "TableHead"
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <td
+>(({ children, ...props }, ref) => (
+  <ChakraTableCell
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    fontSize="sm"
     {...props}
-  />
+  >
+    {children}
+  </ChakraTableCell>
 ))
 TableCell.displayName = "TableCell"
 
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>
->(({ className, ...props }, ref) => (
-  <caption
+>(({ children, ...props }, ref) => (
+  <ChakraTableCaption
     ref={ref}
-    className={cn("mt-4 text-sm text-muted-foreground", className)}
+    color="gray.600"
+    _dark={{ color: "gray.400" }}
+    fontSize="sm"
     {...props}
-  />
+  >
+    {children}
+  </ChakraTableCaption>
 ))
 TableCaption.displayName = "TableCaption"
 
