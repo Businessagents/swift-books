@@ -1,3 +1,13 @@
+/**
+ * Textarea Component - Chakra UI v3 wrapper
+ * 
+ * Provides a styled textarea field using Chakra UI Textarea component.
+ * Includes consistent styling for borders, focus states, and validation.
+ * 
+ * @example
+ * <Textarea placeholder="Enter description..." />
+ * <Textarea isInvalid={hasError} minH="120px" />
+ */
 import * as React from "react"
 import { Textarea as ChakraTextarea, TextareaProps as ChakraTextareaProps } from "@chakra-ui/react"
 

@@ -1,7 +1,17 @@
+/**
+ * Button Component - Chakra UI v3 wrapper
+ * 
+ * Provides API compatibility with standard button patterns while using Chakra UI underneath.
+ * Maps variant props to appropriate Chakra button styles and color schemes.
+ * 
+ * @example
+ * <Button variant="destructive" size="lg">Delete</Button>
+ * <Button variant="outline" size="sm">Cancel</Button>
+ */
 import * as React from "react"
 import { Button as ChakraButton, ButtonProps as ChakraButtonProps } from "@chakra-ui/react"
 
-// Define button variant mapping from Tailwind to Chakra
+// Map variant props to Chakra UI button variants
 const getChakraVariant = (variant?: string) => {
   switch (variant) {
     case 'default':
@@ -25,6 +35,7 @@ const getChakraVariant = (variant?: string) => {
   }
 }
 
+// Map variant props to Chakra UI color schemes
 const getChakraColorScheme = (variant?: string) => {
   switch (variant) {
     case 'default':
@@ -48,6 +59,7 @@ const getChakraColorScheme = (variant?: string) => {
   }
 }
 
+// Map size props to Chakra UI button sizes
 const getChakraSize = (size?: string) => {
   switch (size) {
     case 'sm':

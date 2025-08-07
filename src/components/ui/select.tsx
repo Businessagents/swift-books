@@ -1,3 +1,15 @@
+/**
+ * Select Component - Chakra UI v3 wrapper
+ * 
+ * Provides a select dropdown using Chakra UI Select component.
+ * Includes compatibility components for consistent API patterns.
+ * 
+ * @example
+ * <Select>
+ *   <SelectItem value="option1">Option 1</SelectItem>
+ *   <SelectItem value="option2">Option 2</SelectItem>
+ * </Select>
+ */
 import * as React from "react"
 import { Select as ChakraSelect, SelectProps as ChakraSelectProps } from "@chakra-ui/react"
 
@@ -25,7 +37,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
 )
 Select.displayName = "Select"
 
-// For compatibility with shadcn pattern, we provide these as passthrough
+// For API compatibility with component patterns, we provide these as passthrough components
 const SelectGroup = ({ children }: { children: React.ReactNode }) => <>{children}</>
 const SelectValue = ({ children }: { children?: React.ReactNode }) => <>{children}</>
 const SelectTrigger = ({ children }: { children: React.ReactNode }) => <>{children}</>
