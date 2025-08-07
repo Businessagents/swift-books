@@ -150,7 +150,7 @@ export function CategoryExpenseTracker() {
                           <div className="flex items-center gap-2">
                             <p className="font-semibold">{category.name}</p>
                             <Badge variant="outline">{category.count} items</Badge>
-                            <Badge variant={category.trend.startsWith('+') ? 'destructive' : 'default'} className="text-xs">
+                            <Badge variant="solid" colorScheme={category.trend.startsWith('+') ? 'red' : 'green'} className="text-xs">
                               {category.trend.startsWith('+') ? (
                                 <TrendingUp className="h-3 w-3 mr-1" />
                               ) : null}

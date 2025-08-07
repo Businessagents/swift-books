@@ -285,10 +285,10 @@ export function ExpenseList() {
                         <Badge variant="outline">{expense.category.name}</Badge>
                       )}
                       {expense.is_billable && (
-                        <Badge variant="secondary">Billable</Badge>
+                        <Badge variant="outline">Billable</Badge>
                       )}
                       {expense.receipt && (
-                        <Badge variant={expense.receipt.status === 'processed' ? 'default' : 'secondary'}>
+                        <Badge variant={expense.receipt.status === 'processed' ? 'solid' : 'outline'}>
                           <Receipt className="h-3 w-3 mr-1" />
                           Receipt
                         </Badge>

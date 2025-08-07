@@ -53,9 +53,9 @@ const invoices = [
 
 function getStatusBadge(status: string, daysPast: number) {
   if (status === "overdue") {
-    return <Badge variant="destructive">Overdue {daysPast}d</Badge>
+    return <Badge colorScheme="red" variant="solid">Overdue {daysPast}d</Badge>
   }
-  return <Badge variant="secondary">Pending</Badge>
+  return <Badge variant="outline">Pending</Badge>
 }
 
 export function InvoiceList() {

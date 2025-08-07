@@ -90,7 +90,7 @@ export function StatsCards() {
               </HStack>
             </CardHeader>
             <CardBody>
-              <VStack spacing={3} align="start">
+              <VStack gap={3} align="start">
                 <Text
                   fontSize={{ base: "2xl", md: "3xl" }}
                   fontWeight="bold"

@@ -128,7 +128,7 @@ export function FinancialHealthScore() {
         </HStack>
       </CardHeader>
       <CardBody>
-        <VStack spacing={6}>
+        <VStack gap={6}>
           {/* Overall Score */}
           <VStack gap={4} textAlign="center">
             <Box position="relative">

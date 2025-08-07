@@ -159,15 +159,15 @@ export function InvoiceList() {
       case 'paid':
         return <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Paid</Badge>
       case 'sent':
-        return <Badge variant="secondary">Sent</Badge>
+        return <Badge variant="outline">Sent</Badge>
       case 'viewed':
         return <Badge variant="outline">Viewed</Badge>
       case 'overdue':
-        return <Badge variant="destructive">Overdue</Badge>
+        return <Badge colorScheme="red" variant="solid">Overdue</Badge>
       case 'draft':
         return <Badge variant="outline">Draft</Badge>
       default:
-        return <Badge variant="secondary">{status}</Badge>
+        return <Badge variant="outline">{status}</Badge>
     }
   }
 

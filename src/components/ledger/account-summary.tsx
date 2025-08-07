@@ -227,7 +227,7 @@ export function AccountSummary() {
                       <p className="font-semibold">{balance.account_name}</p>
                       <div className="flex items-center gap-2 mt-1">
                         {balance.unreconciled_count > 0 ? (
-                          <Badge variant="destructive" className="text-xs">
+                          <Badge colorScheme="red" variant="solid" className="text-xs">
                             {balance.unreconciled_count} unreconciled
                           </Badge>
                         ) : (

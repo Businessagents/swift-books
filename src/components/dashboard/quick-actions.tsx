@@ -61,7 +61,7 @@ export function QuickActions() {
                 <div className="flex items-center justify-between w-full">
                   <Icon className="h-5 w-5" />
                   {action.count && (
-                    <Badge variant="secondary" className="ml-2">
+                    <Badge variant="outline" className="ml-2">
                       {action.count}
                     </Badge>
                   )}

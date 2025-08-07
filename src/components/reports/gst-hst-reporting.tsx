@@ -312,7 +312,7 @@ export function GSTHSTReporting() {
   const isLoading = expensesLoading || invoicesLoading
 
   return (
-    <VStack spacing={6} align="stretch">
+    <VStack gap={6} align="stretch">
       {/* Header and Controls */}
       <Flex 
         direction={{ base: "column", lg: "row" }} 
@@ -405,11 +405,11 @@ export function GSTHSTReporting() {
                 }
               </Text>
               {filingDeadline.isOverdue ? (
-                <Badge variant="destructive">Overdue</Badge>
+                <Badge colorScheme="red" variant="solid">Overdue</Badge>
               ) : filingDeadline.isUrgent ? (
-                <Badge variant="secondary">Urgent</Badge>
+                <Badge variant="outline">Urgent</Badge>
               ) : (
-                <Badge variant="default">On Track</Badge>
+                <Badge variant="solid">On Track</Badge>
               )}
             </Flex>
           </AlertDescription>
@@ -420,8 +420,8 @@ export function GSTHSTReporting() {
       {isLoading && (
         <Card>
           <CardContent pt={6}>
-            <VStack spacing={3}>
-              <HStack spacing={2}>
+            <VStack gap={3}>
+              <HStack gap={2}>
                 <Spinner size="sm" color="primary.500" />
                 <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }}>
                   Loading tax data...
@@ -518,7 +518,7 @@ export function GSTHSTReporting() {
 
           {/* Detailed Tables */}
           <Tabs defaultValue="summary">
-            <VStack spacing={4} align="stretch">
+            <VStack gap={4} align="stretch">
               <TabsList>
                 <TabsTrigger value="summary">Summary</TabsTrigger>
                 <TabsTrigger value="sales">Sales Details</TabsTrigger>
@@ -526,7 +526,7 @@ export function GSTHSTReporting() {
               </TabsList>
 
               <TabsContent value="summary">
-                <VStack spacing={4}>
+                <VStack gap={4}>
                   <Card>
                     <CardHeader>
                       <CardTitle>Tax Calculation Summary</CardTitle>
@@ -590,7 +590,7 @@ export function GSTHSTReporting() {
               </TabsContent>
 
               <TabsContent value="sales">
-                <VStack spacing={4}>
+                <VStack gap={4}>
               <Card>
                 <CardHeader>
                   <CardTitle>Sales Details</CardTitle>
@@ -599,7 +599,7 @@ export function GSTHSTReporting() {
                 <CardContent>
                   {invoices.length === 0 ? (
                     <Center py={6}>
-                      <VStack spacing={4}>
+                      <VStack gap={4}>
                         <PieChart size={48} color="gray.400" />
                         <Text color="gray.600" _dark={{ color: "gray.400" }}>
                           No sales recorded for this period
@@ -644,7 +644,7 @@ export function GSTHSTReporting() {
               </TabsContent>
 
               <TabsContent value="purchases">
-                <VStack spacing={4}>
+                <VStack gap={4}>
                   <Card>
                     <CardHeader>
                       <CardTitle>Purchase Details</CardTitle>
@@ -653,7 +653,7 @@ export function GSTHSTReporting() {
                     <CardContent>
                       {expenses.length === 0 ? (
                         <Center py={6}>
-                          <VStack spacing={4}>
+                          <VStack gap={4}>
                             <BarChart3 size={48} color="gray.400" />
                             <Text color="gray.600" _dark={{ color: "gray.400" }}>
                               No expenses recorded for this period

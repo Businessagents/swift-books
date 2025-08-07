@@ -237,7 +237,7 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium">AI Suggestion:</span>
               <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="outline" className="text-xs">
                   {confidence}% confidence
                 </Badge>
                 {(() => {

@@ -319,7 +319,7 @@ export function SimpleExpenseManagement() {
                         <Badge variant="outline">{expense.category.name}</Badge>
                       )}
                       {expense.is_billable && (
-                        <Badge variant="secondary">Billable</Badge>
+                        <Badge variant="outline">Billable</Badge>
                       )}
                       {expense.receipt && (
                         <Badge variant="default">

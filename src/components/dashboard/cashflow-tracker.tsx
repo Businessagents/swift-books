@@ -54,7 +54,7 @@ export function CashflowTracker() {
               Real-time cash flow analysis and projections
             </CardDescription>
           </div>
-          <Badge variant={isPositiveFlow ? "default" : "destructive"} className="flex items-center gap-1">
+          <Badge variant={isPositiveFlow ? "solid" : "solid"} colorScheme={isPositiveFlow ? "green" : "red"} className="flex items-center gap-1">
             {isPositiveFlow ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
             {isPositiveFlow ? "+" : ""}{netFlowPercentage}% vs last month
           </Badge>
