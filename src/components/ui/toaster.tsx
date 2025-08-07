@@ -1,5 +1,6 @@
-// With Chakra UI, toasts are handled globally through the ChakraProvider
-// This component is kept for compatibility but doesn't need to render anything
+import { Toaster as ChakraToaster } from "@chakra-ui/react"
+
+// Use Chakra UI's Toaster component
 export function Toaster() {
-  return null
+  return <ChakraToaster />
 }

@@ -1,12 +1,8 @@
 import * as React from "react"
 import { Select as ChakraSelect, SelectProps as ChakraSelectProps } from "@chakra-ui/react"
 
-// For simpler usage, we'll re-export Chakra Select directly
-// In practice, this component is often used directly from Chakra in the pages
-
-export interface SelectProps extends ChakraSelectProps {
-  // Additional props can be added here if needed
-}
+// Use Chakra UI Select directly without shadcn/ui compatibility layer
+export interface SelectProps extends ChakraSelectProps {}
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ children, ...props }, ref) => {
@@ -25,28 +21,4 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
 )
 Select.displayName = "Select"
 
-// For compatibility with shadcn pattern, we provide these as passthrough
-const SelectGroup = ({ children }: { children: React.ReactNode }) => <>{children}</>
-const SelectValue = ({ children }: { children?: React.ReactNode }) => <>{children}</>
-const SelectTrigger = ({ children }: { children: React.ReactNode }) => <>{children}</>
-const SelectContent = ({ children }: { children: React.ReactNode }) => <>{children}</>
-const SelectLabel = ({ children }: { children: React.ReactNode }) => <>{children}</>
-const SelectItem = ({ children, value }: { children: React.ReactNode, value: string }) => (
-  <option value={value}>{children}</option>
-)
-const SelectSeparator = () => <></>
-const SelectScrollUpButton = () => <></>
-const SelectScrollDownButton = () => <></>
-
-export {
-  Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectLabel,
-  SelectItem,
-  SelectSeparator,
-  SelectScrollUpButton,
-  SelectScrollDownButton,
-}
+export { Select }
