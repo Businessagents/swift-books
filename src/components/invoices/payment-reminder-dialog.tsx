@@ -198,20 +198,13 @@ export function PaymentReminderDialog({ open, onOpenChange, invoice, onSuccess }
           {/* Tone Selection */}
           <div className="space-y-3">
             <Label>Reminder Tone</Label>
-            <Select value={selectedTone} onValueChange={setSelectedTone}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select reminder tone" />
-              </SelectTrigger>
-              <SelectContent>
-                {reminderTones.map((tone) => (
-                  <SelectItem key={tone.value} value={tone.value}>
-                    <div>
-                      <div className="font-medium">{tone.label}</div>
-                      <div className="text-sm text-muted-foreground">{tone.description}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
+            <Select value={selectedTone} onChange={(e) => setSelectedTone(e.target.value)} placeholder="Select reminder tone">
+              <option value="">Select reminder tone</option>
+              {reminderTones.map((tone) => (
+                <option key={tone.value} value={tone.value}>
+                  {tone.label} - {tone.description}
+                </option>
+              ))}
             </Select>
           </div>
 

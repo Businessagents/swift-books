@@ -139,7 +139,7 @@ export function SimpleExpenseManagement() {
   const cardBg = 'gray.50'
 
   return (
-    <VStack spacing={6} w="full">
+    <VStack gap={6} w="full">
       {/* Enhanced Summary Cards */}
       <Box w="full" display="grid" gridTemplateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
         <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
@@ -203,7 +203,7 @@ export function SimpleExpenseManagement() {
       {/* Enhanced Filters and Actions */}
       <Card bg={bgColor} shadow="lg" borderRadius="xl" w="full">
         <CardHeader>
-          <VStack spacing={4} align="stretch">
+          <VStack gap={4} align="stretch">
             <Flex direction={{ base: "column", lg: "row" }} gap={4} align={{ base: "start", lg: "center" }} justify="space-between">
               <Box>
                 <CardTitle fontSize="xl" color="blue.500">Smart Expense Tracking</CardTitle>
@@ -211,7 +211,7 @@ export function SimpleExpenseManagement() {
                   AI-powered categorization and real-time insights for your business expenses
                 </Text>
               </Box>
-              <HStack spacing={3}>
+              <HStack gap={3}>
               <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
                   <Button bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" color="white" _hover={{ shadow: "lg" }} transition="all 0.2s">
@@ -252,7 +252,7 @@ export function SimpleExpenseManagement() {
                   transition="all 0.2s"
                 />
               </Box>
-              <HStack spacing={3}>
+              <HStack gap={3}>
                 <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                   <SelectTrigger w="180px" bg="white" borderColor="gray.200">
                     <SelectValue placeholder="Category" />
@@ -277,13 +277,13 @@ export function SimpleExpenseManagement() {
 
         <CardContent>
           {isLoading ? (
-            <VStack spacing={3}>
+            <VStack gap={3}>
               {[...Array(5)].map((_, i) => (
                 <Box key={i} h={20} bg="gray.200" borderRadius="md" w="full" />
               ))}
             </VStack>
           ) : expenses.length === 0 ? (
-            <VStack spacing={4} py={12} textAlign="center">
+            <VStack gap={4} py={12} textAlign="center">
               <Icon as={Receipt} boxSize={12} color="gray.400" />
               <Text fontSize="lg" fontWeight="semibold">No expenses found</Text>
               <Text color="gray.500" mb={4}>
@@ -297,7 +297,7 @@ export function SimpleExpenseManagement() {
               </Button>
             </VStack>
           ) : (
-            <VStack spacing={4}>
+            <VStack gap={4}>
               {expenses.map((expense, index) => (
                 <Flex
                   key={expense.id}
@@ -313,7 +313,7 @@ export function SimpleExpenseManagement() {
                   w="full"
                 >
                   <Box flex={1}>
-                    <HStack spacing={3} mb={2} align="center">
+                    <HStack gap={3} mb={2} align="center">
                       <Text fontWeight="semibold">{expense.description}</Text>
                       {expense.category && (
                         <Badge variant="outline">{expense.category.name}</Badge>
@@ -328,7 +328,7 @@ export function SimpleExpenseManagement() {
                         </Badge>
                       )}
                     </HStack>
-                    <HStack spacing={4} fontSize="sm" color="gray.500">
+                    <HStack gap={4} fontSize="sm" color="gray.500">
                       <Text>{isPrivacyMode ? maskValue(expense.vendor) : expense.vendor || 'No vendor'}</Text>
                       <Text>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</Text>
                       {expense.tax_amount && expense.tax_amount > 0 && (
@@ -337,7 +337,7 @@ export function SimpleExpenseManagement() {
                     </HStack>
                   </Box>
                   
-                  <HStack spacing={3} align="center">
+                  <HStack gap={3} align="center">
                     <Box textAlign="right">
                       <Text fontWeight="semibold" fontSize="lg">
                         ${isPrivacyMode ? maskValue(expense.amount) : expense.amount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}

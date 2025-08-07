@@ -100,7 +100,7 @@ export function FloatingAiChat() {
             borderColor="primary.600"
           >
             <HStack justify="space-between">
-              <HStack spacing={2}>
+              <HStack gap={2}>
                 <Icon as={MessageCircle} boxSize={5} />
                 <Text fontWeight="semibold">AI Assistant</Text>
                 <Badge
@@ -111,7 +111,7 @@ export function FloatingAiChat() {
                   Online
                 </Badge>
               </HStack>
-              <HStack spacing={1}>
+              <HStack gap={1}>
                 <IconButton
                   aria-label={isMinimized ? "Maximize" : "Minimize"}
                   variant="ghost"

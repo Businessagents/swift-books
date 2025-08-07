@@ -43,7 +43,7 @@ const Ledger = () => {
       <Header />
       
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
-        <VStack spacing={8} align="stretch">
+        <VStack gap={8} align="stretch">
           {/* Enhanced Header */}
           <Box
             position="relative"
@@ -61,8 +61,8 @@ const Ledger = () => {
                 justify={{ md: "space-between" }}
                 gap={4}
               >
-                <VStack align="start" spacing={2}>
-                  <HStack spacing={3}>
+                <VStack align="start" gap={2}>
+                  <HStack gap={3}>
                     <Box p={2} bg="whiteAlpha.200" borderRadius="xl">
                       <Icon as={RotateCcw} boxSize={6} color="white" />
                     </Box>
@@ -79,7 +79,7 @@ const Ledger = () => {
                   </Text>
                 </VStack>
                 
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <Button
                     variant="solid"
                     bg="whiteAlpha.200"
@@ -125,7 +125,7 @@ const Ledger = () => {
               <CardHeader>
                 <Flex align="center" justify="space-between">
                   <CardTitle fontSize="xl">Transaction Ledger</CardTitle>
-                  <HStack spacing={2} fontSize="sm" color="gray.500">
+                  <HStack gap={2} fontSize="sm" color="gray.500">
                     <Box h={2} w={2} bg="green.500" borderRadius="full" />
                     <Text>Real-time updates enabled</Text>
                   </HStack>

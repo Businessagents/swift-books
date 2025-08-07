@@ -40,7 +40,7 @@ const stats = [
 
 export function StatsCards() {
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={6}>
+    <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={6}>
       {stats.map((stat, index) => {
         const IconComponent = stat.icon
         const isPositive = stat.trend === "up" ? stat.title.includes("Outstanding") || stat.title.includes("Overdue") ? false : true : true
@@ -74,7 +74,7 @@ export function StatsCards() {
             transition="all 0.3s"
           >
             <CardHeader>
-              <HStack justify="space-between" align="center" spacing={0} pb={3}>
+              <HStack justify="space-between" align="center" gap={0} pb={3}>
                 <CardTitle fontSize="sm" fontWeight="medium" color="gray.600">
                   {stat.title}
                 </CardTitle>
@@ -90,7 +90,7 @@ export function StatsCards() {
               </HStack>
             </CardHeader>
             <CardContent>
-              <VStack spacing={3} align="start">
+              <VStack gap={3} align="start">
                 <Text
                   fontSize={{ base: "2xl", md: "3xl" }}
                   fontWeight="bold"
@@ -106,7 +106,7 @@ export function StatsCards() {
                     fontSize="xs"
                     transition="all 0.2s"
                   >
-                    <HStack spacing={1}>
+                    <HStack gap={1}>
                       <Icon as={isPositive ? TrendingUp : TrendingDown} boxSize={3} />
                       <Text>{stat.change}</Text>
                     </HStack>

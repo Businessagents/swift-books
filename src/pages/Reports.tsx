@@ -123,13 +123,13 @@ const Reports = () => {
       <Header />
       
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
-        <VStack spacing={8} align="stretch">
+        <VStack gap={8} align="stretch">
           {/* Clean Header */}
           <Card>
             <CardBody>
               <Flex justify="space-between" align="start" wrap="wrap" gap={4}>
-                <VStack align="start" spacing={3}>
-                  <HStack spacing={3}>
+                <VStack align="start" gap={3}>
+                  <HStack gap={3}>
                     <Box p={2} bg="primary.500" rounded="lg">
                       <Icon as={BarChart3} boxSize={6} color="white" />
                     </Box>
@@ -141,7 +141,7 @@ const Reports = () => {
                     AI-powered business intelligence reports and CRA-compliant tax reporting with real-time insights
                   </Text>
                 </VStack>
-                <HStack spacing={2} display={{ base: "none", md: "flex" }}>
+                <HStack gap={2} display={{ base: "none", md: "flex" }}>
                   <Button 
                     variant="outline"
                     onClick={() => {
@@ -161,7 +161,7 @@ const Reports = () => {
           </Card>
 
           {/* Quick Insights */}
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+          <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
             {quickInsights.map((insight) => {
               const IconComponent = insight.icon
               return (
@@ -171,7 +171,7 @@ const Reports = () => {
                   transition="all 0.3s"
                 >
                   <CardBody>
-                    <VStack spacing={3} align="stretch">
+                    <VStack gap={3} align="stretch">
                       <Flex justify="space-between" align="start">
                         <Box 
                           p={2} 
@@ -183,7 +183,7 @@ const Reports = () => {
                           <Icon as={IconComponent} boxSize={5} color="primary.600" />
                         </Box>
                         {insight.trend === "up" && (
-                          <HStack spacing={1}>
+                          <HStack gap={1}>
                             <Icon as={TrendingUp} boxSize={4} color="green.500" />
                             <Badge colorScheme="green" variant="outline">
                               Improving
@@ -191,7 +191,7 @@ const Reports = () => {
                           </HStack>
                         )}
                       </Flex>
-                      <VStack align="start" spacing={1}>
+                      <VStack align="start" gap={1}>
                         <Text fontSize="2xl" fontWeight="bold">{insight.value}</Text>
                         <Text fontSize="sm" fontWeight="medium">{insight.title}</Text>
                         <Text fontSize="xs" color="gray.500">{insight.description}</Text>
@@ -204,10 +204,10 @@ const Reports = () => {
           </SimpleGrid>
 
           {/* Tax Reports Section */}
-          <VStack spacing={6} align="stretch">
+          <VStack gap={6} align="stretch">
             <Card>
               <CardHeader>
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <Icon as={Calculator} boxSize={5} />
                   <Heading size="md">Tax & Compliance Reports</Heading>
                 </HStack>
@@ -220,7 +220,7 @@ const Reports = () => {
             {/* Business Reports Section */}
             <Card>
               <CardHeader>
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <Icon as={FileText} boxSize={5} />
                   <Heading size="md">Business Reports</Heading>
                 </HStack>
@@ -229,7 +229,7 @@ const Reports = () => {
                 </Text>
               </CardHeader>
               <CardBody>
-                <VStack spacing={4} align="stretch">
+                <VStack gap={4} align="stretch">
                   {reports.map((report) => (
                     <Box
                       key={report.title}
@@ -245,24 +245,24 @@ const Reports = () => {
                         justify="space-between"
                         gap={4}
                       >
-                        <HStack spacing={4} align="start">
+                        <HStack gap={4} align="start">
                           <Box bg="primary.100" p={2} rounded="lg">
                             <Icon as={FileText} boxSize={5} color="primary.600" />
                           </Box>
-                          <VStack align="start" spacing={2}>
-                            <HStack spacing={2} wrap="wrap">
+                          <VStack align="start" gap={2}>
+                            <HStack gap={2} wrap="wrap">
                               <Text fontWeight="semibold">{report.title}</Text>
                               <Badge colorScheme={getTypeColorScheme(report.type)}>{report.type}</Badge>
                               {getStatusBadge(report.status)}
                             </HStack>
                             <Text fontSize="sm" color="gray.600">{report.description}</Text>
-                            <HStack spacing={2} fontSize="sm" color="gray.500">
+                            <HStack gap={2} fontSize="sm" color="gray.500">
                               <Icon as={Calendar} boxSize={4} />
                               <Text>Last generated: {report.lastGenerated}</Text>
                             </HStack>
                           </VStack>
                         </HStack>
-                        <HStack spacing={2}>
+                        <HStack gap={2}>
                           <Button 
                             variant="outline" 
                             size="sm"

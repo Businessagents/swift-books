@@ -93,7 +93,7 @@ export function Header() {
       _hover={{ transform: 'translateY(-1px)', shadow: 'md' }}
       {...props}
     >
-      <HStack spacing={2}>
+      <HStack gap={2}>
         <Icon size={18} />
         <Text>{children}</Text>
       </HStack>
@@ -114,7 +114,7 @@ export function Header() {
     >
       <Flex h="16" px={6} align="center" maxW="container.xl" mx="auto">
         {/* Logo */}
-        <HStack spacing={3} mr={8}>
+        <HStack gap={3} mr={8}>
           <Box
             w={10}
             h={10}
@@ -138,7 +138,7 @@ export function Header() {
               </Text>
             </Box>
           </Box>
-          <VStack align="start" spacing={0}>
+          <VStack align="start" gap={0}>
             <Text fontSize="xl" fontWeight="bold">
               Swift Books
             </Text>
@@ -149,7 +149,7 @@ export function Header() {
         </HStack>
 
         {/* Desktop Navigation */}
-        <HStack spacing={2} flex="1" display={{ base: 'none', md: 'flex' }}>
+        <HStack gap={2} flex="1" display={{ base: 'none', md: 'flex' }}>
           <NavLink
             to="/"
             icon={LayoutDashboard}
@@ -181,7 +181,7 @@ export function Header() {
         </HStack>
 
         {/* Right Side Controls */}
-        <HStack spacing={2} ml="auto">
+        <HStack gap={2} ml="auto">
           <ThemeToggle />
           <PrivacyToggle />
           <Box position="relative">
@@ -242,7 +242,7 @@ export function Header() {
             </HStack>
           </DrawerHeader>
           <DrawerBody pt={4}>
-            <VStack spacing={3} align="stretch">
+            <VStack gap={3} align="stretch">
               <Button
                 as={Link}
                 to="/"
@@ -251,7 +251,7 @@ export function Header() {
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <LayoutDashboard size={18} />
                   <Text>Dashboard</Text>
                 </HStack>
@@ -264,7 +264,7 @@ export function Header() {
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <CreditCard size={18} />
                   <Text>Transactions</Text>
                 </HStack>
@@ -277,7 +277,7 @@ export function Header() {
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <BarChart3 size={18} />
                   <Text>Reports</Text>
                 </HStack>
@@ -290,7 +290,7 @@ export function Header() {
                 justifyContent="flex-start"
                 onClick={onClose}
               >
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <Settings size={18} />
                   <Text>Settings</Text>
                 </HStack>

@@ -98,7 +98,7 @@ export function ExpenseCapture() {
   }
 
   return (
-    <VStack spacing={6}>
+    <VStack gap={6}>
       {/* Receipt Upload Component */}
       <ReceiptUpload onReceiptProcessed={handleReceiptProcessed} />
       
@@ -115,15 +115,15 @@ export function ExpenseCapture() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <VStack spacing={3}>
+            <VStack gap={3}>
               {[...Array(3)].map((_, i) => (
-                <HStack key={i} spacing={3} p={3} borderRadius="lg" border="1px" borderColor="gray.200" w="full">
+                <HStack key={i} gap={3} p={3} borderRadius="lg" border="1px" borderColor="gray.200" w="full">
                   <Skeleton h={10} w={10} borderRadius="lg" />
-                  <VStack flex={1} spacing={2} align="start">
+                  <VStack flex={1} gap={2} align="start">
                     <Skeleton h={4} w="75%" borderRadius="md" />
                     <Skeleton h={3} w="50%" borderRadius="md" />
                   </VStack>
-                  <VStack spacing={2} align="end">
+                  <VStack gap={2} align="end">
                     <Skeleton h={4} w={16} borderRadius="md" />
                     <Skeleton h={3} w={12} borderRadius="md" />
                   </VStack>
@@ -132,14 +132,14 @@ export function ExpenseCapture() {
             </VStack>
           ) : recentReceipts.length === 0 ? (
             <Center py={8} color="gray.500">
-              <VStack spacing={4}>
+              <VStack gap={4}>
                 <Icon as={Upload} boxSize={12} opacity={0.5} />
                 <Text>No receipts uploaded yet</Text>
                 <Text fontSize="sm">Upload your first receipt to get started</Text>
               </VStack>
             </Center>
           ) : (
-            <VStack spacing={3}>
+            <VStack gap={3}>
               {recentReceipts.map((receipt) => (
                 <Flex
                   key={receipt.id}
@@ -152,7 +152,7 @@ export function ExpenseCapture() {
                   bg="gray.50"
                   w="full"
                 >
-                  <HStack spacing={3} flex={1} minW={0}>
+                  <HStack gap={3} flex={1} minW={0}>
                     <Center
                       h={10}
                       w={10}
@@ -163,12 +163,12 @@ export function ExpenseCapture() {
                       {getStatusIcon(receipt.status)}
                     </Center>
                     
-                    <VStack spacing={1} minW={0} flex={1} align="start">
+                    <VStack gap={1} minW={0} flex={1} align="start">
                       <Text fontWeight="medium" fontSize="sm" noOfLines={1}>
                         {maskValue(receipt.vendor_name || receipt.file_name || 'Unknown receipt')}
                       </Text>
                       <VStack
-                        spacing={{ base: 1, sm: 0 }}
+                        gap={{ base: 1, sm: 0 }}
                         direction={{ base: "column", sm: "row" }}
                         align={{ base: "start", sm: "center" }}
                       >
@@ -189,7 +189,7 @@ export function ExpenseCapture() {
                     </VStack>
                   </HStack>
                   
-                  <VStack spacing={0} align="end" flexShrink={0} ml={2}>
+                  <VStack gap={0} align="end" flexShrink={0} ml={2}>
                     <Text fontWeight="semibold">
                       {maskValue(formatAmount(receipt.total_amount))}
                     </Text>

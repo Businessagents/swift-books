@@ -44,7 +44,7 @@ export function RevenueWidget() {
       </Box>
       <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold" color="green.500">$287,650</Text>
-        <HStack spacing={2} mt={2}>
+        <HStack gap={2} mt={2}>
           <Icon as={TrendingUp} boxSize={3} color="green.500" />
           <Text fontSize="xs" color="gray.500">+18% from last month</Text>
         </HStack>
@@ -64,7 +64,7 @@ export function ExpensesWidget() {
       </Box>
       <Box px={4} pb={4}>
         <Text fontSize="2xl" fontWeight="bold">$48,230</Text>
-        <HStack spacing={2} mt={2}>
+        <HStack gap={2} mt={2}>
           <Icon as={TrendingDown} boxSize={3} color="red.500" />
           <Text fontSize="xs" color="gray.500">-5% from last month</Text>
         </HStack>
@@ -104,12 +104,12 @@ export function QuickActionsWidget() {
         <Text fontSize="sm" fontWeight="medium" color="gray.500">Quick Actions</Text>
       </Box>
       <Box px={4} pb={4}>
-        <SimpleGrid columns={2} spacing={3}>
+        <SimpleGrid columns={2} gap={3}>
           <Button 
             variant="outline" 
             h="16" 
             flexDir="column" 
-            spacing={1}
+            gap={1}
             onClick={() => console.log('Upload Receipt clicked')}
             _hover={{ bg: 'primary.50', borderColor: 'primary.300' }}
           >
@@ -120,7 +120,7 @@ export function QuickActionsWidget() {
             variant="outline" 
             h="16" 
             flexDir="column" 
-            spacing={1}
+            gap={1}
             onClick={() => console.log('New Invoice clicked')}
             _hover={{ bg: 'blue.50', borderColor: 'blue.300' }}
           >
@@ -131,7 +131,7 @@ export function QuickActionsWidget() {
             variant="outline" 
             h="16" 
             flexDir="column" 
-            spacing={1}
+            gap={1}
             onClick={() => console.log('Add Expense clicked')}
             _hover={{ bg: 'red.50', borderColor: 'red.300' }}
           >
@@ -142,7 +142,7 @@ export function QuickActionsWidget() {
             variant="outline" 
             h="16" 
             flexDir="column" 
-            spacing={1}
+            gap={1}
             onClick={() => console.log('View Reports clicked')}
             _hover={{ bg: 'green.50', borderColor: 'green.300' }}
           >

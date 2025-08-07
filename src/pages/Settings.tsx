@@ -123,13 +123,13 @@ const Settings = () => {
     <Box minH="100vh" bg={bg}>
       <Header />
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
-        <VStack spacing={8} align="stretch">
+        <VStack gap={8} align="stretch">
           {/* Header Section */}
           <Card>
             <CardBody>
-              <HStack justify="space-between" align="start" flexWrap="wrap" spacing={4}>
-                <VStack align="start" spacing={2}>
-                  <HStack spacing={3}>
+              <HStack justify="space-between" align="start" flexWrap="wrap" gap={4}>
+                <VStack align="start" gap={2}>
+                  <HStack gap={3}>
                     <Box p={2} bg="primary.500" rounded="lg">
                       <SettingsIcon size={24} color="white" />
                     </Box>
@@ -141,7 +141,7 @@ const Settings = () => {
                     Customize your Swift Books experience and manage your business preferences
                   </Text>
                 </VStack>
-                <HStack spacing={2} display={{ base: "none", md: "flex" }}>
+                <HStack gap={2} display={{ base: "none", md: "flex" }}>
                   <Button 
                     variant="outline" 
                     onClick={handleExportData}
@@ -167,10 +167,10 @@ const Settings = () => {
           {/* Settings Content */}
           <Card>
             <CardBody>
-              <VStack spacing={4}>
+              <VStack gap={4}>
                 <Heading size="md">Settings</Heading>
                 <Text>Settings page is being migrated to Chakra UI v3. Full functionality will be restored soon.</Text>
-                <HStack spacing={4}>
+                <HStack gap={4}>
                   <ThemeToggle />
                   <PrivacyToggle />
                 </HStack>

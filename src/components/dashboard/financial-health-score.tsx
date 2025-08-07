@@ -117,7 +117,7 @@ export function FinancialHealthScore() {
       <CardHeader>
         <HStack justify="space-between">
           <CardTitle>
-            <HStack spacing={2}>
+            <HStack gap={2}>
               <Icon as={CheckCircle} boxSize={5} color="blue.500" />
               <Text>Financial Health Score</Text>
             </HStack>
@@ -128,9 +128,9 @@ export function FinancialHealthScore() {
         </HStack>
       </CardHeader>
       <CardContent>
-        <VStack spacing={6}>
+        <VStack gap={6}>
           {/* Overall Score */}
-          <VStack spacing={4} textAlign="center">
+          <VStack gap={4} textAlign="center">
             <Box position="relative">
               <Circle
                 size={32}
@@ -153,7 +153,7 @@ export function FinancialHealthScore() {
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <VStack spacing={0}>
+                    <VStack gap={0}>
                       <Text
                         fontSize="3xl"
                         fontWeight="bold"
@@ -167,7 +167,7 @@ export function FinancialHealthScore() {
                 </Circle>
               </Circle>
             </Box>
-            <VStack spacing={1}>
+            <VStack gap={1}>
               <Text fontSize="lg" fontWeight="semibold">
                 {overallScore >= 85 ? 'Excellent' : overallScore >= 70 ? 'Good' : overallScore >= 55 ? 'Fair' : 'Needs Attention'}
               </Text>
@@ -178,17 +178,17 @@ export function FinancialHealthScore() {
           </VStack>
 
           {/* Metric Breakdown */}
-          <VStack spacing={4} align="stretch">
+          <VStack gap={4} align="stretch">
             <Text fontSize="sm" fontWeight="medium">Health Metrics</Text>
-            <VStack spacing={3} align="stretch">
+            <VStack gap={3} align="stretch">
               {metrics.map((metric) => (
-                <VStack key={metric.name} spacing={2} align="stretch">
+                <VStack key={metric.name} gap={2} align="stretch">
                   <HStack justify="space-between" fontSize="sm">
-                    <HStack spacing={2}>
+                    <HStack gap={2}>
                       <Text fontWeight="medium">{metric.name}</Text>
                       {getTrendIcon(metric.trend)}
                     </HStack>
-                    <HStack spacing={2}>
+                    <HStack gap={2}>
                       {getStatusBadge(metric.status)}
                       <Text
                         fontWeight="medium"
@@ -208,7 +208,7 @@ export function FinancialHealthScore() {
                   {metric.recommendation && metric.score < 80 && (
                     <HStack
                       align="start"
-                      spacing={2}
+                      gap={2}
                       p={2}
                       bg="gray.50"
                       borderRadius="lg"
@@ -225,7 +225,7 @@ export function FinancialHealthScore() {
           </VStack>
 
           {/* Action Buttons */}
-          <HStack spacing={2} pt={2}>
+          <HStack gap={2} pt={2}>
             <Button variant="outline" size="sm" flex={1}>
               View Details
             </Button>

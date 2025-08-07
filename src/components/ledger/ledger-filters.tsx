@@ -82,50 +82,41 @@ export function LedgerFilters({ filters, onFiltersChange }: LedgerFiltersProps) 
           {/* Account Filter */}
           <Select
             value={filters.accountId}
-            onValueChange={(value) => onFiltersChange({ ...filters, accountId: value })}
+            onChange={(e) => onFiltersChange({ ...filters, accountId: e.target.value })}
+            className="w-[200px] bg-background/50 backdrop-blur-sm border-border/50"
+            placeholder="All Accounts"
           >
-            <SelectTrigger className="w-[200px] bg-background/50 backdrop-blur-sm border-border/50">
-              <SelectValue placeholder="All Accounts" />
-            </SelectTrigger>
-            <SelectContent className="bg-card/95 backdrop-blur-sm border-border/50">
-              <SelectItem value="all">All Accounts</SelectItem>
-              {accounts.map((account) => (
-                <SelectItem key={account.id} value={account.id}>
-                  {account.account_name}
-                </SelectItem>
-              ))}
-            </SelectContent>
+            <option value="all">All Accounts</option>
+            {accounts.map((account) => (
+              <option key={account.id} value={account.id}>
+                {account.account_name}
+              </option>
+            ))}
           </Select>
 
           {/* Transaction Type Filter */}
           <Select
             value={filters.transactionType}
-            onValueChange={(value: any) => onFiltersChange({ ...filters, transactionType: value })}
+            onChange={(e) => onFiltersChange({ ...filters, transactionType: e.target.value as any })}
+            className="w-[150px] bg-background/50 backdrop-blur-sm border-border/50"
+            placeholder="Type"
           >
-            <SelectTrigger className="w-[150px] bg-background/50 backdrop-blur-sm border-border/50">
-              <SelectValue placeholder="Type" />
-            </SelectTrigger>
-            <SelectContent className="bg-card/95 backdrop-blur-sm border-border/50">
-              <SelectItem value="all">All Types</SelectItem>
-              <SelectItem value="income">Income</SelectItem>
-              <SelectItem value="expense">Expense</SelectItem>
-              <SelectItem value="transfer">Transfer</SelectItem>
-            </SelectContent>
+            <option value="all">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+            <option value="transfer">Transfer</option>
           </Select>
 
           {/* Reconciliation Status Filter */}
           <Select
             value={filters.reconciliationStatus}
-            onValueChange={(value: any) => onFiltersChange({ ...filters, reconciliationStatus: value })}
+            onChange={(e) => onFiltersChange({ ...filters, reconciliationStatus: e.target.value as any })}
+            className="w-[150px] bg-background/50 backdrop-blur-sm border-border/50"
+            placeholder="Status"
           >
-            <SelectTrigger className="w-[150px] bg-background/50 backdrop-blur-sm border-border/50">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent className="bg-card/95 backdrop-blur-sm border-border/50">
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="reconciled">Reconciled</SelectItem>
-              <SelectItem value="unreconciled">Unreconciled</SelectItem>
-            </SelectContent>
+            <option value="all">All Status</option>
+            <option value="reconciled">Reconciled</option>
+            <option value="unreconciled">Unreconciled</option>
           </Select>
 
           {/* Date Range Filter */}

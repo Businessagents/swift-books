@@ -90,13 +90,13 @@ const Transactions = () => {
       <Header />
       
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
-        <VStack spacing={8} align="stretch">
+        <VStack gap={8} align="stretch">
           {/* Header Section */}
           <Card>
             <CardBody>
-              <VStack spacing={6} align="stretch">
-                <VStack spacing={3} align="start">
-                  <HStack spacing={3}>
+              <VStack gap={6} align="stretch">
+                <VStack gap={3} align="start">
+                  <HStack gap={3}>
                     <Box p={2} bg="primary.500" rounded="lg">
                       <CreditCard size={24} color="white" />
                     </Box>
@@ -110,7 +110,7 @@ const Transactions = () => {
                 </VStack>
                 
                 {/* Quick Stats Overview */}
-                <SimpleGrid columns={{ base: 2, lg: 3 }} spacing={{ base: 4, lg: 6 }}>
+                <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 4, lg: 6 }}>
                   <Card size="sm">
                     <CardBody textAlign="center">
                       <HStack justify="center" color="green.500" mb={1}>
@@ -150,7 +150,7 @@ const Transactions = () => {
           </Card>
 
           {/* Quick Actions */}
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+          <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
             {quickActions.map((action) => {
               const Icon = action.icon
               return (
@@ -163,7 +163,7 @@ const Transactions = () => {
                   onClick={!action.disabled ? action.action : undefined}
                 >
                   <CardBody>
-                    <HStack spacing={4}>
+                    <HStack gap={4}>
                       <Box 
                         p={3} 
                         rounded="xl" 
@@ -172,7 +172,7 @@ const Transactions = () => {
                       >
                         <Icon size={24} />
                       </Box>
-                      <VStack align="start" spacing={1} flex={1}>
+                      <VStack align="start" gap={1} flex={1}>
                         <Text fontWeight="semibold">
                           {action.title}
                         </Text>
@@ -188,13 +188,13 @@ const Transactions = () => {
           </SimpleGrid>
 
           {/* Main Content - Simplified */}
-          <VStack spacing={6} align="stretch">
+          <VStack gap={6} align="stretch">
             {/* Expenses Section */}
             <Card>
               <CardHeader>
-                <HStack spacing={2}>
+                <HStack gap={2}>
                   <CreditCard size={20} />
-                  <VStack align="start" spacing={0}>
+                  <VStack align="start" gap={0}>
                     <Heading size="md">Expense Management</Heading>
                     <Text fontSize="sm" color="gray.600">
                       Track and categorize your business expenses with AI-powered insights
@@ -208,9 +208,9 @@ const Transactions = () => {
             </Card>
             
             {/* Status Overview */}
-            <HStack spacing={2} justify="center">
+            <HStack gap={2} justify="center">
               <Badge colorScheme="yellow" variant="outline">
-                <HStack spacing={1} align="center">
+                <HStack gap={1} align="center">
                   <Clock size={12} />
                   <Text fontSize="xs">{transactionStats.pendingInvoices} Pending</Text>
                 </HStack>
@@ -229,7 +229,7 @@ const Transactions = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <VStack align="start" spacing={1}>
+            <VStack align="start" gap={1}>
               <Text>Upload Receipt</Text>
               <Text fontSize="sm" fontWeight="normal" color="gray.600">
                 Upload a receipt image for automatic processing and categorization.
