@@ -10,6 +10,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { toast } from "@/components/ui/sonner"
 import { 
+  Box, 
+  VStack, 
+  HStack, 
+  Text, 
+  Flex, 
+  Icon,
+  Spacer,
+  useColorModeValue
+} from "@chakra-ui/react"
+import { 
   Search, 
   Plus, 
   Edit, 
@@ -125,64 +135,73 @@ export function SimpleExpenseManagement() {
     averageAmount: expenses.length > 0 ? expenses.reduce((sum, e) => sum + e.amount, 0) / expenses.length : 0
   }
 
+  const bgColor = useColorModeValue('white', 'gray.800')
+  const cardBg = useColorModeValue('gray.50', 'gray.700')
+
   return (
-    <div className="space-y-6">
+    <VStack spacing={6} w="full">
       {/* Enhanced Summary Cards */}
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-success animate-scale-in">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Expenses</CardTitle>
-            <div className="p-2 bg-gradient-success rounded-lg shadow-success">
-              <DollarSign className="h-4 w-4 text-success-foreground" />
-            </div>
+      <Box w="full" display="grid" gridTemplateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
+        <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
+          <CardHeader>
+            <HStack justify="space-between" align="center">
+              <CardTitle fontSize="sm" color="gray.600">Total Expenses</CardTitle>
+              <Box p={2} bg="green.500" borderRadius="lg" color="white">
+                <Icon as={DollarSign} boxSize={4} />
+              </Box>
+            </HStack>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold bg-gradient-success bg-clip-text text-transparent">
+          <CardContent pt={0}>
+            <Text fontSize="3xl" fontWeight="bold" color="green.500" mb={1}>
               ${isPrivacyMode ? maskValue(summaryStats.totalAmount) : summaryStats.totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-sm text-muted-foreground mt-1">
+            </Text>
+            <Text fontSize="sm" color="gray.500">
               {summaryStats.total} total expenses • +12% this month
-            </p>
+            </Text>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-primary animate-scale-in" style={{ animationDelay: '0.1s' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Expense Count</CardTitle>
-            <div className="p-2 bg-gradient-primary rounded-lg shadow-primary">
-              <Receipt className="h-4 w-4 text-primary-foreground" />
-            </div>
+        <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
+          <CardHeader>
+            <HStack justify="space-between" align="center">
+              <CardTitle fontSize="sm" color="gray.600">Expense Count</CardTitle>
+              <Box p={2} bg="blue.500" borderRadius="lg" color="white">
+                <Icon as={Receipt} boxSize={4} />
+              </Box>
+            </HStack>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-primary">
+          <CardContent pt={0}>
+            <Text fontSize="3xl" fontWeight="bold" color="blue.500" mb={1}>
               {summaryStats.total}
-            </div>
-            <p className="text-sm text-muted-foreground mt-1">
+            </Text>
+            <Text fontSize="sm" color="gray.500">
               Recorded expenses • 8 pending approval
-            </p>
+            </Text>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-warning animate-scale-in" style={{ animationDelay: '0.2s' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Average Amount</CardTitle>
-            <div className="p-2 bg-gradient-warning rounded-lg shadow-warning">
-              <DollarSign className="h-4 w-4 text-warning-foreground" />
-            </div>
+        <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
+          <CardHeader>
+            <HStack justify="space-between" align="center">
+              <CardTitle fontSize="sm" color="gray.600">Average Amount</CardTitle>
+              <Box p={2} bg="orange.500" borderRadius="lg" color="white">
+                <Icon as={DollarSign} boxSize={4} />
+              </Box>
+            </HStack>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold bg-gradient-warning bg-clip-text text-transparent">
+          <CardContent pt={0}>
+            <Text fontSize="3xl" fontWeight="bold" color="orange.500" mb={1}>
               ${isPrivacyMode ? maskValue(summaryStats.averageAmount) : summaryStats.averageAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-sm text-muted-foreground mt-1">
+            </Text>
+            <Text fontSize="sm" color="gray.500">
               Per expense • -3% from last month
-            </p>
+            </Text>
           </CardContent>
         </Card>
-      </div>
+      </Box>
 
       {/* Enhanced Filters and Actions */}
-      <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 shadow-glass animate-fade-in">
+      <Card bg={bgColor} shadow="lg" borderRadius="xl" w="full">
         <CardHeader>
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
             <div>
