@@ -121,10 +121,8 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
                 }`}
               >
                 {message.role === "assistant" && (
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary text-primary-foreground">
-                      <Bot className="h-4 w-4" />
-                    </AvatarFallback>
+                  <Avatar size="sm">
+                    <Bot className="h-4 w-4" />
                   </Avatar>
                 )}
                 
@@ -139,10 +137,8 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
                 </div>
                 
                 {message.role === "user" && (
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-secondary text-secondary-foreground">
-                      <User className="h-4 w-4" />
-                    </AvatarFallback>
+                  <Avatar size="sm">
+                    <User className="h-4 w-4" />
                   </Avatar>
                 )}
               </div>
@@ -150,10 +146,8 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
             
             {chatMutation.isPending && (
               <div className="flex gap-3 justify-start">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-primary text-primary-foreground">
-                    <Bot className="h-4 w-4" />
-                  </AvatarFallback>
+                <Avatar size="sm">
+                  <Bot className="h-4 w-4" />
                 </Avatar>
                 <div className="bg-muted rounded-lg p-3 text-sm">
                   <div className="flex items-center gap-2">
