@@ -10,11 +10,10 @@ import {
   CardBody, 
   Text, 
   Heading,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
+  TabsRoot,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
   Button,
   Badge,
   SimpleGrid,
@@ -24,12 +23,12 @@ import {
   StatHelpText,
   StatArrow,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton
+  DialogRoot,
+  DialogBackdrop,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogCloseTrigger
 } from "@chakra-ui/react"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { SimpleExpenseManagement } from "@/components/expenses/simple-expense-management"
@@ -191,124 +190,122 @@ const Transactions = () => {
           <Box>
             <VStack spacing={4} align="stretch">
               <HStack justify="space-between" wrap="wrap" spacing={4}>
-                <Tabs defaultIndex={0}>
-                  <TabList>
-                    <Tab>
+                <TabsRoot defaultValue="expenses">
+                  <TabsList>
+                    <TabsTrigger value="expenses">
                       <HStack spacing={2}>
                         <CreditCard size={16} />
                         <Text display={{ base: "none", sm: "inline" }}>Expenses</Text>
                       </HStack>
-                    </Tab>
-                    <Tab>
+                    </TabsTrigger>
+                    <TabsTrigger value="invoices">
                       <HStack spacing={2}>
                         <FileText size={16} />
                         <Text display={{ base: "none", sm: "inline" }}>Invoices</Text>
                       </HStack>
-                    </Tab>
-                    <Tab>
+                    </TabsTrigger>
+                    <TabsTrigger value="receipts">
                       <HStack spacing={2}>
                         <ReceiptIcon size={16} />
                         <Text display={{ base: "none", sm: "inline" }}>Receipts</Text>
                       </HStack>
-                    </Tab>
-                  </TabList>
+                    </TabsTrigger>
+                  </TabsList>
                   
-                  <TabPanels>
-                    {/* Expenses Tab */}
-                    <TabPanel px={0}>
-                      <Card>
-                        <CardHeader>
-                          <HStack spacing={2}>
-                            <CreditCard size={20} />
-                            <VStack align="start" spacing={0}>
-                              <Heading size="md">Expense Management</Heading>
-                              <Text fontSize="sm" color="gray.600">
-                                Track and categorize your business expenses with AI-powered insights
-                              </Text>
-                            </VStack>
-                          </HStack>
-                        </CardHeader>
-                        <CardBody p={0}>
-                          <SimpleExpenseManagement />
-                        </CardBody>
-                      </Card>
-                    </TabPanel>
-
-                    {/* Invoices Tab */}
-                    <TabPanel px={0}>
-                      <Card>
-                        <CardHeader>
-                          <HStack justify="space-between" align="start">
-                            <HStack spacing={2}>
-                              <FileText size={20} />
-                              <VStack align="start" spacing={0}>
-                                <Heading size="md">Invoice Management</Heading>
-                                <Text fontSize="sm" color="gray.600">
-                                  Create, send, and track client invoices with automated reminders
-                                </Text>
-                              </VStack>
-                            </HStack>
-                            <Button 
-                              colorScheme="blue" 
-                              size="sm"
-                              leftIcon={<Plus size={16} />}
-                            >
-                              New Invoice
-                            </Button>
-                          </HStack>
-                        </CardHeader>
-                        <CardBody p={0}>
-                          <InvoiceList />
-                        </CardBody>
-                      </Card>
-                    </TabPanel>
-
-                    {/* Receipts Tab */}
-                    <TabPanel px={0}>
-                      <Card>
-                        <CardHeader>
-                          <HStack justify="space-between" align="start">
-                            <HStack spacing={2}>
-                              <ReceiptIcon size={20} />
-                              <VStack align="start" spacing={0}>
-                                <Heading size="md">Receipt Processing</Heading>
-                                <Text fontSize="sm" color="gray.600">
-                                  AI-powered receipt scanning and automatic expense categorization
-                                </Text>
-                              </VStack>
-                            </HStack>
-                            <Button 
-                              colorScheme="green" 
-                              size="sm" 
-                              onClick={openReceiptUpload}
-                              leftIcon={<Plus size={16} />}
-                            >
-                              Upload Receipt
-                            </Button>
-                          </HStack>
-                        </CardHeader>
-                        <CardBody>
-                          <VStack spacing={4} py={8}>
-                            <ReceiptIcon size={48} opacity={0.5} />
-                            <VStack spacing={2}>
-                              <Heading size="md">Receipt Processing Hub</Heading>
-                              <Text color="gray.600" textAlign="center">
-                                Upload receipts to automatically extract data and create expense entries
-                              </Text>
-                            </VStack>
-                            <Button 
-                              colorScheme="green" 
-                              onClick={openReceiptUpload}
-                              leftIcon={<Plus size={16} />}
-                            >
-                              Upload First Receipt
-                            </Button>
+                  {/* Expenses Tab */}
+                  <TabsContent value="expenses" px={0}>
+                    <Card>
+                      <CardHeader>
+                        <HStack spacing={2}>
+                          <CreditCard size={20} />
+                          <VStack align="start" spacing={0}>
+                            <Heading size="md">Expense Management</Heading>
+                            <Text fontSize="sm" color="gray.600">
+                              Track and categorize your business expenses with AI-powered insights
+                            </Text>
                           </VStack>
-                        </CardBody>
-                      </Card>
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
+                        </HStack>
+                      </CardHeader>
+                      <CardBody p={0}>
+                        <SimpleExpenseManagement />
+                      </CardBody>
+                    </Card>
+                  </TabsContent>
+
+                  {/* Invoices Tab */}
+                  <TabsContent value="invoices" px={0}>
+                    <Card>
+                      <CardHeader>
+                        <HStack justify="space-between" align="start">
+                          <HStack spacing={2}>
+                            <FileText size={20} />
+                            <VStack align="start" spacing={0}>
+                              <Heading size="md">Invoice Management</Heading>
+                              <Text fontSize="sm" color="gray.600">
+                                Create, send, and track client invoices with automated reminders
+                              </Text>
+                            </VStack>
+                          </HStack>
+                          <Button 
+                            colorScheme="blue" 
+                            size="sm"
+                            leftIcon={<Plus size={16} />}
+                          >
+                            New Invoice
+                          </Button>
+                        </HStack>
+                      </CardHeader>
+                      <CardBody p={0}>
+                        <InvoiceList />
+                      </CardBody>
+                    </Card>
+                  </TabsContent>
+
+                  {/* Receipts Tab */}
+                  <TabsContent value="receipts" px={0}>
+                    <Card>
+                      <CardHeader>
+                        <HStack justify="space-between" align="start">
+                          <HStack spacing={2}>
+                            <ReceiptIcon size={20} />
+                            <VStack align="start" spacing={0}>
+                              <Heading size="md">Receipt Processing</Heading>
+                              <Text fontSize="sm" color="gray.600">
+                                AI-powered receipt scanning and automatic expense categorization
+                              </Text>
+                            </VStack>
+                          </HStack>
+                          <Button 
+                            colorScheme="green" 
+                            size="sm" 
+                            onClick={openReceiptUpload}
+                            leftIcon={<Plus size={16} />}
+                          >
+                            Upload Receipt
+                          </Button>
+                        </HStack>
+                      </CardHeader>
+                      <CardBody>
+                        <VStack spacing={4} py={8}>
+                          <ReceiptIcon size={48} opacity={0.5} />
+                          <VStack spacing={2}>
+                            <Heading size="md">Receipt Processing Hub</Heading>
+                            <Text color="gray.600" textAlign="center">
+                              Upload receipts to automatically extract data and create expense entries
+                            </Text>
+                          </VStack>
+                          <Button 
+                            colorScheme="green" 
+                            onClick={openReceiptUpload}
+                            leftIcon={<Plus size={16} />}
+                          >
+                            Upload First Receipt
+                          </Button>
+                        </VStack>
+                      </CardBody>
+                    </Card>
+                  </TabsContent>
+                </TabsRoot>
 
                 {/* Status Overview */}
                 <HStack spacing={2}>

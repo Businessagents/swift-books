@@ -1,28 +1,26 @@
 import * as React from "react"
 import { 
-  Tabs as ChakraTabs, 
-  TabList as ChakraTabList,
-  Tab as ChakraTab,
-  TabPanels as ChakraTabPanels,
-  TabPanel as ChakraTabPanel,
-  TabsProps as ChakraTabsProps
+  TabsRoot as ChakraTabs, 
+  TabsList as ChakraTabsList,
+  TabsTrigger as ChakraTabsTrigger,
+  TabsContent as ChakraTabsContent
 } from "@chakra-ui/react"
 
 // Re-export Chakra Tabs components with compatible naming
-const Tabs = ({ children, ...props }: ChakraTabsProps) => (
+const Tabs = ({ children, ...props }: React.ComponentProps<typeof ChakraTabs>) => (
   <ChakraTabs {...props}>{children}</ChakraTabs>
 )
 
-const TabsList = ({ children, ...props }: { children: React.ReactNode }) => (
-  <ChakraTabList {...props}>{children}</ChakraTabList>
+const TabsList = ({ children, ...props }: React.ComponentProps<typeof ChakraTabsList>) => (
+  <ChakraTabsList {...props}>{children}</ChakraTabsList>
 )
 
-const TabsTrigger = ({ children, ...props }: { children: React.ReactNode }) => (
-  <ChakraTab {...props}>{children}</ChakraTab>
+const TabsTrigger = ({ children, ...props }: React.ComponentProps<typeof ChakraTabsTrigger>) => (
+  <ChakraTabsTrigger {...props}>{children}</ChakraTabsTrigger>
 )
 
-const TabsContent = ({ children, ...props }: { children: React.ReactNode }) => (
-  <ChakraTabPanel {...props}>{children}</ChakraTabPanel>
+const TabsContent = ({ children, ...props }: React.ComponentProps<typeof ChakraTabsContent>) => (
+  <ChakraTabsContent {...props}>{children}</ChakraTabsContent>
 )
 
 export { Tabs, TabsList, TabsTrigger, TabsContent }

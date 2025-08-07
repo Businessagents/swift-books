@@ -1,14 +1,14 @@
 import * as React from "react"
-import { FormLabel as ChakraFormLabel, FormLabelProps as ChakraFormLabelProps } from "@chakra-ui/react"
+import { FieldLabel as ChakraFieldLabel } from "@chakra-ui/react"
 
-export interface LabelProps extends ChakraFormLabelProps {
+export interface LabelProps extends React.ComponentProps<typeof ChakraFieldLabel> {
   // Additional props can be added here if needed
 }
 
 const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   ({ ...props }, ref) => {
     return (
-      <ChakraFormLabel
+      <ChakraFieldLabel
         ref={ref}
         fontSize="sm"
         fontWeight="medium"

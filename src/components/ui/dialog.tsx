@@ -1,94 +1,87 @@
 import * as React from "react"
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
-  Button,
-  VStack,
-  Text,
-  Box,
-  useDisclosure
+  DialogRoot,
+  DialogBackdrop,
+  DialogContent as ChakraDialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogCloseTrigger,
+  DialogTrigger as ChakraDialogTrigger
 } from "@chakra-ui/react"
 
-// Dialog components mapped to Chakra UI Modal
-const Dialog = ({ children, ...props }: { children: React.ReactNode }) => {
-  return <>{children}</>
+// Dialog components using new Chakra UI v3 Dialog API
+const Dialog = ({ children, ...props }: React.ComponentProps<typeof DialogRoot>) => {
+  return <DialogRoot {...props}>{children}</DialogRoot>
 }
 
-const DialogTrigger = ({ children, asChild, ...props }: { children: React.ReactNode, asChild?: boolean }) => {
-  return <>{children}</>
+const DialogTrigger = ({ children, asChild, ...props }: React.ComponentProps<typeof ChakraDialogTrigger> & { asChild?: boolean }) => {
+  return <ChakraDialogTrigger {...props}>{children}</ChakraDialogTrigger>
 }
 
 const DialogContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { 
-    isOpen?: boolean
-    onClose?: () => void
-    size?: string
-  }
->(({ children, isOpen = false, onClose = () => {}, size = "md", ...props }, ref) => (
-  <Modal isOpen={isOpen} onClose={onClose} size={size}>
-    <ModalOverlay />
-    <ModalContent ref={ref} {...props}>
+  React.ComponentProps<typeof ChakraDialogContent>
+>(({ children, ...props }, ref) => (
+  <DialogBackdrop>
+    <ChakraDialogContent ref={ref} {...props}>
       {children}
-    </ModalContent>
-  </Modal>
+    </ChakraDialogContent>
+  </DialogBackdrop>
 ))
 DialogContent.displayName = "DialogContent"
 
-const DialogHeader = React.forwardRef<
+const DialogHeaderComponent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.ComponentProps<typeof DialogHeader>
 >(({ children, ...props }, ref) => (
-  <ModalHeader ref={ref} {...props}>
+  <DialogHeader ref={ref} {...props}>
     {children}
-  </ModalHeader>
+  </DialogHeader>
 ))
-DialogHeader.displayName = "DialogHeader"
+DialogHeaderComponent.displayName = "DialogHeader"
 
-const DialogFooter = React.forwardRef<
+const DialogFooterComponent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.ComponentProps<typeof DialogFooter>
 >(({ children, ...props }, ref) => (
-  <ModalFooter ref={ref} {...props}>
+  <DialogFooter ref={ref} {...props}>
     {children}
-  </ModalFooter>
+  </DialogFooter>
 ))
-DialogFooter.displayName = "DialogFooter"
+DialogFooterComponent.displayName = "DialogFooter"
 
-const DialogTitle = React.forwardRef<
+const DialogTitleComponent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.ComponentProps<typeof DialogTitle>
 >(({ children, ...props }, ref) => (
-  <Text ref={ref} fontSize="lg" fontWeight="bold" {...props}>
+  <DialogTitle ref={ref} {...props}>
     {children}
-  </Text>
+  </DialogTitle>
 ))
-DialogTitle.displayName = "DialogTitle"
+DialogTitleComponent.displayName = "DialogTitle"
 
-const DialogDescription = React.forwardRef<
+const DialogDescriptionComponent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.ComponentProps<typeof DialogDescription>
 >(({ children, ...props }, ref) => (
-  <Text ref={ref} fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} {...props}>
+  <DialogDescription ref={ref} {...props}>
     {children}
-  </Text>
+  </DialogDescription>
 ))
-DialogDescription.displayName = "DialogDescription"
+DialogDescriptionComponent.displayName = "DialogDescription"
 
 const DialogClose = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }
+  React.ComponentProps<typeof DialogCloseTrigger> & { asChild?: boolean }
 >(({ children, asChild, ...props }, ref) => (
-  <ModalCloseButton ref={ref} {...props} />
+  <DialogCloseTrigger ref={ref} {...props}>{children}</DialogCloseTrigger>
 ))
 DialogClose.displayName = "DialogClose"
 
-// Keep these for compatibility but they're not needed with Chakra Modal
+// Keep these for compatibility
 const DialogPortal = ({ children }: { children: React.ReactNode }) => <>{children}</>
 const DialogOverlay = ({ children }: { children: React.ReactNode }) => <>{children}</>
 
@@ -99,8 +92,8 @@ export {
   DialogClose,
   DialogTrigger,
   DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-  DialogDescription,
+  DialogHeaderComponent as DialogHeader,
+  DialogFooterComponent as DialogFooter,
+  DialogTitleComponent as DialogTitle,
+  DialogDescriptionComponent as DialogDescription,
 }
