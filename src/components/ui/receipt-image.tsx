@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle, Download, Eye, EyeOff, Maximize2, X } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@chakra-ui/react'
 import { getSignedUrl, getThumbnailUrl } from '@/lib/storage-utils'
 
 interface ReceiptImageProps {
@@ -37,7 +37,6 @@ export function ReceiptImage({
   const [error, setError] = useState<string | null>(null)
   const [showFullImage, setShowFullImage] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
-  const { toast } = useToast()
 
 
   const loadImage = async () => {
@@ -85,13 +84,13 @@ export function ReceiptImage({
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
 
-      toast({
+      showToast({
         title: 'Download started',
         description: `Downloading ${fileName}`,
       })
     } catch (err: any) {
       console.error('Download failed:', err)
-      toast({
+      showToast({
         title: 'Download failed',
         description: err.message || 'Failed to download the receipt image',
         variant: 'destructive',

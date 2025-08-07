@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
-import { toast } from "@/components/ui/sonner"
+import { showToast } from "@/lib/toast"
 import { 
   Banknote, 
   Plus, 
@@ -146,11 +146,11 @@ export function BankIntegration() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['bank-accounts'] })
       queryClient.invalidateQueries({ queryKey: ['bank-transactions'] })
-      toast.success('Bank transactions synced successfully')
+      showToast({ title: 'Success', description: 'Bank transactions synced successfully', status: 'success' })
     },
     onError: () => {
       setSyncProgress({ show: false, progress: 0 })
-      toast.error('Failed to sync bank transactions')
+      showToast({ title: 'Error', description: 'Failed to sync bank transactions', status: 'error' })
     }
   })
 
@@ -176,10 +176,10 @@ export function BankIntegration() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['bank-accounts'] })
-      toast.success('Bank account connected successfully')
+      showToast({ title: 'Success', description: 'Bank account connected successfully', status: 'success' })
     },
     onError: () => {
-      toast.error('Failed to connect bank account')
+      showToast({ title: 'Error', description: 'Failed to connect bank account', status: 'error' })
     }
   })
 
@@ -200,7 +200,7 @@ export function BankIntegration() {
       }
       await addAccountMutation.mutateAsync(accountData)
     } catch (error) {
-      toast.error('Failed to connect bank account')
+      showToast({ title: 'Error', description: 'Failed to connect bank account', status: 'error' })
     } finally {
       setIsConnecting(false)
     }

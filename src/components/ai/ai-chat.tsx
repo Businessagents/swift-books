@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { showToast } from "@/lib/toast";
 import { Send, Bot, User, TrendingUp, Receipt, Calculator } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 
@@ -30,7 +30,6 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
     },
   ]);
   const [input, setInput] = useState("");
-  const { toast } = useToast();
 
   const chatMutation = useMutation({
     mutationFn: async (message: string) => {
@@ -60,7 +59,7 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
       }
     },
     onError: (error) => {
-      toast({
+      showToast({
         title: "Error",
         description: "Failed to get AI response. Please try again.",
         variant: "destructive",

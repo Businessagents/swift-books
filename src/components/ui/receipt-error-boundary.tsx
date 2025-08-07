@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { AlertTriangle, RefreshCw, Bug, FileX } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@chakra-ui/react'
 
 interface ErrorBoundaryState {
   hasError: boolean
@@ -151,7 +151,6 @@ interface DefaultErrorFallbackProps {
 }
 
 function DefaultErrorFallback({ error, errorId, resetError }: DefaultErrorFallbackProps) {
-  const { toast } = useToast()
 
   const copyErrorInfo = () => {
     const errorText = `
@@ -164,7 +163,7 @@ User Agent: ${navigator.userAgent}
     `.trim()
 
     navigator.clipboard.writeText(errorText).then(() => {
-      toast({
+      showToast({
         title: 'Error details copied',
         description: 'Error information has been copied to clipboard',
       })

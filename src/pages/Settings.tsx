@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react"
 import { Card, CardBody, CardHeader } from "@/components/ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
-import { toast } from "@/components/ui/sonner"
+import { showToast } from "@/lib/toast"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
 import { 
@@ -82,7 +82,7 @@ const Settings = () => {
     try {
       // In real app, save settings via API
       await new Promise(resolve => setTimeout(resolve, 1000))
-      toast({
+      showToast({
         title: "Settings saved",
         description: "Your preferences have been updated successfully.",
         status: "success",
@@ -90,7 +90,7 @@ const Settings = () => {
         isClosable: true,
       })
     } catch (error) {
-      toast({
+      showToast({
         title: "Save failed",
         description: "Failed to save settings. Please try again.",
         status: "error",
@@ -102,7 +102,7 @@ const Settings = () => {
     }
   }
   const handleExportData = () => {
-    toast({
+    showToast({
       title: "Export started",
       description: "Your data export will be ready shortly and sent to your email.",
       status: "info",
@@ -111,7 +111,7 @@ const Settings = () => {
     })
   }
   const handleImportData = () => {
-    toast({
+    showToast({
       title: "Import feature",
       description: "Data import functionality will be available in the next update.",
       status: "info", 

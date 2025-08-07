@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Camera, Upload, Check, Clock, X, AlertCircle, Edit3, RefreshCw } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
-import { useToast } from "@/components/ui/use-toast"
+import { showToast } from "@/lib/toast"
 import { ReceiptImage } from "@/components/ui/receipt-image"
 import { ReceiptErrorBoundary } from "@/components/ui/receipt-error-boundary"
 import { thumbnailGenerator, THUMBNAIL_PRESETS, ThumbnailResult } from "@/lib/thumbnail-generator"
@@ -72,7 +72,6 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
   const [retryCount, setRetryCount] = useState(0)
   const [ocrError, setOcrError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const { toast } = useToast()
 
   const handleFileSelect = async (files: FileList | null) => {
     if (!files || files.length === 0) return
@@ -81,7 +80,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
     
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      toast({
+      showToast({
         title: "Invalid file type",
         description: "Please select an image file (PNG, JPG, etc.)",
         variant: "destructive",
@@ -91,7 +90,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
 
     // Validate file size (4MB limit)
     if (file.size > 4 * 1024 * 1024) {
-      toast({
+      showToast({
         title: "File too large",
         description: "Please select an image smaller than 4MB",
         variant: "destructive",
@@ -196,7 +195,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
       setProcessing(false)
       setProgress(0)
       
-      toast({
+      showToast({
         title: "Failed to process receipt",
         description: error.message || "An unexpected error occurred",
         variant: "destructive",
@@ -278,7 +277,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
       // Show review dialog
       setShowReviewDialog(true)
 
-      toast({
+      showToast({
         title: "Receipt processed successfully!",
         description: `Extracted: ${extracted.vendor || 'Receipt'} - $${extracted.amount?.toFixed(2) || '0.00'}`,
       })
@@ -304,7 +303,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
         )
       )
       
-      toast({
+      showToast({
         title: "OCR processing failed",
         description: error.message || "An unexpected error occurred during text extraction",
         variant: "destructive",
@@ -381,7 +380,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
         .update({ status: 'categorized' })
         .eq('id', receiptData.id)
 
-      toast({
+      showToast({
         title: "Expense created successfully!",
         description: `${reviewData.vendor} expense has been added to your records.`,
       })
@@ -397,7 +396,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
 
     } catch (error: any) {
       console.error('Expense creation error:', error)
-      toast({
+      showToast({
         title: "Failed to create expense",
         description: error.message || "An unexpected error occurred",
         variant: "destructive",
@@ -459,7 +458,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
       
       await startOCRProcessing(receiptRecord, file)
     } catch (error: any) {
-      toast({
+      showToast({
         title: "Retry failed",
         description: error.message || "Could not retry OCR processing",
         variant: "destructive",
@@ -488,12 +487,12 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
       // Remove from state
       setUploadedReceipts(prev => prev.filter(r => r.id !== receipt.id))
       
-      toast({
+      showToast({
         title: "Receipt deleted",
         description: "Receipt has been removed from your account",
       })
     } catch (error: any) {
-      toast({
+      showToast({
         title: "Delete failed",
         description: error.message || "Could not delete receipt",
         variant: "destructive",

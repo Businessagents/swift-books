@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/hooks/use-auth";
-import { useToast } from "@/hooks/use-toast";
+import { showToast } from "@/lib/toast";
 import { LogIn, UserPlus, Building, Mail, Lock, User, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -15,7 +15,6 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { signIn, signUp, user } = useAuth();
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   // Redirect if already authenticated
@@ -38,15 +37,20 @@ const Auth = () => {
 
     if (error) {
       setError(error.message);
-      toast({
+      showToast({
         title: "Sign in failed",
         description: error.message,
-        variant: "destructive",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
       });
     } else {
-      toast({
+      showToast({
         title: "Welcome back!",
         description: "You have successfully signed in.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
       });
       navigate("/");
     }
@@ -82,15 +86,20 @@ const Auth = () => {
       } else {
         setError(error.message);
       }
-      toast({
+      showToast({
         title: "Sign up failed",
         description: error.message,
-        variant: "destructive",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
       });
     } else {
-      toast({
+      showToast({
         title: "Account created!",
         description: "Please check your email to verify your account.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
       });
     }
 

@@ -29,7 +29,7 @@ import {
   ArrowUpDown
 } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
-import { useToast } from "@/hooks/use-toast"
+import { showToast } from "@/lib/toast"
 import { usePrivacy } from "@/hooks/use-privacy"
 
 interface Receipt {
@@ -61,7 +61,6 @@ export default function Receipts() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [receiptToDelete, setReceiptToDelete] = useState<Receipt | null>(null)
   const [selectedReceipts, setSelectedReceipts] = useState<Set<string>>(new Set())
-  const { toast } = useToast()
   const { maskValue } = usePrivacy()
 
   useEffect(() => {
@@ -80,7 +79,7 @@ export default function Receipts() {
       setReceipts(data || [])
     } catch (error) {
       console.error('Error fetching receipts:', error)
-      toast({
+      showToast({
         title: "Error loading receipts",
         description: "Failed to load your receipts. Please try again.",
         variant: "destructive",
@@ -114,7 +113,7 @@ export default function Receipts() {
 
       if (dbError) throw dbError
 
-      toast({
+      showToast({
         title: "Receipt deleted",
         description: "The receipt has been permanently deleted.",
       })
@@ -122,7 +121,7 @@ export default function Receipts() {
       fetchReceipts()
     } catch (error) {
       console.error('Error deleting receipt:', error)
-      toast({
+      showToast({
         title: "Delete failed",
         description: "Failed to delete the receipt. Please try again.",
         variant: "destructive",
@@ -165,7 +164,7 @@ export default function Receipts() {
         .update({ status: 'categorized' })
         .eq('id', receipt.id)
 
-      toast({
+      showToast({
         title: "Expense created",
         description: "Receipt has been converted to an expense record.",
       })
@@ -173,7 +172,7 @@ export default function Receipts() {
       fetchReceipts()
     } catch (error) {
       console.error('Error converting to expense:', error)
-      toast({
+      showToast({
         title: "Conversion failed",
         description: "Failed to convert receipt to expense.",
         variant: "destructive",

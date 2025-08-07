@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { showToast } from "@/lib/toast";
 import { Brain, Zap, CheckCircle, AlertCircle, DollarSign } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 
@@ -38,7 +38,6 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
   const [suggestedCategory, setSuggestedCategory] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [confidence, setConfidence] = useState(0);
-  const { toast } = useToast();
 
   const categorizeMutation = useMutation({
     mutationFn: async (expenseDescription: string) => {
@@ -84,10 +83,10 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
       }
     },
     onError: (error) => {
-      toast({
+      showToast({
         title: "Categorization failed",
         description: "Failed to categorize expense. Please select manually.",
-        variant: "destructive",
+        status: "error",
       });
       console.error("Categorization error:", error);
     },
@@ -116,9 +115,10 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
     },
     onSuccess: (data) => {
       const categoryName = data.expense_categories?.name || 'Unknown Category';
-      toast({
+      showToast({
         title: "Expense saved!",
         description: `${categoryName}: $${data.amount} CAD`,
+        status: "success",
       });
       
       onExpenseCreated?.(data);
@@ -131,20 +131,20 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
       setConfidence(0);
     },
     onError: (error) => {
-      toast({
+      showToast({
         title: "Failed to save expense",
         description: error.message,
-        variant: "destructive",
+        status: "error",
       });
     },
   });
 
   const handleCategorize = () => {
     if (!description.trim()) {
-      toast({
+      showToast({
         title: "Description required",
         description: "Please enter an expense description to categorize.",
-        variant: "destructive",
+        status: "error",
       });
       return;
     }
@@ -154,10 +154,10 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
 
   const handleSave = () => {
     if (!description.trim() || !amount || !selectedCategory) {
-      toast({
+      showToast({
         title: "Missing information",
         description: "Please fill in all required fields.",
-        variant: "destructive",
+        status: "error",
       });
       return;
     }
