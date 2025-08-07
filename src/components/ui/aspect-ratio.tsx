@@ -1,5 +1,5 @@
-import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio"
+import { AspectRatio as ChakraAspectRatio } from "@chakra-ui/react"
 
-const AspectRatio = AspectRatioPrimitive.Root
+const AspectRatio = ChakraAspectRatio
 
 export { AspectRatio }
