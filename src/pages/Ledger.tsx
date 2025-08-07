@@ -6,7 +6,7 @@ import { ReconciliationDialog } from "@/components/ledger/reconciliation-dialog"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Plus, RefreshCw, RotateCcw } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Box, VStack, HStack, Text, Heading, Container, Flex, Icon } from "@chakra-ui/react"
 import { useColorMode } from "@chakra-ui/color-mode"
 
@@ -131,12 +131,12 @@ const Ledger = () => {
                   </HStack>
                 </Flex>
               </CardHeader>
-              <CardContent p={0}>
+              <CardBody p={0}>
                 <LedgerTable 
                   filters={filters}
                   onReconcileTransaction={handleOpenReconciliation}
                 />
-              </CardContent>
+              </CardBody>
             </Card>
           </Box>
         </VStack>

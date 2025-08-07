@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { FileText, Send, BarChart3, Download, Plus, Zap } from "lucide-react"
@@ -47,7 +47,7 @@ export function QuickActions() {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardBody>
         <div className="grid gap-3 md:grid-cols-2">
           {actions.map((action) => {
             const Icon = action.icon
@@ -81,7 +81,7 @@ export function QuickActions() {
             Create Custom Workflow
           </Button>
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -115,7 +115,7 @@ const Auth = () => {
             </CardDescription>
           </CardHeader>
           
-          <CardContent>
+          <CardBody>
             {error && (
               <Alert variant="destructive" className="mb-4">
                 <AlertCircle className="h-4 w-4" />
@@ -255,7 +255,7 @@ const Auth = () => {
               <p>🇨🇦 Built for Canadian tax compliance</p>
               <p className="mt-1">GST/HST ready • CRA guidelines included</p>
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
     </div>

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "@/components/ui/sonner"
 import { Send, Bot, MessageSquare } from "lucide-react"
 
@@ -169,7 +169,7 @@ export function PaymentReminderDialog({ open, onOpenChange, invoice, onSuccess }
             <CardHeader>
               <CardTitle className="text-lg">Invoice Details</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <div className="grid gap-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Invoice:</span>
@@ -192,7 +192,7 @@ export function PaymentReminderDialog({ open, onOpenChange, invoice, onSuccess }
                   <span className="font-medium text-red-600">{daysOverdue} days</span>
                 </div>
               </div>
-            </CardContent>
+            </CardBody>
           </Card>
 
           {/* Tone Selection */}

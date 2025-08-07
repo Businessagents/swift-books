@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardBody } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -133,7 +133,7 @@ export function ReceiptImage({
   if (loading) {
     return (
       <Card className={className}>
-        <CardContent className="p-4">
+        <CardBody className="p-4">
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <Skeleton className="h-4 w-32" />
@@ -145,7 +145,7 @@ export function ReceiptImage({
               <Skeleton className="h-8 w-20" />
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
     )
   }
@@ -153,7 +153,7 @@ export function ReceiptImage({
   if (error) {
     return (
       <Card className={className}>
-        <CardContent className="p-4">
+        <CardBody className="p-4">
           <div className="flex items-center gap-2 text-destructive mb-4">
             <AlertCircle className="h-4 w-4" />
             <span className="text-sm">{error}</span>
@@ -166,7 +166,7 @@ export function ReceiptImage({
           >
             Retry
           </Button>
-        </CardContent>
+        </CardBody>
       </Card>
     )
   }
@@ -177,7 +177,7 @@ export function ReceiptImage({
   return (
     <>
       <Card className={className}>
-        <CardContent className="p-4">
+        <CardBody className="p-4">
           <div className="space-y-4">
             {/* Header */}
             <div className="flex justify-between items-start">
@@ -275,7 +275,7 @@ export function ReceiptImage({
               </div>
             )}
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Full Image Dialog */}
