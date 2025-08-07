@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -184,14 +184,14 @@ export function InvoiceList() {
             <CardTitle className="text-sm font-medium">Total Invoiced</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalAmount) : totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {invoices.length} invoices
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -199,14 +199,14 @@ export function InvoiceList() {
             <CardTitle className="text-sm font-medium">Paid Amount</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-green-600">
               ${isPrivacyMode ? maskValue(paidAmount) : paidAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {invoices.filter(inv => inv.status === 'paid').length} paid
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -214,14 +214,14 @@ export function InvoiceList() {
             <CardTitle className="text-sm font-medium">Outstanding</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-orange-600">
               ${isPrivacyMode ? maskValue(pendingAmount) : pendingAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {invoices.filter(inv => inv.status !== 'paid').length} pending
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -229,14 +229,14 @@ export function InvoiceList() {
             <CardTitle className="text-sm font-medium">Clients</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               {new Set(invoices.map(inv => inv.client_name)).size}
             </div>
             <p className="text-xs text-muted-foreground">
               Active clients
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
@@ -296,7 +296,7 @@ export function InvoiceList() {
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardBody>
           {isLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
@@ -416,7 +416,7 @@ export function InvoiceList() {
               ))}
             </div>
           )}
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Payment Reminder Dialog */}

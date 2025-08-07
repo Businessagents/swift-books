@@ -1,5 +1,5 @@
 import { ReceiptUploadEnhanced } from './receipt-upload-enhanced'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { CheckCircle, AlertCircle, Upload } from 'lucide-react'
@@ -77,7 +77,7 @@ export function ReceiptUploadTest() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {testFeatures.map((feature, index) => (
           <Card key={index} className="border-green-200">
-            <CardContent className="p-4">
+            <CardBody className="p-4">
               <div className="flex items-start gap-3">
                 <div className="text-green-600 mt-0.5">
                   {feature.icon}
@@ -92,7 +92,7 @@ export function ReceiptUploadTest() {
                   </Badge>
                 </div>
               </div>
-            </CardContent>
+            </CardBody>
           </Card>
         ))}
       </div>
@@ -109,12 +109,12 @@ export function ReceiptUploadTest() {
             thumbnails will be generated automatically, and OCR will process with retry logic.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           <ReceiptUploadEnhanced
             onReceiptProcessed={handleReceiptProcessed}
             onExpenseCreated={handleExpenseCreated}
           />
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Implementation Notes */}
@@ -122,7 +122,7 @@ export function ReceiptUploadTest() {
         <CardHeader>
           <CardTitle>Implementation Notes</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardBody className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <h4 className="font-medium text-sm mb-2">New Components Created:</h4>
@@ -155,7 +155,7 @@ export function ReceiptUploadTest() {
               <Badge variant="outline" className="text-xs">✅ Signed URLs cached</Badge>
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   )

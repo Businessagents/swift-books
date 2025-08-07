@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -257,14 +257,14 @@ export function BankIntegration() {
             <CardTitle className="text-sm font-medium">Total Balance</CardTitle>
             <Banknote className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalBalance) : totalBalance.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               Across {accounts.length} accounts
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -272,12 +272,12 @@ export function BankIntegration() {
             <CardTitle className="text-sm font-medium">Connected Accounts</CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">{accounts.length}</div>
             <p className="text-xs text-muted-foreground">
               Active bank connections
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -285,12 +285,12 @@ export function BankIntegration() {
             <CardTitle className="text-sm font-medium">Unreconciled</CardTitle>
             <AlertCircle className="h-4 w-4 text-orange-500" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-orange-600">{unreconciled}</div>
             <p className="text-xs text-muted-foreground">
               Transactions need review
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
@@ -300,7 +300,7 @@ export function BankIntegration() {
           <CardHeader>
             <CardTitle>Connected Accounts</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="space-y-4">
               {accounts.map((account) => (
                 <div
@@ -348,7 +348,7 @@ export function BankIntegration() {
                 </div>
               ))}
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
       )}
 
@@ -389,7 +389,7 @@ export function BankIntegration() {
             Latest bank transactions from connected accounts
           </p>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           {transactionsLoading ? (
             <div className="space-y-4">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -477,7 +477,7 @@ export function BankIntegration() {
               ))}
             </div>
           )}
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   )

@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardBody } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
@@ -66,7 +66,7 @@ export function LedgerFilters({ filters, onFiltersChange }: LedgerFiltersProps) 
 
   return (
     <Card className="bg-card/95 backdrop-blur-sm border-border/50 shadow-lg">
-      <CardContent className="p-6">
+      <CardBody className="p-6">
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
@@ -220,7 +220,7 @@ export function LedgerFilters({ filters, onFiltersChange }: LedgerFiltersProps) 
             )}
           </div>
         )}
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }
