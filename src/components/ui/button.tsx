@@ -1,6 +1,5 @@
 import * as React from "react"
 import { Button as ChakraButton, ButtonProps as ChakraButtonProps } from "@chakra-ui/react"
-import { Slot } from "@radix-ui/react-slot"
 
 // Define button variant mapping from Tailwind to Chakra
 const getChakraVariant = (variant?: string) => {
@@ -72,7 +71,8 @@ export interface ButtonProps extends Omit<ChakraButtonProps, 'variant' | 'size' 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'default', size = 'default', asChild = false, children, ...props }, ref) => {
     if (asChild) {
-      return <Slot ref={ref}>{children}</Slot>
+      // When asChild is true, render children directly (simplified Slot behavior)
+      return React.Children.only(children)
     }
 
     return (
