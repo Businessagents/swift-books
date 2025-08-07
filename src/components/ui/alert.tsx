@@ -1,59 +1,52 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import { 
+  Alert as ChakraAlert, 
+  AlertIndicator, 
+  AlertTitle as ChakraAlertTitle, 
+  AlertDescription as ChakraAlertDescription,
+  AlertProps as ChakraAlertProps
+} from "@chakra-ui/react"
 
-import { cn } from "@/lib/utils"
+interface AlertProps extends ChakraAlertProps {
+  variant?: 'default' | 'destructive'
+}
 
-const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
-  {
-    variants: {
-      variant: {
-        default: "bg-background text-foreground",
-        destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  ({ variant = 'default', status, ...props }, ref) => {
+    // Map variant to Chakra status
+    const chakraStatus = variant === 'destructive' ? 'error' : (status || 'info')
+    
+    return (
+      <ChakraAlert 
+        ref={ref} 
+        status={chakraStatus as any}
+        borderRadius="lg"
+        {...props} 
+      />
+    )
   }
 )
-
-const Alert = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div
-    ref={ref}
-    role="alert"
-    className={cn(alertVariants({ variant }), className)}
-    {...props}
-  />
-))
 Alert.displayName = "Alert"
 
-const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h5
-    ref={ref}
-    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
-    {...props}
-  />
-))
+const AlertTitle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ children, ...props }, ref) => (
+    <ChakraAlertTitle ref={ref} {...props}>
+      {children}
+    </ChakraAlertTitle>
+  )
+)
 AlertTitle.displayName = "AlertTitle"
 
-const AlertDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm [&_p]:leading-relaxed", className)}
-    {...props}
-  />
-))
+const AlertDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ children, ...props }, ref) => (
+    <ChakraAlertDescription ref={ref} {...props}>
+      {children}
+    </ChakraAlertDescription>
+  )
+)
 AlertDescription.displayName = "AlertDescription"
 
-export { Alert, AlertTitle, AlertDescription }
+// For compatibility, export AlertIcon as AlertIndicator
+const AlertIcon = AlertIndicator
+
+export { Alert, AlertTitle, AlertDescription, AlertIcon, AlertIndicator }

@@ -7,7 +7,7 @@ import './index.css'
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider value={theme}>
       <App />
     </ChakraProvider>
   </React.StrictMode>

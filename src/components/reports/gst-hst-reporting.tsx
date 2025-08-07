@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
 import { supabase } from "@/integrations/supabase/client"
 import { usePrivacy } from "@/hooks/use-privacy"
-import { toast } from "sonner"
+import { toast } from "@/components/ui/sonner"
 import { 
   Download, 
   FileText, 
