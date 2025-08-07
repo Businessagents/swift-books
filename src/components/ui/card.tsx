@@ -1,3 +1,18 @@
+/**
+ * Card Component - Chakra UI v3 wrapper
+ * 
+ * Provides a consistent card layout using Chakra UI components.
+ * Supports elevated and outline variants for different visual treatments.
+ * 
+ * @example
+ * <Card variant="elevated">
+ *   <CardHeader>
+ *     <CardTitle>Title</CardTitle>
+ *     <CardDescription>Description</CardDescription>
+ *   </CardHeader>
+ *   <CardContent>Content here</CardContent>
+ * </Card>
+ */
 import * as React from "react"
 import { 
   Card as ChakraCardRoot,

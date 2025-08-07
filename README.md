@@ -1,4 +1,4 @@
-# finwize.ai
+# Swift Books
 
 AI-Powered Financial Management for Canadian Small Businesses
 
@@ -15,11 +15,16 @@ AI-Powered Financial Management for Canadian Small Businesses
 
 ## Technology Stack
 
-- **Frontend**: React 18, TypeScript, Tailwind CSS, Vite
+- **Frontend**: React 18, TypeScript, Vite
 - **Mobile**: Progressive Web App (PWA) + Capacitor for native iOS/Android
-- **UI Components**: shadcn/ui with custom design system
-- **Backend Ready**: Supabase integration for authentication and data
-- **AI Integration**: Ready for OpenAI GPT-4o-mini and AWS Textract
+- **UI Framework**: Chakra UI v3 with custom component wrappers
+- **Backend**: Supabase integration for authentication and data
+- **AI Integration**: OpenAI GPT-4o-mini and AWS Textract
+- **State Management**: TanStack Query for server state
+
+## UI Framework Migration
+
+This project has been migrated from shadcn/ui to **Chakra UI v3** for better component consistency and maintenance. See [CHAKRA_UI_MIGRATION.md](./CHAKRA_UI_MIGRATION.md) for detailed information about the migration and usage guidelines.
 
 ## How can I edit this code?
 
@@ -71,11 +76,13 @@ npm run dev
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Build Tool**: Vite
+- **Language**: TypeScript  
+- **Framework**: React 18
+- **UI Library**: Chakra UI v3
+- **Styling**: Emotion (via Chakra UI)
+- **Backend**: Supabase
+- **Mobile**: Capacitor
 
 ## How can I deploy this project?
 
