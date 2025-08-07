@@ -1,16 +1,42 @@
 import { useState } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
-import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { showToast } from "@/lib/toast"
+import {
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Button,
+  Badge,
+  Input,
+  Select,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Text,
+  VStack,
+  HStack,
+  Grid,
+  GridItem,
+  Flex,
+  IconButton,
+  Skeleton,
+  useDisclosure,
+  InputGroup,
+  InputLeftElement,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription
+} from "@chakra-ui/react"
 import { Search, Plus, Edit, Trash2, Receipt, Calendar, DollarSign } from "lucide-react"
 import { usePrivacy } from "@/hooks/use-privacy"
 import { ExpenseForm } from "./expense-form"
+import { showToast } from "@/lib/toast"
 
 interface Expense {
   id: string
@@ -31,11 +57,21 @@ export function ExpenseList() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
   const [dateFilter, setDateFilter] = useState<string>("all")
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null)
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   
   const { maskValue, isPrivacyMode } = usePrivacy()
   const queryClient = useQueryClient()
+  
+  const { 
+    isOpen: isCreateModalOpen, 
+    onOpen: openCreateModal, 
+    onClose: closeCreateModal 
+  } = useDisclosure()
+  
+  const { 
+    isOpen: isEditModalOpen, 
+    onOpen: openEditModal, 
+    onClose: closeEditModal 
+  } = useDisclosure()
 
   // Fetch expenses
   const { data: expenses = [], isLoading } = useQuery({
@@ -88,7 +124,7 @@ export function ExpenseList() {
       const { data, error } = await query
 
       if (error) {
-        toast.error("Failed to fetch expenses")
+        showToast("Failed to fetch expenses", "error")
         throw error
       }
 
@@ -123,10 +159,10 @@ export function ExpenseList() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['expenses'] })
-      toast.success("Expense deleted successfully")
+      showToast("Expense deleted successfully", "success")
     },
     onError: () => {
-      toast.error("Failed to delete expense")
+      showToast("Failed to delete expense", "error")
     }
   })
 
@@ -136,100 +172,114 @@ export function ExpenseList() {
     }
   }
 
+  const handleEdit = (expense: Expense) => {
+    setSelectedExpense(expense)
+    openEditModal()
+  }
+
   const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0)
   const totalTax = expenses.reduce((sum, expense) => sum + (expense.tax_amount || 0), 0)
 
   return (
-    <div className="space-y-6">
+    <VStack spacing={6} align="stretch">
       {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
-            <div className="text-2xl font-bold">
-              ${isPrivacyMode ? maskValue(totalAmount) : totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {expenses.length} expenses
-            </p>
-          </CardBody>
-        </Card>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
+        <GridItem>
+          <Card>
+            <CardHeader>
+              <Flex justify="space-between" align="center">
+                <Heading size="sm">Total Expenses</Heading>
+                <DollarSign size={16} />
+              </Flex>
+            </CardHeader>
+            <CardBody>
+              <Heading size="lg">
+                ${isPrivacyMode ? maskValue(totalAmount) : totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
+              </Heading>
+              <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
+                {expenses.length} expenses
+              </Text>
+            </CardBody>
+          </Card>
+        </GridItem>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Tax</CardTitle>
-            <Receipt className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
-            <div className="text-2xl font-bold">
-              ${isPrivacyMode ? maskValue(totalTax) : totalTax.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              GST/HST recoverable
-            </p>
-          </CardBody>
-        </Card>
+        <GridItem>
+          <Card>
+            <CardHeader>
+              <Flex justify="space-between" align="center">
+                <Heading size="sm">Total Tax</Heading>
+                <Receipt size={16} />
+              </Flex>
+            </CardHeader>
+            <CardBody>
+              <Heading size="lg">
+                ${isPrivacyMode ? maskValue(totalTax) : totalTax.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
+              </Heading>
+              <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
+                GST/HST recoverable
+              </Text>
+            </CardBody>
+          </Card>
+        </GridItem>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Month</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
-            <div className="text-2xl font-bold">
-              {expenses.filter(e => new Date(e.expense_date).getMonth() === new Date().getMonth()).length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              New expenses
-            </p>
-          </CardBody>
-        </Card>
-      </div>
+        <GridItem>
+          <Card>
+            <CardHeader>
+              <Flex justify="space-between" align="center">
+                <Heading size="sm">This Month</Heading>
+                <Calendar size={16} />
+              </Flex>
+            </CardHeader>
+            <CardBody>
+              <Heading size="lg">
+                {expenses.filter(e => new Date(e.expense_date).getMonth() === new Date().getMonth()).length}
+              </Heading>
+              <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
+                New expenses
+              </Text>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </Grid>
 
-      {/* Filters and Actions */}
+      {/* Main Content Card */}
       <Card>
         <CardHeader>
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-            <div>
-              <CardTitle>Expense Records</CardTitle>
-              <p className="text-sm text-muted-foreground">Manage and track your business expenses</p>
-            </div>
-            <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Expense
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Create New Expense</DialogTitle>
-                </DialogHeader>
-                <ExpenseForm
-                  onSuccess={() => {
-                    setIsCreateDialogOpen(false)
-                    queryClient.invalidateQueries({ queryKey: ['expenses'] })
-                  }}
-                />
-              </DialogContent>
-            </Dialog>
-          </div>
+          <Flex
+            direction={{ base: "column", sm: "row" }}
+            gap={4}
+            justify="space-between"
+            align={{ base: "stretch", sm: "center" }}
+          >
+            <Box>
+              <Heading size="md">Expense Records</Heading>
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }}>
+                Manage and track your business expenses
+              </Text>
+            </Box>
+            <Button leftIcon={<Plus size={16} />} colorScheme="blue" onClick={openCreateModal}>
+              Add Expense
+            </Button>
+          </Flex>
 
           {/* Search and Filters */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Flex direction={{ base: "column", sm: "row" }} gap={4} mt={4}>
+            <InputGroup flex={1}>
+              <InputLeftElement>
+                <Search size={16} />
+              </InputLeftElement>
               <Input
                 placeholder="Search expenses..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
               />
-            </div>
-            <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="w-[180px]" placeholder="Category">
+            </InputGroup>
+            <Select 
+              value={categoryFilter} 
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              w={{ base: "full", sm: "180px" }}
+              placeholder="Category"
+            >
               <option value="all">All Categories</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -237,7 +287,12 @@ export function ExpenseList() {
                 </option>
               ))}
             </Select>
-            <Select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="w-[150px]" placeholder="Date Range">
+            <Select 
+              value={dateFilter} 
+              onChange={(e) => setDateFilter(e.target.value)}
+              w={{ base: "full", sm: "150px" }}
+              placeholder="Date Range"
+            >
               <option value="all">All Time</option>
               <option value="today">Today</option>
               <option value="week">Last 7 Days</option>
@@ -245,113 +300,144 @@ export function ExpenseList() {
               <option value="quarter">Last Quarter</option>
               <option value="year">Last Year</option>
             </Select>
-          </div>
+          </Flex>
         </CardHeader>
 
         <CardBody>
           {isLoading ? (
-            <div className="space-y-3">
+            <VStack spacing={3}>
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="h-16 bg-muted rounded"></div>
-                </div>
+                <Skeleton key={i} height="64px" borderRadius="md" />
               ))}
-            </div>
+            </VStack>
           ) : expenses.length === 0 ? (
-            <div className="text-center py-12">
-              <Receipt className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No expenses found</h3>
-              <p className="text-muted-foreground mb-4">
+            <VStack py={12} spacing={4}>
+              <Receipt size={48} color="gray" />
+              <Heading size="md">No expenses found</Heading>
+              <Text color="gray.600" _dark={{ color: "gray.400" }} textAlign="center">
                 {searchQuery || categoryFilter !== "all" || dateFilter !== "all"
                   ? "Try adjusting your filters or search terms."
                   : "Get started by adding your first expense."}
-              </p>
-              <Button onClick={() => setIsCreateDialogOpen(true)}>
-                <Plus className="h-4 w-4 mr-2" />
+              </Text>
+              <Button leftIcon={<Plus size={16} />} onClick={openCreateModal}>
                 Add Expense
               </Button>
-            </div>
+            </VStack>
           ) : (
-            <div className="space-y-3">
+            <VStack spacing={3} align="stretch">
               {expenses.map((expense) => (
-                <div
+                <Box
                   key={expense.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors"
+                  p={4}
+                  border="1px"
+                  borderColor="gray.200"
+                  borderRadius="lg"
+                  _hover={{ bg: "gray.50" }}
+                  _dark={{
+                    borderColor: "gray.600",
+                    _hover: { bg: "gray.700" }
+                  }}
+                  transition="all 0.2s"
                 >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-1">
-                      <p className="font-semibold">{expense.description}</p>
-                      {expense.category && (
-                        <Badge variant="outline">{expense.category.name}</Badge>
-                      )}
-                      {expense.is_billable && (
-                        <Badge variant="outline">Billable</Badge>
-                      )}
-                      {expense.receipt && (
-                        <Badge variant={expense.receipt.status === 'processed' ? 'solid' : 'outline'}>
-                          <Receipt className="h-3 w-3 mr-1" />
-                          Receipt
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span>{isPrivacyMode ? maskValue(expense.vendor) : expense.vendor || 'No vendor'}</span>
-                      <span>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</span>
-                      {expense.tax_amount > 0 && (
-                        <span>Tax: ${isPrivacyMode ? maskValue(expense.tax_amount) : expense.tax_amount.toFixed(2)}</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="text-right">
-                      <p className="font-semibold text-lg">
-                        ${isPrivacyMode ? maskValue(expense.amount) : expense.amount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-                      </p>
-                      <p className="text-xs text-muted-foreground">{expense.currency}</p>
-                    </div>
-                    <div className="flex gap-1">
-                      <Dialog open={isEditDialogOpen && selectedExpense?.id === expense.id} onOpenChange={setIsEditDialogOpen}>
-                        <DialogTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => setSelectedExpense(expense)}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-2xl">
-                          <DialogHeader>
-                            <DialogTitle>Edit Expense</DialogTitle>
-                          </DialogHeader>
-                          {selectedExpense && (
-                            <ExpenseForm
-                              expense={selectedExpense}
-                              onSuccess={() => {
-                                setIsEditDialogOpen(false)
-                                setSelectedExpense(null)
-                                queryClient.invalidateQueries({ queryKey: ['expenses'] })
-                              }}
-                            />
-                          )}
-                        </DialogContent>
-                      </Dialog>
-                      <Button 
-                        variant="ghost" 
-                        size="sm"
-                        onClick={() => handleDelete(expense.id)}
-                        disabled={deleteExpenseMutation.isPending}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+                  <Flex justify="space-between" align="center">
+                    <Box flex={1}>
+                      <HStack spacing={3} mb={1}>
+                        <Text fontWeight="semibold">{expense.description}</Text>
+                        {expense.category && (
+                          <Badge variant="outline">{expense.category.name}</Badge>
+                        )}
+                        {expense.is_billable && (
+                          <Badge variant="outline">Billable</Badge>
+                        )}
+                        {expense.receipt && (
+                          <Badge colorScheme={expense.receipt.status === 'processed' ? 'green' : 'gray'}>
+                            <HStack spacing={1}>
+                              <Receipt size={12} />
+                              <Text>Receipt</Text>
+                            </HStack>
+                          </Badge>
+                        )}
+                      </HStack>
+                      <HStack spacing={4} fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }}>
+                        <Text>{isPrivacyMode ? maskValue(expense.vendor) : expense.vendor || 'No vendor'}</Text>
+                        <Text>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</Text>
+                        {expense.tax_amount > 0 && (
+                          <Text>Tax: ${isPrivacyMode ? maskValue(expense.tax_amount) : expense.tax_amount.toFixed(2)}</Text>
+                        )}
+                      </HStack>
+                    </Box>
+                    <HStack spacing={3}>
+                      <Box textAlign="right">
+                        <Text fontWeight="semibold" fontSize="lg">
+                          ${isPrivacyMode ? maskValue(expense.amount) : expense.amount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
+                        </Text>
+                        <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
+                          {expense.currency}
+                        </Text>
+                      </Box>
+                      <HStack spacing={1}>
+                        <IconButton
+                          aria-label="Edit expense"
+                          icon={<Edit size={16} />}
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleEdit(expense)}
+                        />
+                        <IconButton
+                          aria-label="Delete expense"
+                          icon={<Trash2 size={16} />}
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleDelete(expense.id)}
+                          isLoading={deleteExpenseMutation.isPending}
+                        />
+                      </HStack>
+                    </HStack>
+                  </Flex>
+                </Box>
               ))}
-            </div>
+            </VStack>
           )}
         </CardBody>
       </Card>
-    </div>
+
+      {/* Create Expense Modal */}
+      <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal} size="2xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create New Expense</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <ExpenseForm
+              onSuccess={() => {
+                closeCreateModal()
+                queryClient.invalidateQueries({ queryKey: ['expenses'] })
+              }}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      {/* Edit Expense Modal */}
+      <Modal isOpen={isEditModalOpen} onClose={closeEditModal} size="2xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edit Expense</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            {selectedExpense && (
+              <ExpenseForm
+                expense={selectedExpense}
+                onSuccess={() => {
+                  closeEditModal()
+                  setSelectedExpense(null)
+                  queryClient.invalidateQueries({ queryKey: ['expenses'] })
+                }}
+              />
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </VStack>
   )
 }

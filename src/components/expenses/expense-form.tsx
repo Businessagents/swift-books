@@ -3,13 +3,24 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import {
+  Box,
+  Button,
+  Input,
+  Textarea,
+  Select,
+  Checkbox,
+  VStack,
+  HStack,
+  Grid,
+  GridItem,
+  Card,
+  CardHeader,
+  CardBody,
+  Heading,
+  Text
+} from "@chakra-ui/react"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { showToast } from "@/lib/toast"
 import { Calculator, Receipt } from "lucide-react"
 import { z } from "zod"
@@ -152,12 +163,12 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
       }
     },
     onSuccess: () => {
-      toast.success(expense ? "Expense updated successfully" : "Expense created successfully")
+      showToast(expense ? "Expense updated successfully" : "Expense created successfully", "success")
       onSuccess()
     },
     onError: (error) => {
       console.error('Expense error:', error)
-      toast.error("Failed to save expense")
+      showToast("Failed to save expense", "error")
     }
   })
 
@@ -166,183 +177,179 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="grid gap-6 md:grid-cols-2">
+    <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
         {/* Basic Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Basic Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="description">Description *</Label>
-              <Input
-                id="description"
-                placeholder="Expense description"
-                {...register("description")}
-              />
-              {errors.description && (
-                <p className="text-sm text-destructive">{errors.description.message}</p>
-              )}
-            </div>
+        <GridItem>
+          <Card>
+            <CardHeader>
+              <Heading size="md">Basic Information</Heading>
+            </CardHeader>
+            <CardBody>
+              <VStack spacing={4} align="stretch">
+                <Box>
+                  <Label htmlFor="description">Description *</Label>
+                  <Input
+                    id="description"
+                    placeholder="Expense description"
+                    {...register("description")}
+                  />
+                  {errors.description && (
+                    <Text fontSize="sm" color="red.500">{errors.description.message}</Text>
+                  )}
+                </Box>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="amount">Amount (CAD) *</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  step="0.01"
-                  placeholder="0.00"
-                  {...register("amount", { valueAsNumber: true })}
-                />
-                {errors.amount && (
-                  <p className="text-sm text-destructive">{errors.amount.message}</p>
-                )}
-              </div>
+                <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4}>
+                  <GridItem>
+                    <Label htmlFor="amount">Amount (CAD) *</Label>
+                    <Input
+                      id="amount"
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      {...register("amount", { valueAsNumber: true })}
+                    />
+                    {errors.amount && (
+                      <Text fontSize="sm" color="red.500">{errors.amount.message}</Text>
+                    )}
+                  </GridItem>
+                  <GridItem>
+                    <Label htmlFor="expense_date">Date *</Label>
+                    <Input
+                      id="expense_date"
+                      type="date"
+                      {...register("expense_date")}
+                    />
+                    {errors.expense_date && (
+                      <Text fontSize="sm" color="red.500">{errors.expense_date.message}</Text>
+                    )}
+                  </GridItem>
+                </Grid>
 
-              <div className="space-y-2">
-                <Label htmlFor="expense_date">Date *</Label>
-                <Input
-                  id="expense_date"
-                  type="date"
-                  {...register("expense_date")}
-                />
-                {errors.expense_date && (
-                  <p className="text-sm text-destructive">{errors.expense_date.message}</p>
-                )}
-              </div>
-            </div>
+                <Box>
+                  <Label htmlFor="vendor">Vendor</Label>
+                  <Input
+                    id="vendor"
+                    placeholder="Vendor name"
+                    {...register("vendor")}
+                  />
+                </Box>
 
-            <div className="space-y-2">
-              <Label htmlFor="vendor">Vendor</Label>
-              <Input
-                id="vendor"
-                placeholder="Vendor name"
-                {...register("vendor")}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="category_id">Category</Label>
-              <Select 
-                value={watch("category_id") || ""}
-                onValueChange={(value) => setValue("category_id", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
+                <Box>
+                  <Label htmlFor="category_id">Category</Label>
+                  <Select 
+                    placeholder="Select category"
+                    value={watch("category_id") || ""}
+                    onChange={(e) => setValue("category_id", e.target.value)}
+                  >
+                    <option value="">Select category</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Box>
+              </VStack>
+            </CardBody>
+          </Card>
+        </GridItem>
 
         {/* Tax & Financial Details */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Calculator className="h-5 w-5" />
-              Tax & Financial Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="tax_code_id">Tax Code</Label>
-              <Select 
-                value={watch("tax_code_id") || ""}
-                onValueChange={(value) => setValue("tax_code_id", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select tax code" />
-                </SelectTrigger>
-                <SelectContent>
-                  {taxCodes.map((taxCode) => (
-                    <SelectItem key={taxCode.id} value={taxCode.id}>
-                      {taxCode.name} ({(taxCode.rate * 100).toFixed(1)}%)
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+        <GridItem>
+          <Card>
+            <CardHeader>
+              <HStack spacing={2}>
+                <Calculator size={20} />
+                <Heading size="md">Tax & Financial Details</Heading>
+              </HStack>
+            </CardHeader>
+            <CardBody>
+              <VStack spacing={4} align="stretch">
+                <Box>
+                  <Label htmlFor="tax_code_id">Tax Code</Label>
+                  <Select 
+                    placeholder="Select tax code"
+                    value={watch("tax_code_id") || ""}
+                    onChange={(e) => setValue("tax_code_id", e.target.value)}
+                  >
+                    <option value="">Select tax code</option>
+                    {taxCodes.map((taxCode) => (
+                      <option key={taxCode.id} value={taxCode.id}>
+                        {taxCode.name} ({(taxCode.rate * 100).toFixed(1)}%)
+                      </option>
+                    ))}
+                  </Select>
+                </Box>
 
-            {taxAmount > 0 && (
-              <div className="p-3 bg-muted rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Calculated Tax (GST/HST):</span>
-                  <span className="font-semibold">${taxAmount.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-sm text-muted-foreground">Total with Tax:</span>
-                  <span className="font-semibold">${(amount + taxAmount).toFixed(2)}</span>
-                </div>
-              </div>
-            )}
+                {taxAmount > 0 && (
+                  <Box p={3} bg="gray.100" borderRadius="md" _dark={{ bg: "gray.700" }}>
+                    <HStack justify="space-between">
+                      <Text fontSize="sm" fontWeight="medium">Calculated Tax (GST/HST):</Text>
+                      <Text fontWeight="semibold">${taxAmount.toFixed(2)}</Text>
+                    </HStack>
+                    <HStack justify="space-between" mt={1}>
+                      <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }}>Total with Tax:</Text>
+                      <Text fontWeight="semibold">${(amount + taxAmount).toFixed(2)}</Text>
+                    </HStack>
+                  </Box>
+                )}
 
-            <div className="space-y-2">
-              <Label htmlFor="payment_method">Payment Method</Label>
-              <Select 
-                value={watch("payment_method") || ""}
-                onValueChange={(value) => setValue("payment_method", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select payment method" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cash">Cash</SelectItem>
-                  <SelectItem value="credit_card">Credit Card</SelectItem>
-                  <SelectItem value="debit_card">Debit Card</SelectItem>
-                  <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                  <SelectItem value="cheque">Cheque</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+                <Box>
+                  <Label htmlFor="payment_method">Payment Method</Label>
+                  <Select 
+                    placeholder="Select payment method"
+                    value={watch("payment_method") || ""}
+                    onChange={(e) => setValue("payment_method", e.target.value)}
+                  >
+                    <option value="">Select payment method</option>
+                    <option value="cash">Cash</option>
+                    <option value="credit_card">Credit Card</option>
+                    <option value="debit_card">Debit Card</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                    <option value="cheque">Cheque</option>
+                    <option value="other">Other</option>
+                  </Select>
+                </Box>
 
-            <div className="space-y-2">
-              <Label htmlFor="reference_number">Reference Number</Label>
-              <Input
-                id="reference_number"
-                placeholder="Receipt #, Invoice #, etc."
-                {...register("reference_number")}
-              />
-            </div>
+                <Box>
+                  <Label htmlFor="reference_number">Reference Number</Label>
+                  <Input
+                    id="reference_number"
+                    placeholder="Receipt #, Invoice #, etc."
+                    {...register("reference_number")}
+                  />
+                </Box>
 
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="is_billable"
-                  checked={watch("is_billable")}
-                  onCheckedChange={(checked) => setValue("is_billable", checked as boolean)}
-                />
-                <Label htmlFor="is_billable">Billable to client</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="is_personal"
-                  checked={watch("is_personal")}
-                  onCheckedChange={(checked) => setValue("is_personal", checked as boolean)}
-                />
-                <Label htmlFor="is_personal">Personal expense (non-deductible)</Label>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                <VStack spacing={3} align="start">
+                  <Checkbox
+                    id="is_billable"
+                    isChecked={watch("is_billable")}
+                    onChange={(e) => setValue("is_billable", e.target.checked)}
+                  >
+                    Billable to client
+                  </Checkbox>
+                  <Checkbox
+                    id="is_personal"
+                    isChecked={watch("is_personal")}
+                    onChange={(e) => setValue("is_personal", e.target.checked)}
+                  >
+                    Personal expense (non-deductible)
+                  </Checkbox>
+                </VStack>
+              </VStack>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </Grid>
 
       {/* Notes */}
-      <Card>
+      <Card mt={6}>
         <CardHeader>
-          <CardTitle className="text-lg">Additional Notes</CardTitle>
+          <Heading size="md">Additional Notes</Heading>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
+        <CardBody>
+          <Box>
             <Label htmlFor="notes">Notes</Label>
             <Textarea
               id="notes"
@@ -350,20 +357,22 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               rows={3}
               {...register("notes")}
             />
-          </div>
-        </CardContent>
+          </Box>
+        </CardBody>
       </Card>
 
       {/* Actions */}
-      <div className="flex justify-end gap-3">
+      <Box display="flex" justifyContent="flex-end" mt={6}>
         <Button
           type="submit"
-          disabled={isSubmitting}
-          className="min-w-[120px]"
+          isLoading={isSubmitting}
+          loadingText="Saving..."
+          colorScheme="blue"
+          minW="120px"
         >
-          {isSubmitting ? "Saving..." : expense ? "Update Expense" : "Create Expense"}
+          {expense ? "Update Expense" : "Create Expense"}
         </Button>
-      </div>
-    </form>
+      </Box>
+    </Box>
   )
 }
