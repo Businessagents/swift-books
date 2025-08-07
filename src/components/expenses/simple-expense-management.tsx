@@ -16,8 +16,7 @@ import {
   Text, 
   Flex, 
   Icon,
-  Spacer,
-  useColorModeValue
+  Spacer
 } from "@chakra-ui/react"
 import { 
   Search, 
@@ -135,8 +134,9 @@ export function SimpleExpenseManagement() {
     averageAmount: expenses.length > 0 ? expenses.reduce((sum, e) => sum + e.amount, 0) / expenses.length : 0
   }
 
-  const bgColor = useColorModeValue('white', 'gray.800')
-  const cardBg = useColorModeValue('gray.50', 'gray.700')
+  // Using Chakra UI v3 token system for color mode values
+  const bgColor = 'white'
+  const cardBg = 'gray.50'
 
   return (
     <VStack spacing={6} w="full">
@@ -203,22 +203,23 @@ export function SimpleExpenseManagement() {
       {/* Enhanced Filters and Actions */}
       <Card bg={bgColor} shadow="lg" borderRadius="xl" w="full">
         <CardHeader>
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-            <div>
-              <CardTitle className="text-xl text-primary">Smart Expense Tracking</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                AI-powered categorization and real-time insights for your business expenses
-              </p>
-            </div>
-            <div className="flex gap-3">
+          <VStack spacing={4} align="stretch">
+            <Flex direction={{ base: "column", lg: "row" }} gap={4} align={{ base: "start", lg: "center" }} justify="space-between">
+              <Box>
+                <CardTitle fontSize="xl" color="blue.500">Smart Expense Tracking</CardTitle>
+                <Text fontSize="sm" color="gray.500">
+                  AI-powered categorization and real-time insights for your business expenses
+                </Text>
+              </Box>
+              <HStack spacing={3}>
               <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button className="bg-gradient-primary hover:shadow-primary transition-all duration-200 animate-pulse-glow">
-                    <Plus className="h-4 w-4 mr-2" />
+                  <Button bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" color="white" _hover={{ shadow: "lg" }} transition="all 0.2s">
+                    <Icon as={Plus} boxSize={4} mr={2} />
                     Add Expense
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl">
+                <DialogContent maxW="2xl">
                   <DialogHeader>
                     <DialogTitle>Create New Expense</DialogTitle>
                   </DialogHeader>
@@ -230,75 +231,90 @@ export function SimpleExpenseManagement() {
                   />
                 </DialogContent>
               </Dialog>
-            </div>
-          </div>
+            </HStack>
+          </Flex>
 
           {/* Enhanced Search and Filters */}
-          <div className="flex flex-col md:flex-row gap-4 p-4 bg-card-elevated/50 rounded-lg border border-border/30">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search expenses, vendors, descriptions..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-background/50 backdrop-blur-sm border-border/50 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
-              />
-            </div>
-            <div className="flex gap-3">
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-[180px] bg-background/50 backdrop-blur-sm border-border/50">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent className="bg-card/95 backdrop-blur-sm border-border/50">
+          <Box bg="gray.50" p={4} borderRadius="lg" border="1px" borderColor="gray.200">
+            <Flex direction={{ base: "column", md: "row" }} gap={4} align="stretch">
+              <Box position="relative" flex={1}>
+                <Box position="absolute" left={3} top="50%" transform="translateY(-50%)" zIndex={2}>
+                  <Icon as={Search} boxSize={4} color="gray.400" />
+                </Box>
+                <Input
+                  placeholder="Search expenses, vendors, descriptions..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  pl={10}
+                  bg="white"
+                  borderColor="gray.200"
+                  _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
+                  transition="all 0.2s"
+                />
+              </Box>
+              <HStack spacing={3}>
+                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                  <SelectTrigger w="180px" bg="white" borderColor="gray.200">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent bg="white" borderColor="gray.200">
                   <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
-              <Button variant="outline" size="sm" className="bg-background/50 backdrop-blur-sm border-border/50">
-                Export
-              </Button>
-            </div>
-          </div>
+                  </SelectContent>
+                </Select>
+                <Button variant="outline" size="sm" bg="white" borderColor="gray.200">
+                  Export
+                </Button>
+              </HStack>
+            </Flex>
+          </Box>
+        </VStack>
         </CardHeader>
 
         <CardContent>
           {isLoading ? (
-            <div className="space-y-3">
+            <VStack spacing={3}>
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="h-20 bg-muted rounded"></div>
-                </div>
+                <Box key={i} h={20} bg="gray.200" borderRadius="md" w="full" />
               ))}
-            </div>
+            </VStack>
           ) : expenses.length === 0 ? (
-            <div className="text-center py-12">
-              <Receipt className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No expenses found</h3>
-              <p className="text-muted-foreground mb-4">
+            <VStack spacing={4} py={12} textAlign="center">
+              <Icon as={Receipt} boxSize={12} color="gray.400" />
+              <Text fontSize="lg" fontWeight="semibold">No expenses found</Text>
+              <Text color="gray.500" mb={4}>
                 {searchQuery || categoryFilter !== "all"
                   ? "Try adjusting your filters or search terms."
                   : "Get started by adding your first expense."}
-              </p>
+              </Text>
               <Button onClick={() => setIsCreateDialogOpen(true)}>
-                <Plus className="h-4 w-4 mr-2" />
+                <Icon as={Plus} boxSize={4} mr={2} />
                 Add Expense
               </Button>
-            </div>
+            </VStack>
           ) : (
-            <div className="space-y-4">
+            <VStack spacing={4}>
               {expenses.map((expense, index) => (
-                <div
+                <Flex
                   key={expense.id}
-                  className="group flex items-center gap-4 p-5 bg-gradient-glass backdrop-blur-sm border border-border/50 rounded-xl hover:shadow-lg hover:scale-[1.01] transition-all duration-200 animate-scale-in"
-                  style={{ animationDelay: `${index * 0.05}s` }}
+                  align="center"
+                  gap={4}
+                  p={5}
+                  bg="white"
+                  border="1px"
+                  borderColor="gray.200"
+                  borderRadius="xl"
+                  _hover={{ shadow: "lg", transform: "scale(1.01)" }}
+                  transition="all 0.2s"
+                  w="full"
                 >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <p className="font-semibold">{expense.description}</p>
+                  <Box flex={1}>
+                    <HStack spacing={3} mb={2} align="center">
+                      <Text fontWeight="semibold">{expense.description}</Text>
                       {expense.category && (
                         <Badge variant="outline">{expense.category.name}</Badge>
                       )}
@@ -307,32 +323,32 @@ export function SimpleExpenseManagement() {
                       )}
                       {expense.receipt && (
                         <Badge variant="default">
-                          <Receipt className="h-3 w-3 mr-1" />
+                          <Icon as={Receipt} boxSize={3} mr={1} />
                           Receipt
                         </Badge>
                       )}
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span>{isPrivacyMode ? maskValue(expense.vendor) : expense.vendor || 'No vendor'}</span>
-                      <span>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</span>
+                    </HStack>
+                    <HStack spacing={4} fontSize="sm" color="gray.500">
+                      <Text>{isPrivacyMode ? maskValue(expense.vendor) : expense.vendor || 'No vendor'}</Text>
+                      <Text>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</Text>
                       {expense.tax_amount && expense.tax_amount > 0 && (
-                        <span>Tax: ${isPrivacyMode ? maskValue(expense.tax_amount) : expense.tax_amount.toFixed(2)}</span>
+                        <Text>Tax: ${isPrivacyMode ? maskValue(expense.tax_amount) : expense.tax_amount.toFixed(2)}</Text>
                       )}
-                    </div>
-                  </div>
+                    </HStack>
+                  </Box>
                   
-                  <div className="flex items-center gap-3">
-                    <div className="text-right">
-                      <p className="font-semibold text-lg">
+                  <HStack spacing={3} align="center">
+                    <Box textAlign="right">
+                      <Text fontWeight="semibold" fontSize="lg">
                         ${isPrivacyMode ? maskValue(expense.amount) : expense.amount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-                      </p>
-                      <p className="text-xs text-muted-foreground">{expense.currency}</p>
-                    </div>
+                      </Text>
+                      <Text fontSize="xs" color="gray.500">{expense.currency}</Text>
+                    </Box>
                     
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
+                          <Icon as={MoreHorizontal} boxSize={4} />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -342,7 +358,7 @@ export function SimpleExpenseManagement() {
                             setIsEditDialogOpen(true)
                           }}
                         >
-                          <Edit className="h-4 w-4 mr-2" />
+                          <Icon as={Edit} boxSize={4} mr={2} />
                           Edit
                         </DropdownMenuItem>
                         
@@ -353,24 +369,24 @@ export function SimpleExpenseManagement() {
                               deleteMutation.mutate(expense.id)
                             }
                           }}
-                          className="text-destructive"
+                          color="red.500"
                         >
-                          <Trash2 className="h-4 w-4 mr-2" />
+                          <Icon as={Trash2} boxSize={4} mr={2} />
                           Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  </div>
-                </div>
+                  </HStack>
+                </Flex>
               ))}
-            </div>
+            </VStack>
           )}
         </CardContent>
       </Card>
 
       {/* Edit Expense Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent maxW="2xl">
           <DialogHeader>
             <DialogTitle>Edit Expense</DialogTitle>
           </DialogHeader>
@@ -386,6 +402,6 @@ export function SimpleExpenseManagement() {
           )}
         </DialogContent>
       </Dialog>
-    </div>
+    </VStack>
   )
 }

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown, DollarSign, Clock, FileText, AlertCircle } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Box, SimpleGrid, HStack, VStack, Text, Icon } from "@chakra-ui/react"
 
 const stats = [
   {
@@ -40,67 +40,97 @@ const stats = [
 
 export function StatsCards() {
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+    <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={6}>
       {stats.map((stat, index) => {
-        const Icon = stat.icon
+        const IconComponent = stat.icon
         const isPositive = stat.trend === "up" ? stat.title.includes("Outstanding") || stat.title.includes("Overdue") ? false : true : true
+        
+        // Determine colors based on stat type
+        const getIconBg = (title: string) => {
+          if (title.includes("Revenue")) return "green.500"
+          if (title.includes("Collection")) return "blue.500"
+          if (title.includes("Clients")) return "orange.500"
+          if (title.includes("Outstanding")) return "red.500"
+          return "gray.500"
+        }
+        
+        const getValueColor = (title: string) => {
+          if (title.includes("Revenue")) return "green.500"
+          if (title.includes("Collection")) return "blue.500"
+          if (title.includes("Clients")) return "orange.500"
+          if (title.includes("Outstanding")) return "red.500"
+          return "gray.900"
+        }
         
         return (
           <Card 
-            key={stat.title} 
-            className="relative overflow-hidden bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-xl hover:scale-105 transition-all duration-300 animate-scale-in group"
-            style={{ animationDelay: `${index * 0.1}s` }}
+            key={stat.title}
+            position="relative"
+            overflow="hidden"
+            bg="white"
+            border="1px"
+            borderColor="gray.200"
+            _hover={{ shadow: "xl", transform: "scale(1.05)" }}
+            transition="all 0.3s"
           >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
-              <div className={cn(
-                "p-2 rounded-lg transition-all duration-200 group-hover:scale-110",
-                stat.title.includes("Revenue") && "bg-gradient-success shadow-success",
-                stat.title.includes("Collection") && "bg-gradient-primary shadow-primary", 
-                stat.title.includes("Clients") && "bg-gradient-warning shadow-warning",
-                stat.title.includes("Outstanding") && "bg-gradient-destructive shadow-destructive"
-              )}>
-                <Icon className="h-4 w-4 text-white flex-shrink-0" />
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className={cn(
-                "text-2xl md:text-3xl font-bold transition-all duration-200",
-                stat.title.includes("Revenue") && "bg-gradient-success bg-clip-text text-transparent",
-                stat.title.includes("Collection") && "text-primary",
-                stat.title.includes("Clients") && "bg-gradient-warning bg-clip-text text-transparent",
-                stat.title.includes("Outstanding") && "text-destructive"
-              )}>
-                {stat.value}
-              </div>
-              <div className="flex items-center justify-between">
-                <Badge 
-                  variant={isPositive ? "default" : "destructive"} 
-                  className={cn(
-                    "flex items-center gap-1 text-xs transition-all duration-200",
-                    isPositive ? "bg-success/10 text-success border-success/20 hover:bg-success/20" : "bg-destructive/10 text-destructive border-destructive/20"
-                  )}
+            <CardHeader>
+              <HStack justify="space-between" align="center" spacing={0} pb={3}>
+                <CardTitle fontSize="sm" fontWeight="medium" color="gray.600">
+                  {stat.title}
+                </CardTitle>
+                <Box
+                  p={2}
+                  borderRadius="lg"
+                  bg={getIconBg(stat.title)}
+                  transition="all 0.2s"
+                  _groupHover={{ transform: "scale(1.1)" }}
                 >
-                  {isPositive ? (
-                    <TrendingUp className="h-3 w-3" />
-                  ) : (
-                    <TrendingDown className="h-3 w-3" />
-                  )}
-                  {stat.change}
-                </Badge>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                {stat.description}
-              </p>
+                  <Icon as={IconComponent} boxSize={4} color="white" />
+                </Box>
+              </HStack>
+            </CardHeader>
+            <CardContent>
+              <VStack spacing={3} align="start">
+                <Text
+                  fontSize={{ base: "2xl", md: "3xl" }}
+                  fontWeight="bold"
+                  color={getValueColor(stat.title)}
+                  transition="all 0.2s"
+                >
+                  {stat.value}
+                </Text>
+                <HStack justify="space-between" w="full">
+                  <Badge 
+                    variant={isPositive ? "solid" : "solid"} 
+                    colorScheme={isPositive ? "green" : "red"}
+                    fontSize="xs"
+                    transition="all 0.2s"
+                  >
+                    <HStack spacing={1}>
+                      <Icon as={isPositive ? TrendingUp : TrendingDown} boxSize={3} />
+                      <Text>{stat.change}</Text>
+                    </HStack>
+                  </Badge>
+                </HStack>
+                <Text fontSize="xs" color="gray.500" lineHeight="relaxed">
+                  {stat.description}
+                </Text>
+              </VStack>
             </CardContent>
             
             {/* Subtle gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <Box
+              position="absolute"
+              inset={0}
+              bg="linear-gradient(to bottom right, transparent, transparent, rgba(66, 153, 225, 0.05))"
+              pointerEvents="none"
+              opacity={0}
+              _groupHover={{ opacity: 1 }}
+              transition="opacity 0.3s"
+            />
           </Card>
         )
       })}
-    </div>
+    </SimpleGrid>
   )
 }

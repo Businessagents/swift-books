@@ -22,7 +22,6 @@ const Index = () => {
             borderRadius="3xl" 
             p={{ base: 8, md: 12 }} 
             shadow="lg"
-            className="animate-fade-in"
           >
             <VStack spacing={6} align="start">
               <HStack spacing={4} align="start">
@@ -77,7 +76,7 @@ const Index = () => {
           </Box>
 
           {/* Widget Dashboard */}
-          <Box className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+          <Box>
             <WidgetSystem />
           </Box>
         </VStack>

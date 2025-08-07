@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle, Info } from "lucide-react"
 import { usePrivacy } from "@/hooks/use-privacy"
+import { Box, VStack, HStack, Text, Circle, Icon, Flex } from "@chakra-ui/react"
 
 interface HealthMetric {
   name: string
@@ -72,29 +73,29 @@ export function FinancialHealthScore() {
   )
 
   const getScoreColor = (score: number) => {
-    if (score >= 85) return "text-green-600"
-    if (score >= 70) return "text-yellow-600"
-    if (score >= 55) return "text-orange-600"
-    return "text-red-600"
+    if (score >= 85) return "green.600"
+    if (score >= 70) return "yellow.600"
+    if (score >= 55) return "orange.600"
+    return "red.600"
   }
 
   const getScoreGradient = (score: number) => {
-    if (score >= 85) return "from-green-500 to-green-600"
-    if (score >= 70) return "from-yellow-500 to-yellow-600"
-    if (score >= 55) return "from-orange-500 to-orange-600"
-    return "from-red-500 to-red-600"
+    if (score >= 85) return "linear-gradient(135deg, #48bb78, #38a169)"
+    if (score >= 70) return "linear-gradient(135deg, #ed8936, #dd6b20)"
+    if (score >= 55) return "linear-gradient(135deg, #ed8936, #dd6b20)"
+    return "linear-gradient(135deg, #f56565, #e53e3e)"
   }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'excellent':
-        return <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Excellent</Badge>
+        return <Badge colorScheme="green">Excellent</Badge>
       case 'good':
-        return <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Good</Badge>
+        return <Badge colorScheme="blue">Good</Badge>
       case 'fair':
-        return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Fair</Badge>
+        return <Badge colorScheme="yellow">Fair</Badge>
       case 'poor':
-        return <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Poor</Badge>
+        return <Badge colorScheme="red">Poor</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
@@ -103,101 +104,136 @@ export function FinancialHealthScore() {
   const getTrendIcon = (trend: string) => {
     switch (trend) {
       case 'up':
-        return <TrendingUp className="h-4 w-4 text-green-500" />
+        return <Icon as={TrendingUp} boxSize={4} color="green.500" />
       case 'down':
-        return <TrendingDown className="h-4 w-4 text-red-500" />
+        return <Icon as={TrendingDown} boxSize={4} color="red.500" />
       default:
-        return <div className="h-4 w-4" />
+        return <Box boxSize={4} />
     }
   }
 
   return (
-    <Card className="bg-gradient-card border-border/50">
+    <Card bg="white" border="1px" borderColor="gray.200">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <CheckCircle className="h-5 w-5 text-primary" />
-            Financial Health Score
+        <HStack justify="space-between">
+          <CardTitle>
+            <HStack spacing={2}>
+              <Icon as={CheckCircle} boxSize={5} color="blue.500" />
+              <Text>Financial Health Score</Text>
+            </HStack>
           </CardTitle>
           <Button variant="ghost" size="sm">
-            <Info className="h-4 w-4" />
+            <Icon as={Info} boxSize={4} />
           </Button>
-        </div>
+        </HStack>
       </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Overall Score */}
-        <div className="text-center space-y-4">
-          <div className="relative">
-            <div className="mx-auto w-32 h-32 rounded-full bg-gradient-to-r from-muted to-muted/50 flex items-center justify-center">
-              <div className={`w-28 h-28 rounded-full bg-gradient-to-r ${getScoreGradient(overallScore)} flex items-center justify-center`}>
-                <div className="w-24 h-24 rounded-full bg-card flex items-center justify-center">
-                  <div className="text-center">
-                    <div className={`text-3xl font-bold ${getScoreColor(overallScore)}`}>
-                      {isPrivacyMode ? '••' : overallScore}
-                    </div>
-                    <div className="text-xs text-muted-foreground">/ 100</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="space-y-1">
-            <h3 className="text-lg font-semibold">
-              {overallScore >= 85 ? 'Excellent' : overallScore >= 70 ? 'Good' : overallScore >= 55 ? 'Fair' : 'Needs Attention'}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Your business is {overallScore >= 70 ? 'financially healthy' : 'showing areas for improvement'}
-            </p>
-          </div>
-        </div>
+      <CardContent>
+        <VStack spacing={6}>
+          {/* Overall Score */}
+          <VStack spacing={4} textAlign="center">
+            <Box position="relative">
+              <Circle
+                size={32}
+                bg="linear-gradient(135deg, #f7fafc, #edf2f7)"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Circle
+                  size={28}
+                  bg={getScoreGradient(overallScore)}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Circle
+                    size={24}
+                    bg="white"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <VStack spacing={0}>
+                      <Text
+                        fontSize="3xl"
+                        fontWeight="bold"
+                        color={getScoreColor(overallScore)}
+                      >
+                        {isPrivacyMode ? '••' : overallScore}
+                      </Text>
+                      <Text fontSize="xs" color="gray.500">/ 100</Text>
+                    </VStack>
+                  </Circle>
+                </Circle>
+              </Circle>
+            </Box>
+            <VStack spacing={1}>
+              <Text fontSize="lg" fontWeight="semibold">
+                {overallScore >= 85 ? 'Excellent' : overallScore >= 70 ? 'Good' : overallScore >= 55 ? 'Fair' : 'Needs Attention'}
+              </Text>
+              <Text fontSize="sm" color="gray.500">
+                Your business is {overallScore >= 70 ? 'financially healthy' : 'showing areas for improvement'}
+              </Text>
+            </VStack>
+          </VStack>
 
-        {/* Metric Breakdown */}
-        <div className="space-y-4">
-          <h4 className="font-medium text-sm">Health Metrics</h4>
-          <div className="space-y-3">
-            {metrics.map((metric) => (
-              <div key={metric.name} className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">{metric.name}</span>
-                    {getTrendIcon(metric.trend)}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {getStatusBadge(metric.status)}
-                    <span className={`font-medium ${getScoreColor(metric.score)}`}>
-                      {isPrivacyMode ? '••' : metric.score}
-                    </span>
-                  </div>
-                </div>
-                <Progress 
-                  value={isPrivacyMode ? 75 : metric.score} 
-                  className="h-2"
-                />
-                <p className="text-xs text-muted-foreground">
-                  {metric.description}
-                </p>
-                {metric.recommendation && metric.score < 80 && (
-                  <div className="flex items-start gap-2 p-2 bg-muted/50 rounded-lg">
-                    <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-xs text-muted-foreground">
-                      <span className="font-medium">Recommendation:</span> {metric.recommendation}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+          {/* Metric Breakdown */}
+          <VStack spacing={4} align="stretch">
+            <Text fontSize="sm" fontWeight="medium">Health Metrics</Text>
+            <VStack spacing={3} align="stretch">
+              {metrics.map((metric) => (
+                <VStack key={metric.name} spacing={2} align="stretch">
+                  <HStack justify="space-between" fontSize="sm">
+                    <HStack spacing={2}>
+                      <Text fontWeight="medium">{metric.name}</Text>
+                      {getTrendIcon(metric.trend)}
+                    </HStack>
+                    <HStack spacing={2}>
+                      {getStatusBadge(metric.status)}
+                      <Text
+                        fontWeight="medium"
+                        color={getScoreColor(metric.score)}
+                      >
+                        {isPrivacyMode ? '••' : metric.score}
+                      </Text>
+                    </HStack>
+                  </HStack>
+                  <Progress 
+                    value={isPrivacyMode ? 75 : metric.score} 
+                    size="sm"
+                  />
+                  <Text fontSize="xs" color="gray.500">
+                    {metric.description}
+                  </Text>
+                  {metric.recommendation && metric.score < 80 && (
+                    <HStack
+                      align="start"
+                      spacing={2}
+                      p={2}
+                      bg="gray.50"
+                      borderRadius="lg"
+                    >
+                      <Icon as={AlertTriangle} boxSize={4} color="orange.500" mt={0.5} flexShrink={0} />
+                      <Text fontSize="xs" color="gray.500">
+                        <Text as="span" fontWeight="medium">Recommendation:</Text> {metric.recommendation}
+                      </Text>
+                    </HStack>
+                  )}
+                </VStack>
+              ))}
+            </VStack>
+          </VStack>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2 pt-2">
-          <Button variant="outline" size="sm" className="flex-1">
-            View Details
-          </Button>
-          <Button size="sm" className="flex-1">
-            Get Recommendations
-          </Button>
-        </div>
+          {/* Action Buttons */}
+          <HStack spacing={2} pt={2}>
+            <Button variant="outline" size="sm" flex={1}>
+              View Details
+            </Button>
+            <Button size="sm" flex={1}>
+              Get Recommendations
+            </Button>
+          </HStack>
+        </VStack>
       </CardContent>
     </Card>
   )

@@ -7,6 +7,8 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Plus, RefreshCw, RotateCcw } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Box, VStack, HStack, Text, Heading, Container, Flex, Icon } from "@chakra-ui/react"
+import { useColorMode } from "@chakra-ui/color-mode"
 
 export interface LedgerFilters {
   accountId: string
@@ -17,6 +19,9 @@ export interface LedgerFilters {
 }
 
 const Ledger = () => {
+  const { colorMode } = useColorMode()
+  const bg = colorMode === 'light' ? 'gray.50' : 'gray.800'
+  
   const [filters, setFilters] = useState<LedgerFilters>({
     accountId: "all",
     dateRange: { from: undefined, to: undefined },
@@ -34,86 +39,108 @@ const Ledger = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <Box minH="100vh" bg={bg}>
       <Header />
       
-      <main className="container py-6 md:py-8 px-4 md:px-8">
-        <div className="space-y-8">
+      <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
+        <VStack spacing={8} align="stretch">
           {/* Enhanced Header */}
-          <div className="relative overflow-hidden bg-gradient-hero rounded-2xl p-6 md:p-8 shadow-lg animate-fade-in">
-            <div className="absolute inset-0 bg-gradient-glass backdrop-blur-sm"></div>
-            <div className="relative">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-card/20 backdrop-blur-sm rounded-xl">
-                      <RotateCcw className="h-6 w-6 text-primary-foreground" />
-                    </div>
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary-foreground">
+          <Box
+            position="relative"
+            overflow="hidden"
+            bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+            borderRadius="2xl"
+            p={{ base: 6, md: 8 }}
+            shadow="lg"
+          >
+            <Box position="absolute" inset={0} bg="white" opacity={0.1} />
+            <Box position="relative">
+              <Flex
+                direction={{ base: "column", md: "row" }}
+                align={{ md: "center" }}
+                justify={{ md: "space-between" }}
+                gap={4}
+              >
+                <VStack align="start" spacing={2}>
+                  <HStack spacing={3}>
+                    <Box p={2} bg="whiteAlpha.200" borderRadius="xl">
+                      <Icon as={RotateCcw} boxSize={6} color="white" />
+                    </Box>
+                    <Heading
+                      size={{ base: "2xl", md: "3xl" }}
+                      fontWeight="bold"
+                      color="white"
+                    >
                       Bank Ledger
-                    </h1>
-                  </div>
-                  <p className="text-primary-foreground/90 max-w-2xl">
+                    </Heading>
+                  </HStack>
+                  <Text color="whiteAlpha.900" maxW="2xl">
                     Complete transaction ledger with running balances, real-time reconciliation, and double-entry bookkeeping
-                  </p>
-                </div>
+                  </Text>
+                </VStack>
                 
-                <div className="flex gap-2">
-                  <Button 
-                    variant="secondary" 
-                    className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/30"
+                <HStack spacing={2}>
+                  <Button
+                    variant="solid"
+                    bg="whiteAlpha.200"
+                    color="white"
+                    borderColor="whiteAlpha.200"
+                    _hover={{ bg: "whiteAlpha.300" }}
                     onClick={() => handleOpenReconciliation()}
                   >
-                    <RefreshCw className="h-4 w-4 mr-2" />
+                    <Icon as={RefreshCw} boxSize={4} mr={2} />
                     Reconcile All
                   </Button>
-                  <Button 
-                    variant="secondary"
-                    className="bg-primary-foreground/20 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/30"
+                  <Button
+                    variant="solid"
+                    bg="whiteAlpha.200"
+                    color="white"
+                    borderColor="whiteAlpha.200"
+                    _hover={{ bg: "whiteAlpha.300" }}
                   >
-                    <Plus className="h-4 w-4 mr-2" />
+                    <Icon as={Plus} boxSize={4} mr={2} />
                     Add Transaction
                   </Button>
-                </div>
-              </div>
-            </div>
-          </div>
+                </HStack>
+              </Flex>
+            </Box>
+          </Box>
 
           {/* Account Summary Cards */}
-          <div className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
+          <Box>
             <AccountSummary />
-          </div>
+          </Box>
 
           {/* Filters */}
-          <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+          <Box>
             <LedgerFilters 
               filters={filters} 
               onFiltersChange={setFilters}
             />
-          </div>
+          </Box>
 
           {/* Main Ledger Table */}
-          <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
-            <Card className="bg-card/95 backdrop-blur-sm border-border/50 shadow-lg">
+          <Box>
+            <Card bg="white" shadow="lg" borderRadius="xl">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-xl">Transaction Ledger</CardTitle>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
-                    Real-time updates enabled
-                  </div>
-                </div>
+                <Flex align="center" justify="space-between">
+                  <CardTitle fontSize="xl">Transaction Ledger</CardTitle>
+                  <HStack spacing={2} fontSize="sm" color="gray.500">
+                    <Box h={2} w={2} bg="green.500" borderRadius="full" />
+                    <Text>Real-time updates enabled</Text>
+                  </HStack>
+                </Flex>
               </CardHeader>
-              <CardContent className="p-0">
+              <CardContent p={0}>
                 <LedgerTable 
                   filters={filters}
                   onReconcileTransaction={handleOpenReconciliation}
                 />
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </main>
+          </Box>
+        </VStack>
+      </Container>
 
       {/* Reconciliation Dialog */}
       <ReconciliationDialog
@@ -121,7 +148,7 @@ const Ledger = () => {
         onClose={() => setIsReconciliationOpen(false)}
         accountId={selectedAccountId}
       />
-    </div>
+    </Box>
   )
 }
 

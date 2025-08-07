@@ -7,6 +7,7 @@ import { ExpenseCategorizer } from "@/components/ai/expense-categorizer"
 import { useState, useEffect } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { usePrivacy } from "@/hooks/use-privacy"
+import { Box, VStack, HStack, Text, Icon, Flex, Skeleton, Center } from "@chakra-ui/react"
 
 const recentExpenses = [
   {
@@ -86,18 +87,18 @@ export function ExpenseCapture() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'processed':
-        return <Check className="h-4 w-4 text-success" />
+        return <Icon as={Check} boxSize={4} color="green.500" />
       case 'processing':
-        return <Clock className="h-4 w-4 text-warning animate-spin" />
+        return <Icon as={Clock} boxSize={4} color="orange.500" />
       case 'failed':
-        return <X className="h-4 w-4 text-destructive" />
+        return <Icon as={X} boxSize={4} color="red.500" />
       default:
-        return <Clock className="h-4 w-4 text-muted-foreground" />
+        return <Icon as={Clock} boxSize={4} color="gray.400" />
     }
   }
 
   return (
-    <div className="space-y-6">
+    <VStack spacing={6}>
       {/* Receipt Upload Component */}
       <ReceiptUpload onReceiptProcessed={handleReceiptProcessed} />
       
@@ -114,88 +115,110 @@ export function ExpenseCapture() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="space-y-3">
+            <VStack spacing={3}>
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="flex items-center space-x-3 p-3 rounded-lg border animate-pulse">
-                  <div className="h-10 w-10 bg-muted rounded-lg" />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-muted rounded w-3/4" />
-                    <div className="h-3 bg-muted rounded w-1/2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-4 bg-muted rounded w-16" />
-                    <div className="h-3 bg-muted rounded w-12" />
-                  </div>
-                </div>
+                <HStack key={i} spacing={3} p={3} borderRadius="lg" border="1px" borderColor="gray.200" w="full">
+                  <Skeleton h={10} w={10} borderRadius="lg" />
+                  <VStack flex={1} spacing={2} align="start">
+                    <Skeleton h={4} w="75%" borderRadius="md" />
+                    <Skeleton h={3} w="50%" borderRadius="md" />
+                  </VStack>
+                  <VStack spacing={2} align="end">
+                    <Skeleton h={4} w={16} borderRadius="md" />
+                    <Skeleton h={3} w={12} borderRadius="md" />
+                  </VStack>
+                </HStack>
               ))}
-            </div>
+            </VStack>
           ) : recentReceipts.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              <Upload className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>No receipts uploaded yet</p>
-              <p className="text-sm">Upload your first receipt to get started</p>
-            </div>
+            <Center py={8} color="gray.500">
+              <VStack spacing={4}>
+                <Icon as={Upload} boxSize={12} opacity={0.5} />
+                <Text>No receipts uploaded yet</Text>
+                <Text fontSize="sm">Upload your first receipt to get started</Text>
+              </VStack>
+            </Center>
           ) : (
-            <div className="space-y-3">
+            <VStack spacing={3}>
               {recentReceipts.map((receipt) => (
-                <div key={receipt.id} className="flex items-start sm:items-center justify-between p-3 rounded-lg border bg-card-elevated">
-                  <div className="flex items-start sm:items-center space-x-3 flex-1 min-w-0">
-                    <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                <Flex
+                  key={receipt.id}
+                  align={{ base: "start", sm: "center" }}
+                  justify="space-between"
+                  p={3}
+                  borderRadius="lg"
+                  border="1px"
+                  borderColor="gray.200"
+                  bg="gray.50"
+                  w="full"
+                >
+                  <HStack spacing={3} flex={1} minW={0}>
+                    <Center
+                      h={10}
+                      w={10}
+                      borderRadius="lg"
+                      bg="gray.200"
+                      flexShrink={0}
+                    >
                       {getStatusIcon(receipt.status)}
-                    </div>
+                    </Center>
                     
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <div className="font-medium text-sm truncate">
+                    <VStack spacing={1} minW={0} flex={1} align="start">
+                      <Text fontWeight="medium" fontSize="sm" noOfLines={1}>
                         {maskValue(receipt.vendor_name || receipt.file_name || 'Unknown receipt')}
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
+                      </Text>
+                      <VStack
+                        spacing={{ base: 1, sm: 0 }}
+                        direction={{ base: "column", sm: "row" }}
+                        align={{ base: "start", sm: "center" }}
+                      >
                         {receipt.ai_suggested_category && (
-                          <Badge variant="outline" className="text-xs w-fit">
+                          <Badge variant="outline" fontSize="xs" w="fit-content">
                             {receipt.ai_suggested_category}
                           </Badge>
                         )}
                         {receipt.ai_confidence && (
-                          <span className="text-xs text-muted-foreground">
+                          <Text fontSize="xs" color="gray.500">
                             {Math.round(receipt.ai_confidence * 100)}% confidence
-                          </span>
+                          </Text>
                         )}
-                        <span className="text-xs text-muted-foreground capitalize">
+                        <Text fontSize="xs" color="gray.500" textTransform="capitalize">
                           {receipt.status}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                        </Text>
+                      </VStack>
+                    </VStack>
+                  </HStack>
                   
-                  <div className="text-right flex-shrink-0 ml-2">
-                    <div className="font-semibold">
+                  <VStack spacing={0} align="end" flexShrink={0} ml={2}>
+                    <Text fontWeight="semibold">
                       {maskValue(formatAmount(receipt.total_amount))}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
+                    </Text>
+                    <Text fontSize="xs" color="gray.500">
                       {receipt.receipt_date ? new Date(receipt.receipt_date).toLocaleDateString() : 
                        new Date(receipt.created_at).toLocaleDateString()}
-                    </div>
-                  </div>
-                </div>
+                    </Text>
+                  </VStack>
+                </Flex>
               ))}
-            </div>
+            </VStack>
           )}
           
           {recentReceipts.length > 0 && (
-            <div className="mt-4 pt-4 border-t">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">
+            <Box mt={4} pt={4} borderTop="1px" borderColor="gray.200">
+              <Flex justify="space-between" fontSize="sm">
+                <Text color="gray.500">
                   {new Date().toLocaleDateString('en-CA', { month: 'long', year: 'numeric' })} Summary
-                </span>
-                <span className="font-medium">
+                </Text>
+                <Text fontWeight="medium">
                   {maskValue(`${recentReceipts.length} receipts • ${formatAmount(
                     recentReceipts.reduce((sum, r) => sum + (r.total_amount || 0), 0)
                   )} CAD`)}
-                </span>
-              </div>
-            </div>
+                </Text>
+              </Flex>
+            </Box>
           )}
         </CardContent>
       </Card>
-    </div>
+    </VStack>
   )
 }

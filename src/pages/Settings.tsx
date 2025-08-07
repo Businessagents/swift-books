@@ -5,9 +5,6 @@ import {
   Container,
   VStack,
   HStack,
-  Card,
-  CardBody,
-  CardHeader,
   Text,
   Heading,
   Button,
@@ -20,6 +17,7 @@ import {
   Badge,
   SimpleGrid
 } from "@chakra-ui/react"
+import { Card, CardBody, CardHeader } from "@/components/ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { toast } from "@/components/ui/sonner"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
