@@ -12,6 +12,19 @@ import { supabase } from "@/integrations/supabase/client"
 import { usePrivacy } from "@/hooks/use-privacy"
 import { toast } from "@/components/ui/sonner"
 import { 
+  Box,
+  VStack,
+  HStack,
+  Flex,
+  Heading,
+  Text,
+  Grid,
+  GridItem,
+  Spinner,
+  Center,
+  Stack
+} from "@chakra-ui/react"
+import { 
   Download, 
   FileText, 
   TrendingUp, 
@@ -287,17 +300,24 @@ export function GSTHSTReporting() {
   const isLoading = expensesLoading || invoicesLoading
 
   return (
-    <div className="space-y-6">
+    <VStack spacing={6} align="stretch">
       {/* Header and Controls */}
-      <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">GST/HST Reporting</h2>
-          <p className="text-muted-foreground">CRA-compliant tax reporting for Canadian businesses</p>
-        </div>
+      <Flex 
+        direction={{ base: "column", lg: "row" }} 
+        gap={4} 
+        align={{ base: "stretch", lg: "center" }} 
+        justify="space-between"
+      >
+        <Box>
+          <Heading size="xl" fontWeight="bold">GST/HST Reporting</Heading>
+          <Text color="gray.600" _dark={{ color: "gray.400" }}>
+            CRA-compliant tax reporting for Canadian businesses
+          </Text>
+        </Box>
         
-        <div className="flex flex-wrap gap-3">
+        <Flex wrap="wrap" gap={3}>
           <Select value={selectedProvince} onValueChange={setSelectedProvince}>
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger w="200px">
               <SelectValue placeholder="Province" />
             </SelectTrigger>
             <SelectContent>
@@ -310,7 +330,7 @@ export function GSTHSTReporting() {
           </Select>
 
           <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger w="150px">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
@@ -323,7 +343,7 @@ export function GSTHSTReporting() {
           </Select>
 
           <Select value={reportYear.toString()} onValueChange={(value) => setReportYear(parseInt(value))}>
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger w="120px">
               <SelectValue placeholder="Year" />
             </SelectTrigger>
             <SelectContent>
@@ -337,7 +357,7 @@ export function GSTHSTReporting() {
 
           {selectedPeriod === 'quarterly' && (
             <Select value={reportQuarter.toString()} onValueChange={(value) => setReportQuarter(parseInt(value))}>
-              <SelectTrigger className="w-[120px]">
+              <SelectTrigger w="120px">
                 <SelectValue placeholder="Quarter" />
               </SelectTrigger>
               <SelectContent>
@@ -350,24 +370,28 @@ export function GSTHSTReporting() {
           )}
 
           <Button onClick={exportToCSV} disabled={isExporting || isLoading}>
-            <Download className="h-4 w-4 mr-2" />
+            <Download size={16} style={{ marginRight: 8 }} />
             Export CSV
           </Button>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
 
       {/* Filing Deadline Alert */}
       {filingDeadline && (
-        <Alert className={filingDeadline.isOverdue ? "border-red-500" : filingDeadline.isUrgent ? "border-yellow-500" : "border-green-500"}>
-          <AlertCircle className="h-4 w-4" />
+        <Alert 
+          status={filingDeadline.isOverdue ? "error" : filingDeadline.isUrgent ? "warning" : "success"}
+          borderLeftWidth="4px"
+          borderLeftColor={filingDeadline.isOverdue ? "red.500" : filingDeadline.isUrgent ? "yellow.500" : "green.500"}
+        >
+          <AlertCircle size={16} />
           <AlertDescription>
-            <div className="flex items-center justify-between">
-              <span>
+            <Flex align="center" justify="space-between">
+              <Text>
                 {filingDeadline.isOverdue 
                   ? `Filing deadline was ${Math.abs(filingDeadline.daysUntil)} days ago`
                   : `Filing deadline: ${filingDeadline.date.toLocaleDateString('en-CA')} (${filingDeadline.daysUntil} days)`
                 }
-              </span>
+              </Text>
               {filingDeadline.isOverdue ? (
                 <Badge variant="destructive">Overdue</Badge>
               ) : filingDeadline.isUrgent ? (
@@ -375,7 +399,7 @@ export function GSTHSTReporting() {
               ) : (
                 <Badge variant="default">On Track</Badge>
               )}
-            </div>
+            </Flex>
           </AlertDescription>
         </Alert>
       )}
@@ -383,14 +407,16 @@ export function GSTHSTReporting() {
       {/* Loading State */}
       {isLoading && (
         <Card>
-          <CardContent className="pt-6">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                <span className="text-sm text-muted-foreground">Loading tax data...</span>
-              </div>
-              <Progress value={66} className="h-2" />
-            </div>
+          <CardContent pt={6}>
+            <VStack spacing={3}>
+              <HStack spacing={2}>
+                <Spinner size="sm" color="primary.500" />
+                <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }}>
+                  Loading tax data...
+                </Text>
+              </HStack>
+              <Progress value={66} size="sm" />
+            </VStack>
           </CardContent>
         </Card>
       )}
@@ -398,126 +424,140 @@ export function GSTHSTReporting() {
       {!isLoading && (
         <>
           {/* Summary Cards */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={4}>
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <CardHeader pb={2}>
+                <Flex align="center" justify="space-between">
+                  <CardTitle fontSize="sm" fontWeight="medium">Total Sales</CardTitle>
+                  <TrendingUp size={16} color="gray.500" />
+                </Flex>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">
+                <Text fontSize="2xl" fontWeight="bold">
                   ${isPrivacyMode ? maskValue(taxSummary.totalSales) : taxSummary.totalSales.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-                </div>
-                <p className="text-xs text-muted-foreground">
+                </Text>
+                <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   Before tax ({invoices.length} invoices)
-                </p>
+                </Text>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Tax Collected</CardTitle>
-                <Calculator className="h-4 w-4 text-muted-foreground" />
+              <CardHeader pb={2}>
+                <Flex align="center" justify="space-between">
+                  <CardTitle fontSize="sm" fontWeight="medium">Tax Collected</CardTitle>
+                  <Calculator size={16} color="gray.500" />
+                </Flex>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-green-600">
+                <Text fontSize="2xl" fontWeight="bold" color="green.600">
                   ${isPrivacyMode ? maskValue(taxSummary.gstCollected) : taxSummary.gstCollected.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-                </div>
-                <p className="text-xs text-muted-foreground">
+                </Text>
+                <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   {taxSummary.taxRates.hst > 0 ? `HST ${taxSummary.taxRates.hst}%` : `GST ${taxSummary.taxRates.gst}%`}
-                </p>
+                </Text>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Tax Paid</CardTitle>
-                <Calculator className="h-4 w-4 text-muted-foreground" />
+              <CardHeader pb={2}>
+                <Flex align="center" justify="space-between">
+                  <CardTitle fontSize="sm" fontWeight="medium">Tax Paid</CardTitle>
+                  <Calculator size={16} color="gray.500" />
+                </Flex>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-blue-600">
+                <Text fontSize="2xl" fontWeight="bold" color="blue.600">
                   ${isPrivacyMode ? maskValue(taxSummary.gstPaid) : taxSummary.gstPaid.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-                </div>
-                <p className="text-xs text-muted-foreground">
+                </Text>
+                <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   On purchases ({expenses.length} expenses)
-                </p>
+                </Text>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {taxSummary.netTaxOwing > 0 ? 'Net Tax Owing' : 'Refund Due'}
-                </CardTitle>
-                {taxSummary.netTaxOwing > 0 ? (
-                  <AlertCircle className="h-4 w-4 text-red-500" />
-                ) : (
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                )}
+              <CardHeader pb={2}>
+                <Flex align="center" justify="space-between">
+                  <CardTitle fontSize="sm" fontWeight="medium">
+                    {taxSummary.netTaxOwing > 0 ? 'Net Tax Owing' : 'Refund Due'}
+                  </CardTitle>
+                  {taxSummary.netTaxOwing > 0 ? (
+                    <AlertCircle size={16} color="red.500" />
+                  ) : (
+                    <CheckCircle size={16} color="green.500" />
+                  )}
+                </Flex>
               </CardHeader>
               <CardContent>
-                <div className={`text-2xl font-bold ${taxSummary.netTaxOwing > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                <Text 
+                  fontSize="2xl" 
+                  fontWeight="bold" 
+                  color={taxSummary.netTaxOwing > 0 ? 'red.600' : 'green.600'}
+                >
                   ${isPrivacyMode ? maskValue(taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue) : (taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue).toLocaleString('en-CA', { minimumFractionDigits: 2 })}
-                </div>
-                <p className="text-xs text-muted-foreground">
+                </Text>
+                <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   {taxSummary.netTaxOwing > 0 ? 'Due to CRA' : 'Expected refund'}
-                </p>
+                </Text>
               </CardContent>
             </Card>
-          </div>
+          </Grid>
 
           {/* Detailed Tables */}
-          <Tabs defaultValue="summary" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="summary">Summary</TabsTrigger>
-              <TabsTrigger value="sales">Sales Details</TabsTrigger>
-              <TabsTrigger value="purchases">Purchase Details</TabsTrigger>
-            </TabsList>
+          <Tabs defaultValue="summary">
+            <VStack spacing={4} align="stretch">
+              <TabsList>
+                <TabsTrigger value="summary">Summary</TabsTrigger>
+                <TabsTrigger value="sales">Sales Details</TabsTrigger>
+                <TabsTrigger value="purchases">Purchase Details</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="summary" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tax Calculation Summary</CardTitle>
-                  <CardDescription>
-                    Detailed breakdown for {TAX_RATES[selectedProvince as keyof typeof TAX_RATES].name} 
-                    - {selectedPeriod} period
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Description</TableHead>
-                        <TableHead className="text-right">Amount (CAD)</TableHead>
-                      </TableRow>
+              <TabsContent value="summary">
+                <VStack spacing={4}>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Tax Calculation Summary</CardTitle>
+                      <CardDescription>
+                        Detailed breakdown for {TAX_RATES[selectedProvince as keyof typeof TAX_RATES].name} 
+                        - {selectedPeriod} period
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Description</TableHead>
+                            <TableHead textAlign="right">Amount (CAD)</TableHead>
+                          </TableRow>
                     </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Total Sales (before tax)</TableCell>
-                        <TableCell className="text-right">
-                          ${isPrivacyMode ? maskValue(taxSummary.totalSales) : taxSummary.totalSales.toFixed(2)}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          {taxSummary.taxRates.hst > 0 ? `HST Collected (${taxSummary.taxRates.hst}%)` : `GST Collected (${taxSummary.taxRates.gst}%)`}
-                        </TableCell>
-                        <TableCell className="text-right text-green-600">
-                          ${isPrivacyMode ? maskValue(taxSummary.gstCollected) : taxSummary.gstCollected.toFixed(2)}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Total Purchases (before tax)</TableCell>
-                        <TableCell className="text-right">
-                          ${isPrivacyMode ? maskValue(taxSummary.totalPurchases) : taxSummary.totalPurchases.toFixed(2)}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">GST/HST Paid on Purchases</TableCell>
-                        <TableCell className="text-right text-blue-600">
-                          ${isPrivacyMode ? maskValue(taxSummary.gstPaid) : taxSummary.gstPaid.toFixed(2)}
-                        </TableCell>
-                      </TableRow>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell fontWeight="medium">Total Sales (before tax)</TableCell>
+                            <TableCell textAlign="right">
+                              ${isPrivacyMode ? maskValue(taxSummary.totalSales) : taxSummary.totalSales.toFixed(2)}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell fontWeight="medium">
+                              {taxSummary.taxRates.hst > 0 ? `HST Collected (${taxSummary.taxRates.hst}%)` : `GST Collected (${taxSummary.taxRates.gst}%)`}
+                            </TableCell>
+                            <TableCell textAlign="right" color="green.600">
+                              ${isPrivacyMode ? maskValue(taxSummary.gstCollected) : taxSummary.gstCollected.toFixed(2)}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell fontWeight="medium">Total Purchases (before tax)</TableCell>
+                            <TableCell textAlign="right">
+                              ${isPrivacyMode ? maskValue(taxSummary.totalPurchases) : taxSummary.totalPurchases.toFixed(2)}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell fontWeight="medium">GST/HST Paid on Purchases</TableCell>
+                            <TableCell textAlign="right" color="blue.600">
+                              ${isPrivacyMode ? maskValue(taxSummary.gstPaid) : taxSummary.gstPaid.toFixed(2)}
+                            </TableCell>
+                          </TableRow>
                       <TableRow className="border-t-2">
                         <TableCell className="font-bold">
                           {taxSummary.netTaxOwing > 0 ? 'Net Tax Owing' : 'Refund Due'}
@@ -636,6 +676,6 @@ export function GSTHSTReporting() {
           </Tabs>
         </>
       )}
-    </div>
+    </VStack>
   )
 }
