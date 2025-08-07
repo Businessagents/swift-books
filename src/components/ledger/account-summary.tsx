@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
@@ -120,10 +120,10 @@ export function AccountSummary() {
             <CardHeader className="pb-2">
               <div className="h-4 bg-muted rounded w-3/4"></div>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <div className="h-8 bg-muted rounded w-1/2 mb-2"></div>
               <div className="h-3 bg-muted rounded w-full"></div>
-            </CardContent>
+            </CardBody>
           </Card>
         ))}
       </div>
@@ -139,14 +139,14 @@ export function AccountSummary() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Bank Balance</CardTitle>
             <Banknote className="h-4 w-4 text-success" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-success">
               ${isPrivacyMode ? maskValue(totalBankBalance) : totalBankBalance.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               From {accounts.length} accounts
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-primary animate-scale-in" style={{ animationDelay: '0.1s' }}>
@@ -154,14 +154,14 @@ export function AccountSummary() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Book Balance</CardTitle>
             <Building2 className="h-4 w-4 text-primary" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalBookBalance) : totalBookBalance.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Including pending transactions
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-warning animate-scale-in" style={{ animationDelay: '0.2s' }}>
@@ -173,14 +173,14 @@ export function AccountSummary() {
               <TrendingDown className="h-4 w-4 text-red-500" />
             )}
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className={`text-2xl font-bold ${balanceDifference >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               {balanceDifference >= 0 ? '+' : ''}${isPrivacyMode ? maskValue(Math.abs(balanceDifference)) : Math.abs(balanceDifference).toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Book vs Bank difference
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-destructive animate-scale-in" style={{ animationDelay: '0.3s' }}>
@@ -188,14 +188,14 @@ export function AccountSummary() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Unreconciled</CardTitle>
             <AlertCircle className="h-4 w-4 text-orange-500" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-orange-600">
               {totalUnreconciled}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Transactions need review
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
@@ -211,7 +211,7 @@ export function AccountSummary() {
               </Button>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="space-y-4">
               {balances.map((balance, index) => (
                 <div
@@ -266,7 +266,7 @@ export function AccountSummary() {
                 </div>
               ))}
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
       )}
     </div>

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -513,7 +513,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
             Scan or upload receipts for automatic categorization and expense creation
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardBody className="space-y-4">
           {/* Progress indicator */}
           {isProcessingActive && (
             <div className="space-y-2">
@@ -616,19 +616,19 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
               <span>Automatic expense creation</span>
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* OCR Error Display */}
       {ocrError && (
         <Card className="border-amber-200 bg-amber-50">
-          <CardContent className="p-4">
+          <CardBody className="p-4">
             <div className="flex items-center gap-2 text-amber-800">
               <AlertCircle className="h-4 w-4" />
               <span className="text-sm font-medium">OCR Processing</span>
             </div>
             <p className="text-sm text-amber-700 mt-1">{ocrError}</p>
-          </CardContent>
+          </CardBody>
         </Card>
       )}
 
@@ -656,7 +656,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
                   />
                 ) : (
                   <Card>
-                    <CardContent className="p-4">
+                    <CardBody className="p-4">
                       <div className="flex items-center gap-2">
                         <div className="h-10 w-10 bg-muted rounded flex items-center justify-center">
                           <Upload className="h-5 w-5 text-muted-foreground" />
@@ -685,7 +685,7 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
                           Retry OCR
                         </Button>
                       )}
-                    </CardContent>
+                    </CardBody>
                   </Card>
                 )}
               </div>

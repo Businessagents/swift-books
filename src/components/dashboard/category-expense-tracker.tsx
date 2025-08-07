@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
@@ -104,7 +104,7 @@ export function CategoryExpenseTracker() {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardBody>
         <div className="space-y-4">
           {/* Summary */}
           <div className="grid gap-4 md:grid-cols-3 p-4 bg-muted/50 rounded-lg">
@@ -196,7 +196,7 @@ export function CategoryExpenseTracker() {
             })}
           </div>
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }

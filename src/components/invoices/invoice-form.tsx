@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "@/components/ui/sonner"
 import { Plus, Trash2, Calculator, User, FileText } from "lucide-react"
 import { z } from "zod"
@@ -215,7 +215,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               Client Information
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardBody className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="client_name">Client Name *</Label>
               <Input
@@ -250,7 +250,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
                 {...register("client_address")}
               />
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
 
         {/* Invoice Details */}
@@ -261,7 +261,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               Invoice Details
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardBody className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="invoice_number">Invoice Number *</Label>
               <Input
@@ -308,7 +308,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
                 {...register("terms")}
               />
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
@@ -323,7 +323,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           <div className="space-y-4">
             {fields.map((field, index) => (
               <div key={field.id} className="grid gap-4 md:grid-cols-12 items-end p-4 border rounded-lg">
@@ -397,7 +397,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               <p className="text-sm text-destructive">{errors.items.message}</p>
             )}
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Totals */}
@@ -408,7 +408,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
             Invoice Totals
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Subtotal:</span>
@@ -425,7 +425,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               </div>
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Additional Information */}
@@ -433,7 +433,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
         <CardHeader>
           <CardTitle className="text-lg">Additional Information</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardBody className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="payment_instructions">Payment Instructions</Label>
             <Textarea
@@ -453,7 +453,7 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               {...register("notes")}
             />
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Actions */}

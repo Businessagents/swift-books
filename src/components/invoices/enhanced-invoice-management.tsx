@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -465,14 +465,14 @@ export function EnhancedInvoiceManagement() {
             <CardTitle className="text-sm font-medium">Total Invoiced</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(summaryStats.totalAmount) : summaryStats.totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {summaryStats.total} invoices
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -480,14 +480,14 @@ export function EnhancedInvoiceManagement() {
             <CardTitle className="text-sm font-medium">Paid Amount</CardTitle>
             <CheckCircle className="h-4 w-4 text-green-500" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-green-600">
               ${isPrivacyMode ? maskValue(summaryStats.paidAmount) : summaryStats.paidAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {summaryStats.paid} paid invoices
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -495,14 +495,14 @@ export function EnhancedInvoiceManagement() {
             <CardTitle className="text-sm font-medium">Outstanding</CardTitle>
             <AlertCircle className="h-4 w-4 text-orange-500" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-orange-600">
               ${isPrivacyMode ? maskValue(summaryStats.outstandingAmount) : summaryStats.outstandingAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {summaryStats.total - summaryStats.paid} pending
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -510,14 +510,14 @@ export function EnhancedInvoiceManagement() {
             <CardTitle className="text-sm font-medium">Overdue</CardTitle>
             <Clock className="h-4 w-4 text-red-500" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold text-red-600">
               {summaryStats.overdue}
             </div>
             <p className="text-xs text-muted-foreground">
               Require attention
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
@@ -648,7 +648,7 @@ export function EnhancedInvoiceManagement() {
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardBody>
           {isLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
@@ -803,7 +803,7 @@ export function EnhancedInvoiceManagement() {
               ))}
             </div>
           )}
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Edit Invoice Dialog */}

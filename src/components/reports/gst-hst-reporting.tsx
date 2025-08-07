@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select } from "@/components/ui/select"
@@ -383,7 +383,7 @@ export function GSTHSTReporting() {
       {/* Loading State */}
       {isLoading && (
         <Card>
-          <CardContent className="pt-6">
+          <CardBody pt={6}>
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
@@ -391,7 +391,7 @@ export function GSTHSTReporting() {
               </div>
               <Progress value={66} className="h-2" />
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
       )}
 
@@ -400,53 +400,53 @@ export function GSTHSTReporting() {
           {/* Summary Cards */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
+              <CardHeader display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" pb={2}>
+                <CardTitle fontSize="sm" fontWeight="medium">Total Sales</CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
+              <CardBody>
                 <div className="text-2xl font-bold">
                   ${isPrivacyMode ? maskValue(taxSummary.totalSales) : taxSummary.totalSales.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Before tax ({invoices.length} invoices)
                 </p>
-              </CardContent>
+              </CardBody>
             </Card>
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Tax Collected</CardTitle>
+              <CardHeader display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" pb={2}>
+                <CardTitle fontSize="sm" fontWeight="medium">Tax Collected</CardTitle>
                 <Calculator className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
+              <CardBody>
                 <div className="text-2xl font-bold text-green-600">
                   ${isPrivacyMode ? maskValue(taxSummary.gstCollected) : taxSummary.gstCollected.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {taxSummary.taxRates.hst > 0 ? `HST ${taxSummary.taxRates.hst}%` : `GST ${taxSummary.taxRates.gst}%`}
                 </p>
-              </CardContent>
+              </CardBody>
             </Card>
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Tax Paid</CardTitle>
+              <CardHeader display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" pb={2}>
+                <CardTitle fontSize="sm" fontWeight="medium">Tax Paid</CardTitle>
                 <Calculator className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
+              <CardBody>
                 <div className="text-2xl font-bold text-blue-600">
                   ${isPrivacyMode ? maskValue(taxSummary.gstPaid) : taxSummary.gstPaid.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   On purchases ({expenses.length} expenses)
                 </p>
-              </CardContent>
+              </CardBody>
             </Card>
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
+              <CardHeader display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" pb={2}>
+                <CardTitle fontSize="sm" fontWeight="medium">
                   {taxSummary.netTaxOwing > 0 ? 'Net Tax Owing' : 'Refund Due'}
                 </CardTitle>
                 {taxSummary.netTaxOwing > 0 ? (
@@ -455,14 +455,14 @@ export function GSTHSTReporting() {
                   <CheckCircle className="h-4 w-4 text-green-500" />
                 )}
               </CardHeader>
-              <CardContent>
+              <CardBody>
                 <div className={`text-2xl font-bold ${taxSummary.netTaxOwing > 0 ? 'text-red-600' : 'text-green-600'}`}>
                   ${isPrivacyMode ? maskValue(taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue) : (taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue).toLocaleString('en-CA', { minimumFractionDigits: 2 })}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {taxSummary.netTaxOwing > 0 ? 'Due to CRA' : 'Expected refund'}
                 </p>
-              </CardContent>
+              </CardBody>
             </Card>
           </div>
 
@@ -483,7 +483,7 @@ export function GSTHSTReporting() {
                     - {selectedPeriod} period
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardBody>
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -528,7 +528,7 @@ export function GSTHSTReporting() {
                       </TableRow>
                     </TableBody>
                   </Table>
-                </CardContent>
+                </CardBody>
               </Card>
             </TabsContent>
 
@@ -538,7 +538,7 @@ export function GSTHSTReporting() {
                   <CardTitle>Sales Details</CardTitle>
                   <CardDescription>All invoices for the selected period</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardBody>
                   {invoices.length === 0 ? (
                     <div className="text-center py-6">
                       <PieChart className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
@@ -576,7 +576,7 @@ export function GSTHSTReporting() {
                       </TableBody>
                     </Table>
                   )}
-                </CardContent>
+                </CardBody>
               </Card>
             </TabsContent>
 
@@ -586,7 +586,7 @@ export function GSTHSTReporting() {
                   <CardTitle>Purchase Details</CardTitle>
                   <CardDescription>All expenses for the selected period</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardBody>
                   {expenses.length === 0 ? (
                     <div className="text-center py-6">
                       <BarChart3 className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
@@ -630,7 +630,7 @@ export function GSTHSTReporting() {
                       </TableBody>
                     </Table>
                   )}
-                </CardContent>
+                </CardBody>
               </Card>
             </TabsContent>
           </Tabs>

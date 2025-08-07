@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -190,7 +190,7 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="space-y-4">
+      <CardBody className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="description">Expense Description</Label>
           <Textarea
@@ -285,7 +285,7 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
           <p>💡 <strong>Tip:</strong> Be specific in descriptions for better categorization accuracy</p>
           <p>🇨🇦 Categories follow CRA business expense guidelines</p>
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 };

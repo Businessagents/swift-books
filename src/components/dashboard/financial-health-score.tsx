@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -127,8 +127,8 @@ export function FinancialHealthScore() {
           </Button>
         </HStack>
       </CardHeader>
-      <CardContent>
-        <VStack gap={6}>
+      <CardBody>
+        <VStack spacing={6}>
           {/* Overall Score */}
           <VStack gap={4} textAlign="center">
             <Box position="relative">
@@ -234,7 +234,7 @@ export function FinancialHealthScore() {
             </Button>
           </HStack>
         </VStack>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }

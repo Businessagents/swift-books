@@ -7,7 +7,7 @@ import { PrivacyProvider } from "@/hooks/use-privacy";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/components/auth/protected-route";
 import Index from "./pages/Index";
-import Auth from "./pages/Auth";
+import AuthSimple from "./pages/AuthSimple";
 import Transactions from "./pages/Transactions";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
@@ -25,7 +25,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/auth" element={<Auth />} />
+              <Route path="/auth" element={<AuthSimple />} />
               <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><Index /></ProtectedRoute>} />
               <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />

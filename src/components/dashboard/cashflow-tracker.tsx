@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowUp, ArrowDown, DollarSign, TrendingUp, TrendingDown } from "lucide-react"
 import { usePrivacy } from "@/hooks/use-privacy"
@@ -60,7 +60,7 @@ export function CashflowTracker() {
           </Badge>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardBody>
         <div className="space-y-6">
           {/* Current Month Summary */}
           <div className="grid gap-4 md:grid-cols-3">
@@ -159,7 +159,7 @@ export function CashflowTracker() {
             </div>
           </div>
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }
