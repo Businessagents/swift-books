@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Card Component - Chakra UI v3 wrapper
  * 
@@ -15,8 +14,6 @@
  * </Card>
  */
 import * as React from "react"
-=======
->>>>>>> main
 import { 
   Box,
   Heading,
@@ -51,6 +48,9 @@ const CardBody = ({ children, ...props }: any) => (
   </Box>
 )
 
+// Alias for backward compatibility
+const CardContent = CardBody
+
 const CardFooter = ({ children, ...props }: any) => (
   <Box p={6} pt={3} display="flex" alignItems="center" {...props}>
     {children}
@@ -70,4 +70,4 @@ const CardDescription = ({ children, ...props }: any) => (
 )
 
 // Export Chakra UI v3 API-compliant Card components
-export { Card, CardHeader, CardBody, CardFooter, CardTitle, CardDescription }
+export { Card, CardHeader, CardBody, CardContent, CardFooter, CardTitle, CardDescription }
