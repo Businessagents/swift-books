@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Camera, Upload, Check, Clock, X, AlertCircle } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
-import { useToast } from "@/components/ui/use-toast"
+import { showToast } from "@/lib/toast"
 
 interface ReceiptUploadProps {
   onReceiptProcessed?: (receipt: any) => void
@@ -17,7 +17,6 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
   const [progress, setProgress] = useState(0)
   const [dragActive, setDragActive] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const { toast } = useToast()
 
   const handleFileSelect = async (files: FileList | null) => {
     if (!files || files.length === 0) return
@@ -26,7 +25,7 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
     
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      toast({
+      showToast({
         title: "Invalid file type",
         description: "Please select an image file (PNG, JPG, etc.)",
         variant: "destructive",
@@ -36,7 +35,7 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
 
     // Validate file size (4MB limit)
     if (file.size > 4 * 1024 * 1024) {
-      toast({
+      showToast({
         title: "File too large",
         description: "Please select an image smaller than 4MB",
         variant: "destructive",
@@ -118,7 +117,7 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
       setProgress(100)
       setProcessing(false)
 
-      toast({
+      showToast({
         title: "Receipt processed successfully!",
         description: `Extracted ${ocrData.extractedData.vendor || 'receipt'} - $${ocrData.extractedData.amount || '0.00'}`,
       })
@@ -135,7 +134,7 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
       setProcessing(false)
       setProgress(0)
       
-      toast({
+      showToast({
         title: "Failed to process receipt",
         description: error.message || "An unexpected error occurred",
         variant: "destructive",

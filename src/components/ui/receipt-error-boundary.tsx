@@ -1,9 +1,9 @@
 import React from 'react'
-import { Card, CardBody, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { AlertTriangle, RefreshCw, Bug, FileX } from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@chakra-ui/react'
 
 interface ErrorBoundaryState {
   hasError: boolean
@@ -151,7 +151,6 @@ interface DefaultErrorFallbackProps {
 }
 
 function DefaultErrorFallback({ error, errorId, resetError }: DefaultErrorFallbackProps) {
-  const { toast } = useToast()
 
   const copyErrorInfo = () => {
     const errorText = `
@@ -164,7 +163,7 @@ User Agent: ${navigator.userAgent}
     `.trim()
 
     navigator.clipboard.writeText(errorText).then(() => {
-      toast({
+      showToast({
         title: 'Error details copied',
         description: 'Error information has been copied to clipboard',
       })
@@ -209,7 +208,7 @@ User Agent: ${navigator.userAgent}
           Something went wrong while processing your receipt. This error has been logged for investigation.
         </CardDescription>
       </CardHeader>
-      <CardBody className="space-y-4">
+      <CardContent className="space-y-4">
         {/* Error Details */}
         <div className="p-3 bg-muted/50 rounded-lg border">
           <div className="text-sm font-medium mb-1">Error Details:</div>
@@ -261,7 +260,7 @@ User Agent: ${navigator.userAgent}
             <li>Refresh the page and try again</li>
           </ul>
         </div>
-      </CardBody>
+      </CardContent>
     </Card>
   )
 }

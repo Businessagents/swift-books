@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Progress } from "@/components/ui/progress"
 import { supabase } from "@/integrations/supabase/client"
 import { usePrivacy } from "@/hooks/use-privacy"
-import { toast } from "@/components/ui/sonner"
+import { showToast } from "@/lib/toast"
 import { 
   Box,
   VStack,
@@ -288,10 +288,22 @@ export function GSTHSTReporting() {
       link.click()
       document.body.removeChild(link)
 
-      toast.success('GST/HST report exported successfully')
+      showToast({
+        title: "Export Successful",
+        description: "GST/HST report exported successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      })
     } catch (error) {
       console.error('Export error:', error)
-      toast.error('Failed to export report')
+      showToast({
+        title: "Export Failed",
+        description: "Failed to export report",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      })
     } finally {
       setIsExporting(false)
     }

@@ -4,10 +4,10 @@ import { supabase } from "@/integrations/supabase/client"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "@/components/ui/sonner"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { showToast } from "@/lib/toast"
 import { Send, Bot, MessageSquare } from "lucide-react"
 
 interface PaymentReminderDialogProps {
@@ -169,7 +169,7 @@ export function PaymentReminderDialog({ open, onOpenChange, invoice, onSuccess }
             <CardHeader>
               <CardTitle className="text-lg">Invoice Details</CardTitle>
             </CardHeader>
-            <CardBody>
+            <CardContent>
               <div className="grid gap-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Invoice:</span>
@@ -192,19 +192,26 @@ export function PaymentReminderDialog({ open, onOpenChange, invoice, onSuccess }
                   <span className="font-medium text-red-600">{daysOverdue} days</span>
                 </div>
               </div>
-            </CardBody>
+            </CardContent>
           </Card>
 
           {/* Tone Selection */}
           <div className="space-y-3">
             <Label>Reminder Tone</Label>
-            <Select value={selectedTone} onChange={(e) => setSelectedTone(e.target.value)} placeholder="Select reminder tone">
-              <option value="">Select reminder tone</option>
-              {reminderTones.map((tone) => (
-                <option key={tone.value} value={tone.value}>
-                  {tone.label} - {tone.description}
-                </option>
-              ))}
+            <Select value={selectedTone} onValueChange={setSelectedTone}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select reminder tone" />
+              </SelectTrigger>
+              <SelectContent>
+                {reminderTones.map((tone) => (
+                  <SelectItem key={tone.value} value={tone.value}>
+                    <div>
+                      <div className="font-medium">{tone.label}</div>
+                      <div className="text-sm text-muted-foreground">{tone.description}</div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
 

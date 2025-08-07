@@ -27,7 +27,7 @@ import {
   ArrowDownLeft,
   Loader2
 } from "lucide-react"
-import { toast } from "@/components/ui/sonner"
+import { showToast } from "@/lib/toast"
 import { format } from "date-fns"
 
 interface ReconciliationDialogProps {
@@ -242,7 +242,7 @@ export function ReconciliationDialog({ isOpen, onClose, accountId }: Reconciliat
       toast.success(`Found ${matches.length} potential matches, ${highConfidenceMatches.length} auto-selected`)
     },
     onError: () => {
-      toast.error('Failed to auto-match transactions')
+      showToast({ title: 'Error', description: 'Failed to auto-match transactions', status: 'error' })
     },
     onSettled: () => {
       setIsAutoMatching(false)
@@ -281,7 +281,7 @@ export function ReconciliationDialog({ isOpen, onClose, accountId }: Reconciliat
       toast.success(`Successfully reconciled ${count} transactions`)
     },
     onError: () => {
-      toast.error('Failed to reconcile transactions')
+      showToast({ title: 'Error', description: 'Failed to reconcile transactions', status: 'error' })
     }
   })
 

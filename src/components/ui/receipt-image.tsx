@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Card, CardBody } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle, Download, Eye, EyeOff, Maximize2, X } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@chakra-ui/react'
 import { getSignedUrl, getThumbnailUrl } from '@/lib/storage-utils'
 
 interface ReceiptImageProps {
@@ -37,7 +37,6 @@ export function ReceiptImage({
   const [error, setError] = useState<string | null>(null)
   const [showFullImage, setShowFullImage] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
-  const { toast } = useToast()
 
 
   const loadImage = async () => {
@@ -85,13 +84,13 @@ export function ReceiptImage({
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
 
-      toast({
+      showToast({
         title: 'Download started',
         description: `Downloading ${fileName}`,
       })
     } catch (err: any) {
       console.error('Download failed:', err)
-      toast({
+      showToast({
         title: 'Download failed',
         description: err.message || 'Failed to download the receipt image',
         variant: 'destructive',
@@ -133,7 +132,7 @@ export function ReceiptImage({
   if (loading) {
     return (
       <Card className={className}>
-        <CardBody className="p-4">
+        <CardContent className="p-4">
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <Skeleton className="h-4 w-32" />
@@ -145,7 +144,7 @@ export function ReceiptImage({
               <Skeleton className="h-8 w-20" />
             </div>
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
     )
   }
@@ -153,7 +152,7 @@ export function ReceiptImage({
   if (error) {
     return (
       <Card className={className}>
-        <CardBody className="p-4">
+        <CardContent className="p-4">
           <div className="flex items-center gap-2 text-destructive mb-4">
             <AlertCircle className="h-4 w-4" />
             <span className="text-sm">{error}</span>
@@ -166,7 +165,7 @@ export function ReceiptImage({
           >
             Retry
           </Button>
-        </CardBody>
+        </CardContent>
       </Card>
     )
   }
@@ -177,7 +176,7 @@ export function ReceiptImage({
   return (
     <>
       <Card className={className}>
-        <CardBody className="p-4">
+        <CardContent className="p-4">
           <div className="space-y-4">
             {/* Header */}
             <div className="flex justify-between items-start">
@@ -275,7 +274,7 @@ export function ReceiptImage({
               </div>
             )}
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
 
       {/* Full Image Dialog */}

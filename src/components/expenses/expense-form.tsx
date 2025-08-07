@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Select } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "@/components/ui/sonner"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { showToast } from "@/lib/toast"
 import { Calculator, Receipt } from "lucide-react"
 import { z } from "zod"
 import { calculateGSTHST } from "@/lib/tax-calculator"
@@ -173,7 +173,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
           <CardHeader>
             <CardTitle className="text-lg">Basic Information</CardTitle>
           </CardHeader>
-          <CardBody className="space-y-4">
+          <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="description">Description *</Label>
               <Input
@@ -227,18 +227,21 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               <Label htmlFor="category_id">Category</Label>
               <Select 
                 value={watch("category_id") || ""}
-                onChange={(e) => setValue("category_id", e.target.value)}
-                placeholder="Select category"
+                onValueChange={(value) => setValue("category_id", value)}
               >
-                <option value="">Select category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
-          </CardBody>
+          </CardContent>
         </Card>
 
         {/* Tax & Financial Details */}
@@ -249,20 +252,23 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               Tax & Financial Details
             </CardTitle>
           </CardHeader>
-          <CardBody className="space-y-4">
+          <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="tax_code_id">Tax Code</Label>
               <Select 
                 value={watch("tax_code_id") || ""}
-                onChange={(e) => setValue("tax_code_id", e.target.value)}
-                placeholder="Select tax code"
+                onValueChange={(value) => setValue("tax_code_id", value)}
               >
-                <option value="">Select tax code</option>
-                {taxCodes.map((taxCode) => (
-                  <option key={taxCode.id} value={taxCode.id}>
-                    {taxCode.name} ({(taxCode.rate * 100).toFixed(1)}%)
-                  </option>
-                ))}
+                <SelectTrigger>
+                  <SelectValue placeholder="Select tax code" />
+                </SelectTrigger>
+                <SelectContent>
+                  {taxCodes.map((taxCode) => (
+                    <SelectItem key={taxCode.id} value={taxCode.id}>
+                      {taxCode.name} ({(taxCode.rate * 100).toFixed(1)}%)
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
 
@@ -326,7 +332,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                 <Label htmlFor="is_personal">Personal expense (non-deductible)</Label>
               </div>
             </div>
-          </CardBody>
+          </CardContent>
         </Card>
       </div>
 
@@ -335,7 +341,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
         <CardHeader>
           <CardTitle className="text-lg">Additional Notes</CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           <div className="space-y-2">
             <Label htmlFor="notes">Notes</Label>
             <Textarea
@@ -345,7 +351,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               {...register("notes")}
             />
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
 
       {/* Actions */}
