@@ -1,35 +1,24 @@
 import * as React from "react"
 import { 
-  Card as ChakraCard, 
+  Card as ChakraCardRoot,
   CardHeader as ChakraCardHeader,
   CardBody as ChakraCardBody,
   CardFooter as ChakraCardFooter,
   Heading,
-  Text,
-  Box
+  Text
 } from "@chakra-ui/react"
 
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { variant?: 'elevated' | 'outline' }
 >(({ variant = 'elevated', children, ...props }, ref) => (
-  <Box
+  <ChakraCardRoot
     ref={ref}
-    bg="white"
-    _dark={{ bg: "gray.800" }}
-    shadow={variant === 'elevated' ? 'md' : 'none'}
-    borderWidth={variant === 'outline' ? 1 : 0}
-    borderColor="gray.200"
-    borderRadius="lg"
-    transition="all 0.2s ease-in-out"
-    _hover={{
-      transform: 'translateY(-2px)',
-      boxShadow: 'xl'
-    }}
+    variant={variant}
     {...props}
   >
     {children}
-  </Box>
+  </ChakraCardRoot>
 ))
 Card.displayName = "Card"
 
@@ -39,6 +28,7 @@ const CardHeader = React.forwardRef<
 >(({ ...props }, ref) => (
   <ChakraCardHeader
     ref={ref}
+    pb={3}
     {...props}
   />
 ))
@@ -76,7 +66,11 @@ const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ ...props }, ref) => (
-  <ChakraCardBody ref={ref} {...props} />
+  <ChakraCardBody 
+    ref={ref} 
+    pt={0}
+    {...props} 
+  />
 ))
 CardContent.displayName = "CardContent"
 
@@ -86,6 +80,7 @@ const CardFooter = React.forwardRef<
 >(({ ...props }, ref) => (
   <ChakraCardFooter
     ref={ref}
+    pt={3}
     display="flex"
     alignItems="center"
     {...props}
