@@ -1,42 +1,48 @@
 import * as React from "react"
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
+  DialogRoot,
+  DialogBackdrop,
+  DialogContent as ChakraDialogContent,
+  DialogHeader as ChakraDialogHeader,
+  DialogBody,
+  DialogFooter as ChakraDialogFooter,
+  DialogTitle as ChakraDialogTitle,
+  DialogDescription as ChakraDialogDescription,
+  DialogCloseTrigger,
+  DialogTrigger as ChakraDialogTrigger,
   Button,
   VStack,
   Text,
-  Box,
-  useDisclosure
+  Box
 } from "@chakra-ui/react"
 
-// Dialog components mapped to Chakra UI Modal
-const Dialog = ({ children, ...props }: { children: React.ReactNode }) => {
-  return <>{children}</>
+// Dialog components mapped to Chakra UI Dialog
+const Dialog = ({ children, open, onOpenChange, ...props }: { 
+  children: React.ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}) => {
+  return (
+    <DialogRoot open={open} onOpenChange={onOpenChange} {...props}>
+      {children}
+    </DialogRoot>
+  )
 }
 
 const DialogTrigger = ({ children, asChild, ...props }: { children: React.ReactNode, asChild?: boolean }) => {
-  return <>{children}</>
+  return <ChakraDialogTrigger asChild={asChild} {...props}>{children}</ChakraDialogTrigger>
 }
 
 const DialogContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { 
-    isOpen?: boolean
-    onClose?: () => void
-    size?: string
-  }
->(({ children, isOpen = false, onClose = () => {}, size = "md", ...props }, ref) => (
-  <Modal isOpen={isOpen} onClose={onClose} size={size}>
-    <ModalOverlay />
-    <ModalContent ref={ref} {...props}>
+  React.HTMLAttributes<HTMLDivElement>
+>(({ children, ...props }, ref) => (
+  <>
+    <DialogBackdrop />
+    <ChakraDialogContent ref={ref} {...props}>
       {children}
-    </ModalContent>
-  </Modal>
+    </ChakraDialogContent>
+  </>
 ))
 DialogContent.displayName = "DialogContent"
 
@@ -44,9 +50,9 @@ const DialogHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ children, ...props }, ref) => (
-  <ModalHeader ref={ref} {...props}>
+  <ChakraDialogHeader ref={ref} {...props}>
     {children}
-  </ModalHeader>
+  </ChakraDialogHeader>
 ))
 DialogHeader.displayName = "DialogHeader"
 
@@ -54,9 +60,9 @@ const DialogFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ children, ...props }, ref) => (
-  <ModalFooter ref={ref} {...props}>
+  <ChakraDialogFooter ref={ref} {...props}>
     {children}
-  </ModalFooter>
+  </ChakraDialogFooter>
 ))
 DialogFooter.displayName = "DialogFooter"
 
@@ -64,9 +70,9 @@ const DialogTitle = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ children, ...props }, ref) => (
-  <Text ref={ref} fontSize="lg" fontWeight="bold" {...props}>
+  <ChakraDialogTitle ref={ref} {...props}>
     {children}
-  </Text>
+  </ChakraDialogTitle>
 ))
 DialogTitle.displayName = "DialogTitle"
 
@@ -74,9 +80,9 @@ const DialogDescription = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ children, ...props }, ref) => (
-  <Text ref={ref} fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} {...props}>
+  <ChakraDialogDescription ref={ref} {...props}>
     {children}
-  </Text>
+  </ChakraDialogDescription>
 ))
 DialogDescription.displayName = "DialogDescription"
 
@@ -84,11 +90,13 @@ const DialogClose = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }
 >(({ children, asChild, ...props }, ref) => (
-  <ModalCloseButton ref={ref} {...props} />
+  <DialogCloseTrigger asChild={asChild} ref={ref} {...props}>
+    {children}
+  </DialogCloseTrigger>
 ))
 DialogClose.displayName = "DialogClose"
 
-// Keep these for compatibility but they're not needed with Chakra Modal
+// Keep these for compatibility but they're not needed with Chakra Dialog
 const DialogPortal = ({ children }: { children: React.ReactNode }) => <>{children}</>
 const DialogOverlay = ({ children }: { children: React.ReactNode }) => <>{children}</>
 
