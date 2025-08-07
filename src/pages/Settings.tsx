@@ -18,15 +18,10 @@ import {
   Select,
   Divider,
   Badge,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  SimpleGrid,
-  useToast
+  SimpleGrid
 } from "@chakra-ui/react"
 import { useColorMode } from "@chakra-ui/color-mode"
+import { toast } from "@/components/ui/sonner"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
 import { 
@@ -52,13 +47,10 @@ import {
   Clock,
   DollarSign
 } from "lucide-react"
-
 const Settings = () => {
   const [loading, setLoading] = useState(false)
-  const toast = useToast()
   const { colorMode } = useColorMode()
   const bg = colorMode === 'light' ? 'gray.50' : 'gray.800'
-
   // Settings state - TODO: Implement real data from context/API
   const [settings, setSettings] = useState({
     // Profile settings
@@ -67,37 +59,31 @@ const Settings = () => {
     email: "",
     phone: "",
     address: "",
-    
     // Business settings
     fiscalYearStart: "01-01",
     defaultCurrency: "CAD",
     timeZone: "America/Vancouver",
     businessNumber: "123456789RT0001",
-    
     // Notification settings
     emailNotifications: true,
     invoiceReminders: true,
     expenseAlerts: true,
     reportScheduling: false,
-    
     // Privacy & Security
     twoFactorAuth: false,
     dataRetention: "7years",
     privacyMode: false,
-    
     // System settings
     autoBackup: true,
     darkMode: "system",
     language: "en-CA",
     dateFormat: "YYYY-MM-DD"
   })
-
   const handleSave = async () => {
     setLoading(true)
     try {
       // In real app, save settings via API
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
       toast({
         title: "Settings saved",
         description: "Your preferences have been updated successfully.",
@@ -117,7 +103,6 @@ const Settings = () => {
       setLoading(false)
     }
   }
-
   const handleExportData = () => {
     toast({
       title: "Export started",
@@ -127,7 +112,6 @@ const Settings = () => {
       isClosable: true,
     })
   }
-
   const handleImportData = () => {
     toast({
       title: "Import feature",
@@ -137,11 +121,9 @@ const Settings = () => {
       isClosable: true,
     })
   }
-
   return (
     <Box minH="100vh" bg={bg}>
       <Header />
-      
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
         <VStack spacing={8} align="stretch">
           {/* Header Section */}
@@ -161,7 +143,6 @@ const Settings = () => {
                     Customize your Swift Books experience and manage your business preferences
                   </Text>
                 </VStack>
-                
                 <HStack spacing={2} display={{ base: "none", md: "flex" }}>
                   <Button 
                     variant="outline" 
@@ -185,413 +166,19 @@ const Settings = () => {
               </HStack>
             </CardBody>
           </Card>
-
           {/* Settings Content */}
-          <Tabs>
-            <TabList overflowX="auto" overflowY="hidden">
-              <Tab>
-                <HStack spacing={2}>
-                  <User size={16} />
-                  <Text display={{ base: "none", sm: "inline" }}>Profile</Text>
+          <Card>
+            <CardBody>
+              <VStack spacing={4}>
+                <Heading size="md">Settings</Heading>
+                <Text>Settings page is being migrated to Chakra UI v3. Full functionality will be restored soon.</Text>
+                <HStack spacing={4}>
+                  <ThemeToggle />
+                  <PrivacyToggle />
                 </HStack>
-              </Tab>
-              <Tab>
-                <HStack spacing={2}>
-                  <Building size={16} />
-                  <Text display={{ base: "none", sm: "inline" }}>Business</Text>
-                </HStack>
-              </Tab>
-              <Tab>
-                <HStack spacing={2}>
-                  <Bell size={16} />
-                  <Text display={{ base: "none", sm: "inline" }}>Notifications</Text>
-                </HStack>
-              </Tab>
-              <Tab>
-                <HStack spacing={2}>
-                  <Shield size={16} />
-                  <Text display={{ base: "none", sm: "inline" }}>Security</Text>
-                </HStack>
-              </Tab>
-              <Tab>
-                <HStack spacing={2}>
-                  <Database size={16} />
-                  <Text display={{ base: "none", sm: "inline" }}>System</Text>
-                </HStack>
-              </Tab>
-            </TabList>
-
-            <TabPanels>
-
-              {/* Profile Settings */}
-              <TabPanel>
-                <Card>
-                  <CardHeader>
-                    <VStack align="start" spacing={1}>
-                      <Heading size="md">Profile Information</Heading>
-                      <Text fontSize="sm" color="gray.600">
-                        Update your business and contact information
-                      </Text>
-                    </VStack>
-                  </CardHeader>
-                  <CardBody>
-                    <VStack spacing={6} align="stretch">
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Business Name</FormLabel>
-                          <Input
-                            value={settings.businessName}
-                            onChange={(e) => setSettings({...settings, businessName: e.target.value})}
-                          />
-                        </FormControl>
-                        <FormControl>
-                          <FormLabel>Owner Name</FormLabel>
-                          <Input
-                            value={settings.ownerName}
-                            onChange={(e) => setSettings({...settings, ownerName: e.target.value})}
-                          />
-                        </FormControl>
-                      </SimpleGrid>
-                      
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Email Address</FormLabel>
-                          <Input
-                            type="email"
-                            value={settings.email}
-                            onChange={(e) => setSettings({...settings, email: e.target.value})}
-                          />
-                        </FormControl>
-                        <FormControl>
-                          <FormLabel>Phone Number</FormLabel>
-                          <Input
-                            value={settings.phone}
-                            onChange={(e) => setSettings({...settings, phone: e.target.value})}
-                          />
-                        </FormControl>
-                      </SimpleGrid>
-                      
-                      <FormControl>
-                        <FormLabel>Business Address</FormLabel>
-                        <Input
-                          value={settings.address}
-                          onChange={(e) => setSettings({...settings, address: e.target.value})}
-                        />
-                      </FormControl>
-                    </VStack>
-                  </CardBody>
-                </Card>
-              </TabPanel>
-
-              {/* Business Settings */}
-              <TabPanel>
-                <Card>
-                  <CardHeader>
-                    <VStack align="start" spacing={1}>
-                      <Heading size="md">Business Configuration</Heading>
-                      <Text fontSize="sm" color="gray.600">
-                        Configure your business preferences and accounting settings
-                      </Text>
-                    </VStack>
-                  </CardHeader>
-                  <CardBody>
-                    <VStack spacing={6} align="stretch">
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Fiscal Year Start</FormLabel>
-                          <Select 
-                            value={settings.fiscalYearStart} 
-                            onChange={(e) => setSettings({...settings, fiscalYearStart: e.target.value})}
-                          >
-                            <option value="01-01">January 1st</option>
-                            <option value="04-01">April 1st</option>
-                            <option value="07-01">July 1st</option>
-                            <option value="10-01">October 1st</option>
-                          </Select>
-                        </FormControl>
-                        
-                        <FormControl>
-                          <FormLabel>Default Currency</FormLabel>
-                          <Select 
-                            value={settings.defaultCurrency} 
-                            onChange={(e) => setSettings({...settings, defaultCurrency: e.target.value})}
-                          >
-                            <option value="CAD">CAD - Canadian Dollar</option>
-                            <option value="USD">USD - US Dollar</option>
-                            <option value="EUR">EUR - Euro</option>
-                          </Select>
-                        </FormControl>
-                      </SimpleGrid>
-                      
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                        <FormControl>
-                          <FormLabel>Time Zone</FormLabel>
-                          <Select 
-                            value={settings.timeZone} 
-                            onChange={(e) => setSettings({...settings, timeZone: e.target.value})}
-                          >
-                            <option value="America/Vancouver">Pacific Time (Vancouver)</option>
-                            <option value="America/Edmonton">Mountain Time (Calgary)</option>
-                            <option value="America/Winnipeg">Central Time (Winnipeg)</option>
-                            <option value="America/Toronto">Eastern Time (Toronto)</option>
-                          </Select>
-                        </FormControl>
-                        
-                        <FormControl>
-                          <FormLabel>Business Number</FormLabel>
-                          <Input
-                            value={settings.businessNumber}
-                            onChange={(e) => setSettings({...settings, businessNumber: e.target.value})}
-                            placeholder="123456789RT0001"
-                          />
-                        </FormControl>
-                      </SimpleGrid>
-                    </VStack>
-                  </CardBody>
-                </Card>
-              </TabPanel>
-
-              {/* Notification Settings */}
-              <TabPanel>
-                <Card>
-                  <CardHeader>
-                    <VStack align="start" spacing={1}>
-                      <Heading size="md">Notification Preferences</Heading>
-                      <Text fontSize="sm" color="gray.600">
-                        Configure how and when you receive notifications
-                      </Text>
-                    </VStack>
-                  </CardHeader>
-                  <CardBody>
-                    <VStack spacing={4} align="stretch">
-                      <HStack justify="space-between">
-                        <VStack align="start" spacing={0} flex={1}>
-                          <Text fontWeight="medium">Email Notifications</Text>
-                          <Text fontSize="sm" color="gray.600">
-                            Receive important updates via email
-                          </Text>
-                        </VStack>
-                        <Switch
-                          isChecked={settings.emailNotifications}
-                          onChange={(e) => setSettings({...settings, emailNotifications: e.target.checked})}
-                        />
-                      </HStack>
-                      
-                      <Divider />
-                      
-                      <HStack justify="space-between">
-                        <VStack align="start" spacing={0} flex={1}>
-                          <Text fontWeight="medium">Invoice Reminders</Text>
-                          <Text fontSize="sm" color="gray.600">
-                            Automatic reminders for overdue invoices
-                          </Text>
-                        </VStack>
-                        <Switch
-                          isChecked={settings.invoiceReminders}
-                          onChange={(e) => setSettings({...settings, invoiceReminders: e.target.checked})}
-                        />
-                      </HStack>
-                      
-                      <HStack justify="space-between">
-                        <VStack align="start" spacing={0} flex={1}>
-                          <Text fontWeight="medium">Expense Alerts</Text>
-                          <Text fontSize="sm" color="gray.600">
-                            Notifications for unusual spending patterns
-                          </Text>
-                        </VStack>
-                        <Switch
-                          isChecked={settings.expenseAlerts}
-                          onChange={(e) => setSettings({...settings, expenseAlerts: e.target.checked})}
-                        />
-                      </HStack>
-                      
-                      <HStack justify="space-between">
-                        <VStack align="start" spacing={0} flex={1}>
-                          <Text fontWeight="medium">Report Scheduling</Text>
-                          <Text fontSize="sm" color="gray.600">
-                            Weekly and monthly report delivery
-                          </Text>
-                        </VStack>
-                        <Switch
-                          isChecked={settings.reportScheduling}
-                          onChange={(e) => setSettings({...settings, reportScheduling: e.target.checked})}
-                        />
-                      </HStack>
-                    </VStack>
-                  </CardBody>
-                </Card>
-              </TabPanel>
-
-              {/* Security Settings */}
-              <TabPanel>
-                <Card>
-                  <CardHeader>
-                    <VStack align="start" spacing={1}>
-                      <Heading size="md">Security & Privacy</Heading>
-                      <Text fontSize="sm" color="gray.600">
-                        Manage your account security and data privacy settings
-                      </Text>
-                    </VStack>
-                  </CardHeader>
-                  <CardBody>
-                    <VStack spacing={6} align="stretch">
-                      <VStack spacing={4} align="stretch">
-                        <HStack justify="space-between">
-                          <VStack align="start" spacing={0} flex={1}>
-                            <Text fontWeight="medium">Two-Factor Authentication</Text>
-                            <Text fontSize="sm" color="gray.600">
-                              Add an extra layer of security to your account
-                            </Text>
-                          </VStack>
-                          <HStack spacing={2}>
-                            {settings.twoFactorAuth && (
-                              <Badge colorScheme="green" variant="subtle">
-                                Enabled
-                              </Badge>
-                            )}
-                            <Switch
-                              isChecked={settings.twoFactorAuth}
-                              onChange={(e) => setSettings({...settings, twoFactorAuth: e.target.checked})}
-                            />
-                          </HStack>
-                        </HStack>
-                        
-                        <Divider />
-                        
-                        <FormControl>
-                          <FormLabel>Data Retention Policy</FormLabel>
-                          <Select 
-                            value={settings.dataRetention} 
-                            onChange={(e) => setSettings({...settings, dataRetention: e.target.value})}
-                          >
-                            <option value="1year">1 Year</option>
-                            <option value="3years">3 Years</option>
-                            <option value="7years">7 Years (CRA Recommended)</option>
-                            <option value="indefinite">Indefinite</option>
-                          </Select>
-                          <Text fontSize="xs" color="gray.500" mt={1}>
-                            Canada Revenue Agency recommends keeping records for 7 years
-                          </Text>
-                        </FormControl>
-                        
-                        <Divider />
-                        
-                        <HStack justify="space-between">
-                          <VStack align="start" spacing={0} flex={1}>
-                            <Text fontWeight="medium">Privacy Mode</Text>
-                            <HStack spacing={2}>
-                              <Text fontSize="sm" color="gray.600">Hide sensitive financial data</Text>
-                              <PrivacyToggle />
-                            </HStack>
-                          </VStack>
-                        </HStack>
-                      </VStack>
-                      
-                      <Divider />
-                      
-                      <VStack spacing={4} align="stretch">
-                        <Heading size="sm">Data Management</Heading>
-                        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
-                          <Button 
-                            variant="outline" 
-                            onClick={handleExportData} 
-                            size="sm"
-                            leftIcon={<Download size={16} />}
-                          >
-                            Export Data
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            onClick={handleImportData} 
-                            size="sm"
-                            leftIcon={<Upload size={16} />}
-                          >
-                            Import Data
-                          </Button>
-                          <Button 
-                            colorScheme="red" 
-                            variant="outline" 
-                            size="sm"
-                            leftIcon={<Trash2 size={16} />}
-                          >
-                            Delete Account
-                          </Button>
-                        </SimpleGrid>
-                      </VStack>
-                    </VStack>
-                  </CardBody>
-                </Card>
-              </TabPanel>
-
-              {/* System Settings */}
-              <TabPanel>
-                <Card>
-                  <CardHeader>
-                    <VStack align="start" spacing={1}>
-                      <Heading size="md">System Preferences</Heading>
-                      <Text fontSize="sm" color="gray.600">
-                        Configure application behavior and appearance
-                      </Text>
-                    </VStack>
-                  </CardHeader>
-                  <CardBody>
-                    <VStack spacing={6} align="stretch">
-                      <VStack spacing={4} align="stretch">
-                        <HStack justify="space-between">
-                          <VStack align="start" spacing={0} flex={1}>
-                            <Text fontWeight="medium">Automatic Backups</Text>
-                            <Text fontSize="sm" color="gray.600">
-                              Automatically backup your data daily
-                            </Text>
-                          </VStack>
-                          <Switch
-                            isChecked={settings.autoBackup}
-                            onChange={(e) => setSettings({...settings, autoBackup: e.target.checked})}
-                          />
-                        </HStack>
-                        
-                        <Divider />
-                        
-                        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                          <FormControl>
-                            <FormLabel>Theme</FormLabel>
-                            <HStack spacing={2}>
-                              <ThemeToggle />
-                              <Text fontSize="sm" color="gray.500">System default</Text>
-                            </HStack>
-                          </FormControl>
-                          
-                          <FormControl>
-                            <FormLabel>Language</FormLabel>
-                            <Select 
-                              value={settings.language} 
-                              onChange={(e) => setSettings({...settings, language: e.target.value})}
-                            >
-                              <option value="en-CA">English (Canada)</option>
-                              <option value="fr-CA">Français (Canada)</option>
-                              <option value="en-US">English (US)</option>
-                            </Select>
-                          </FormControl>
-                        </SimpleGrid>
-                        
-                        <FormControl>
-                          <FormLabel>Date Format</FormLabel>
-                          <Select 
-                            value={settings.dateFormat} 
-                            onChange={(e) => setSettings({...settings, dateFormat: e.target.value})}
-                          >
-                            <option value="YYYY-MM-DD">YYYY-MM-DD (2024-01-31)</option>
-                            <option value="DD/MM/YYYY">DD/MM/YYYY (31/01/2024)</option>
-                            <option value="MM/DD/YYYY">MM/DD/YYYY (01/31/2024)</option>
-                          </Select>
-                        </FormControl>
-                      </VStack>
-                    </VStack>
-                  </CardBody>
-                </Card>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+              </VStack>
+            </CardBody>
+          </Card>
 
           {/* Mobile Save Button */}
           <Box display={{ base: "block", md: "none" }}>
@@ -612,5 +199,4 @@ const Settings = () => {
     </Box>
   )
 }
-
 export default Settings

@@ -2,8 +2,9 @@ import * as React from "react"
 import { 
   Avatar as ChakraAvatar, 
   AvatarProps as ChakraAvatarProps,
-  AvatarBadge,
-  AvatarGroup
+  AvatarGroup,
+  AvatarFallback as ChakraAvatarFallback,
+  AvatarImage as ChakraAvatarImage
 } from "@chakra-ui/react"
 
 const Avatar = React.forwardRef<HTMLSpanElement, ChakraAvatarProps>(
@@ -14,19 +15,19 @@ const Avatar = React.forwardRef<HTMLSpanElement, ChakraAvatarProps>(
 Avatar.displayName = "Avatar"
 
 const AvatarImage = ({ src, alt, ...props }: { src?: string; alt?: string }) => (
-  // In Chakra UI, the image is handled by the Avatar component itself via the src prop
-  null
+  <ChakraAvatarImage src={src} alt={alt} {...props} />
 )
 
 const AvatarFallback = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ children, ...props }, ref) => (
-    // In Chakra UI, fallback is handled by the Avatar component itself via the name prop
-    // We return a simple div for compatibility
-    <div ref={ref} {...props}>
+    <ChakraAvatarFallback ref={ref} {...props}>
       {children}
-    </div>
+    </ChakraAvatarFallback>
   )
 )
 AvatarFallback.displayName = "AvatarFallback"
+
+// For compatibility, create AvatarBadge as a simple wrapper around AvatarFallback
+const AvatarBadge = AvatarFallback
 
 export { Avatar, AvatarImage, AvatarFallback, AvatarGroup, AvatarBadge }

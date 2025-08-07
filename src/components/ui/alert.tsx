@@ -1,7 +1,7 @@
 import * as React from "react"
 import { 
   Alert as ChakraAlert, 
-  AlertIcon, 
+  AlertIndicator, 
   AlertTitle as ChakraAlertTitle, 
   AlertDescription as ChakraAlertDescription,
   AlertProps as ChakraAlertProps
@@ -46,4 +46,7 @@ const AlertDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
 )
 AlertDescription.displayName = "AlertDescription"
 
-export { Alert, AlertTitle, AlertDescription, AlertIcon }
+// For compatibility, export AlertIcon as AlertIndicator
+const AlertIcon = AlertIndicator
+
+export { Alert, AlertTitle, AlertDescription, AlertIcon, AlertIndicator }

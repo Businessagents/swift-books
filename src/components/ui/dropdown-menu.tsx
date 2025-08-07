@@ -5,8 +5,8 @@ import {
   MenuContent, 
   MenuItem, 
   MenuSeparator,
-  MenuGroup,
-  MenuItemGroup
+  MenuItemGroup,
+  MenuItemGroupLabel
 } from "@chakra-ui/react"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
@@ -22,7 +22,7 @@ const DropdownMenuTrigger = ({ children, asChild, ...props }: {
 )
 
 const DropdownMenuGroup = ({ children }: { children: React.ReactNode }) => (
-  <MenuGroup>{children}</MenuGroup>
+  <MenuItemGroup>{children}</MenuItemGroup>
 )
 
 const DropdownMenuPortal = ({ children }: { children: React.ReactNode }) => (
