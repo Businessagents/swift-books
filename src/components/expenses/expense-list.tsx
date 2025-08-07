@@ -378,14 +378,14 @@ export function ExpenseList() {
                       <HStack gap={1}>
                         <IconButton
                           aria-label="Edit expense"
-                           ><Edit size={16</IconButton>}
+                          icon={<Edit size={16} />}
                           size="sm"
                           variant="ghost"
                           onClick={() => handleEdit(expense)}
                         />
                         <IconButton
                           aria-label="Delete expense"
-                           ><Trash2 size={16</IconButton>}
+                          icon={<Trash2 size={16} />}
                           size="sm"
                           variant="ghost"
                           onClick={() => handleDelete(expense.id)}
