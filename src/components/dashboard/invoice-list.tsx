@@ -60,19 +60,19 @@ function getStatusBadge(status: string, daysPast: number) {
 
 export function InvoiceList() {
   return (
-    <Card>
-      <CardHeader>
+    <Card.Root>
+      <Card.Header>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Account Receivables</CardTitle>
-            <CardDescription>
+            <Card.Title>Account Receivables</Card.Title>
+            <Card.Description>
               Outstanding invoices and payment status
-            </CardDescription>
+            </Card.Description>
           </div>
           <Button>View All</Button>
         </div>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Body>
         <div className="space-y-4">
           {invoices.map((invoice) => (
             <div key={invoice.id} className="flex items-center justify-between p-4 rounded-lg border bg-card-elevated">
@@ -111,7 +111,7 @@ export function InvoiceList() {
             </div>
           ))}
         </div>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }

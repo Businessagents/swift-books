@@ -193,22 +193,22 @@ User Agent: ${navigator.userAgent}
   const errorTypeInfo = getErrorType(error)
 
   return (
-    <Card className="border-destructive/50 bg-destructive/5">
-      <CardHeader>
+    <Card.Root className="border-destructive/50 bg-destructive/5">
+      <Card.Header>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {errorTypeInfo.icon}
-            <CardTitle className="text-destructive">Receipt Upload Error</CardTitle>
+            <Card.Title className="text-destructive">Receipt Upload Error</Card.Title>
           </div>
           <Badge variant="destructive" className="text-xs">
             {errorTypeInfo.type}
           </Badge>
         </div>
-        <CardDescription>
+        <Card.Description>
           Something went wrong while processing your receipt. This error has been logged for investigation.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+        </Card.Description>
+      </Card.Header>
+      <Card.Body className="space-y-4">
         {/* Error Details */}
         <div className="p-3 bg-muted/50 rounded-lg border">
           <div className="text-sm font-medium mb-1">Error Details:</div>
@@ -260,8 +260,8 @@ User Agent: ${navigator.userAgent}
             <li>Refresh the page and try again</li>
           </ul>
         </div>
-      </CardContent>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }
 

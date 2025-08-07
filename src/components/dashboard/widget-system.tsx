@@ -35,7 +35,7 @@ export interface Widget {
 // Streamlined Widget Components
 export function RevenueWidget() {
   return (
-    <Card>
+    <Card.Root>
       <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Monthly Revenue</Text>
@@ -49,13 +49,13 @@ export function RevenueWidget() {
           <Text fontSize="xs" color="gray.500">+18% from last month</Text>
         </HStack>
       </Box>
-    </Card>
+    </Card.Root>
   )
 }
 
 export function ExpensesWidget() {
   return (
-    <Card>
+    <Card.Root>
       <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Monthly Expenses</Text>
@@ -69,14 +69,14 @@ export function ExpensesWidget() {
           <Text fontSize="xs" color="gray.500">-5% from last month</Text>
         </HStack>
       </Box>
-    </Card>
+    </Card.Root>
   )
 }
 
 
 export function ReceiptsWidget() {
   return (
-    <Card>
+    <Card.Root>
       <Box p={4}>
         <HStack justify="space-between">
           <Text fontSize="sm" fontWeight="medium" color="gray.500">Recent Receipts</Text>
@@ -92,14 +92,14 @@ export function ReceiptsWidget() {
           AI Processing
         </Badge>
       </Box>
-    </Card>
+    </Card.Root>
   )
 }
 
 
 export function QuickActionsWidget() {
   return (
-    <Card>
+    <Card.Root>
       <Box p={4}>
         <Text fontSize="sm" fontWeight="medium" color="gray.500">Quick Actions</Text>
       </Box>
@@ -151,7 +151,7 @@ export function QuickActionsWidget() {
           </Button>
         </SimpleGrid>
       </Box>
-    </Card>
+    </Card.Root>
   )
 }
 

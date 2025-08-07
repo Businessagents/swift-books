@@ -2,7 +2,7 @@ import { Header } from "@/components/ui/header"
 import { FloatingAiChat } from "@/components/ai/floating-ai-chat"
 import { WidgetSystem } from "@/components/dashboard/widget-system"
 import { Box, Container, VStack, HStack, Heading, Text, Badge, SimpleGrid, Center, Icon } from "@chakra-ui/react"
-import { useColorMode } from "@chakra-ui/color-mode"
+import { useColorMode } from "@/hooks/use-color-mode"
 import { Brain, LayoutDashboard } from "lucide-react"
 
 const Index = () => {

@@ -65,8 +65,8 @@ export function LedgerFilters({ filters, onFiltersChange }: LedgerFiltersProps) 
     filters.searchQuery
 
   return (
-    <Card className="bg-card/95 backdrop-blur-sm border-border/50 shadow-lg">
-      <CardBody className="p-6">
+    <Card.Root className="bg-card/95 backdrop-blur-sm border-border/50 shadow-lg">
+      <Card.Body className="p-6">
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
@@ -211,7 +211,7 @@ export function LedgerFilters({ filters, onFiltersChange }: LedgerFiltersProps) 
             )}
           </div>
         )}
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }

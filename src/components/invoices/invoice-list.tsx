@@ -179,73 +179,73 @@ export function InvoiceList() {
     <div className="space-y-6">
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Invoiced</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Total Invoiced</Card.Title>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalAmount) : totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {invoices.length} invoices
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Paid Amount</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Paid Amount</Card.Title>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-green-600">
               ${isPrivacyMode ? maskValue(paidAmount) : paidAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {invoices.filter(inv => inv.status === 'paid').length} paid
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Outstanding</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Outstanding</Card.Title>
             <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-orange-600">
               ${isPrivacyMode ? maskValue(pendingAmount) : pendingAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {invoices.filter(inv => inv.status !== 'paid').length} pending
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Clients</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Clients</Card.Title>
             <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold">
               {new Set(invoices.map(inv => inv.client_name)).size}
             </div>
             <p className="text-xs text-muted-foreground">
               Active clients
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </div>
 
       {/* Main Invoice Management */}
-      <Card>
-        <CardHeader>
+      <Card.Root>
+        <Card.Header>
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <div>
-              <CardTitle>Invoice Management</CardTitle>
+              <Card.Title>Invoice Management</Card.Title>
               <p className="text-sm text-muted-foreground">Create, send, and track client invoices</p>
             </div>
             <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -289,9 +289,9 @@ export function InvoiceList() {
               <option value="overdue">Overdue</option>
             </Select>
           </div>
-        </CardHeader>
+        </Card.Header>
 
-        <CardBody>
+        <Card.Body>
           {isLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
@@ -411,8 +411,8 @@ export function InvoiceList() {
               ))}
             </div>
           )}
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Payment Reminder Dialog */}
       {selectedInvoice && (

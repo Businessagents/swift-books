@@ -116,15 +116,15 @@ export function AccountSummary() {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {[...Array(4)].map((_, i) => (
-          <Card key={i} className="animate-pulse">
-            <CardHeader className="pb-2">
+          <Card.Root key={i} className="animate-pulse">
+            <Card.Header className="pb-2">
               <div className="h-4 bg-muted rounded w-3/4"></div>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Body>
               <div className="h-8 bg-muted rounded w-1/2 mb-2"></div>
               <div className="h-3 bg-muted rounded w-full"></div>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         ))}
       </div>
     )
@@ -134,84 +134,84 @@ export function AccountSummary() {
     <div className="space-y-6">
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-success animate-scale-in">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Bank Balance</CardTitle>
+        <Card.Root className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-success animate-scale-in">
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium text-muted-foreground">Total Bank Balance</Card.Title>
             <Banknote className="h-4 w-4 text-success" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-success">
               ${isPrivacyMode ? maskValue(totalBankBalance) : totalBankBalance.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               From {accounts.length} accounts
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-primary animate-scale-in" style={{ animationDelay: '0.1s' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Book Balance</CardTitle>
+        <Card.Root className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-primary animate-scale-in" style={{ animationDelay: '0.1s' }}>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium text-muted-foreground">Book Balance</Card.Title>
             <Building2 className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalBookBalance) : totalBookBalance.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Including pending transactions
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-warning animate-scale-in" style={{ animationDelay: '0.2s' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Balance Difference</CardTitle>
+        <Card.Root className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-warning animate-scale-in" style={{ animationDelay: '0.2s' }}>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium text-muted-foreground">Balance Difference</Card.Title>
             {balanceDifference >= 0 ? (
               <TrendingUp className="h-4 w-4 text-green-500" />
             ) : (
               <TrendingDown className="h-4 w-4 text-red-500" />
             )}
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className={`text-2xl font-bold ${balanceDifference >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               {balanceDifference >= 0 ? '+' : ''}${isPrivacyMode ? maskValue(Math.abs(balanceDifference)) : Math.abs(balanceDifference).toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Book vs Bank difference
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-destructive animate-scale-in" style={{ animationDelay: '0.3s' }}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Unreconciled</CardTitle>
+        <Card.Root className="bg-gradient-glass backdrop-blur-sm border-border/50 hover:shadow-destructive animate-scale-in" style={{ animationDelay: '0.3s' }}>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium text-muted-foreground">Unreconciled</Card.Title>
             <AlertCircle className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-orange-600">
               {totalUnreconciled}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Transactions need review
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </div>
 
       {/* Account Details */}
       {balances.length > 0 && (
-        <Card className="bg-card/95 backdrop-blur-sm border-border/50 shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+        <Card.Root className="bg-card/95 backdrop-blur-sm border-border/50 shadow-lg">
+          <Card.Header>
+            <Card.Title className="flex items-center justify-between">
               Account Details
               <Button variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Sync All
               </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardBody>
+            </Card.Title>
+          </Card.Header>
+          <Card.Body>
             <div className="space-y-4">
               {balances.map((balance, index) => (
                 <div
@@ -266,8 +266,8 @@ export function AccountSummary() {
                 </div>
               ))}
             </div>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       )}
     </div>
   )

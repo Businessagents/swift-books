@@ -269,8 +269,8 @@ export default function Receipts() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardBody className="p-4">
+          <Card.Root>
+            <Card.Body className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Total Receipts</p>
@@ -278,11 +278,11 @@ export default function Receipts() {
                 </div>
                 <FileText className="h-8 w-8 text-primary" />
               </div>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
           
-          <Card>
-            <CardBody className="p-4">
+          <Card.Root>
+            <Card.Body className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Processed</p>
@@ -292,11 +292,11 @@ export default function Receipts() {
                 </div>
                 <Check className="h-8 w-8 text-success" />
               </div>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
 
-          <Card>
-            <CardBody className="p-4">
+          <Card.Root>
+            <Card.Body className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Processing</p>
@@ -306,11 +306,11 @@ export default function Receipts() {
                 </div>
                 <Clock className="h-8 w-8 text-warning" />
               </div>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
 
-          <Card>
-            <CardBody className="p-4">
+          <Card.Root>
+            <Card.Body className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Total Value</p>
@@ -320,13 +320,13 @@ export default function Receipts() {
                 </div>
                 <DollarSign className="h-8 w-8 text-primary" />
               </div>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </div>
 
         {/* Filters and Controls */}
-        <Card>
-          <CardBody className="p-4">
+        <Card.Root>
+          <Card.Body className="p-4">
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
               <div className="flex-1 max-w-sm">
                 <div className="relative">
@@ -390,27 +390,27 @@ export default function Receipts() {
                 </Button>
               </div>
             </div>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
         {/* Receipts Display */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...Array(6)].map((_, i) => (
-              <Card key={i} className="animate-pulse">
-                <CardBody className="p-4">
+              <Card.Root key={i} className="animate-pulse">
+                <Card.Body className="p-4">
                   <div className="h-32 bg-muted rounded mb-4" />
                   <div className="space-y-2">
                     <div className="h-4 bg-muted rounded w-3/4" />
                     <div className="h-3 bg-muted rounded w-1/2" />
                   </div>
-                </CardBody>
-              </Card>
+                </Card.Body>
+              </Card.Root>
             ))}
           </div>
         ) : filteredReceipts.length === 0 ? (
-          <Card>
-            <CardBody className="p-8 text-center">
+          <Card.Root>
+            <Card.Body className="p-8 text-center">
               <ImageIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <h3 className="text-lg font-medium mb-2">No receipts found</h3>
               <p className="text-muted-foreground mb-4">
@@ -425,16 +425,16 @@ export default function Receipts() {
                   Upload Receipt
                 </Button>
               )}
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         ) : (
           <div className={viewMode === 'grid' 
             ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
             : 'space-y-4'
           }>
             {filteredReceipts.map((receipt) => (
-              <Card key={receipt.id} className="hover:shadow-md transition-shadow">
-                <CardBody className="p-4">
+              <Card.Root key={receipt.id} className="hover:shadow-md transition-shadow">
+                <Card.Body className="p-4">
                   {viewMode === 'grid' ? (
                     <div className="space-y-4">
                       {/* Receipt Image Preview */}
@@ -595,8 +595,8 @@ export default function Receipts() {
                       </div>
                     </div>
                   )}
-                </CardBody>
-              </Card>
+                </Card.Body>
+              </Card.Root>
             ))}
           </div>
         )}

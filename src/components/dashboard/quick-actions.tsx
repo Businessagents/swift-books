@@ -33,21 +33,21 @@ const actions = [
 
 export function QuickActions() {
   return (
-    <Card>
-      <CardHeader>
+    <Card.Root>
+      <Card.Header>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2">
+            <Card.Title className="flex items-center gap-2">
               <Zap className="h-5 w-5 text-primary" />
               Business Operations
-            </CardTitle>
-            <CardDescription>
+            </Card.Title>
+            <Card.Description>
               Automated workflows and financial processes
-            </CardDescription>
+            </Card.Description>
           </div>
         </div>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Body>
         <div className="grid gap-3 md:grid-cols-2">
           {actions.map((action) => {
             const Icon = action.icon
@@ -81,7 +81,7 @@ export function QuickActions() {
             Create Custom Workflow
           </Button>
         </div>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }

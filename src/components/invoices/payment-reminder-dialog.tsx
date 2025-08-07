@@ -165,11 +165,11 @@ export function PaymentReminderDialog({ open, onOpenChange, invoice, onSuccess }
 
         <div className="space-y-6">
           {/* Invoice Info */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Invoice Details</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <Card.Root>
+            <Card.Header>
+              <Card.Title className="text-lg">Invoice Details</Card.Title>
+            </Card.Header>
+            <Card.Body>
               <div className="grid gap-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Invoice:</span>
@@ -192,8 +192,8 @@ export function PaymentReminderDialog({ open, onOpenChange, invoice, onSuccess }
                   <span className="font-medium text-red-600">{daysOverdue} days</span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </Card.Body>
+          </Card.Root>
 
           {/* Tone Selection */}
           <div className="space-y-3">

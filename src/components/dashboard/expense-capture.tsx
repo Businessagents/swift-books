@@ -106,14 +106,14 @@ export function ExpenseCapture() {
       <ExpenseCategorizer onExpenseCreated={handleReceiptProcessed} />
       
       {/* Recent Receipts */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Receipts</CardTitle>
-          <CardDescription>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>Recent Receipts</Card.Title>
+          <Card.Description>
             Your latest uploaded and processed receipts
-          </CardDescription>
-        </CardHeader>
-        <CardBody>
+          </Card.Description>
+        </Card.Header>
+        <Card.Body>
           {loading ? (
             <VStack gap={3}>
               {[...Array(3)].map((_, i) => (
@@ -217,8 +217,8 @@ export function ExpenseCapture() {
               </Flex>
             </Box>
           )}
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
     </VStack>
   )
 }

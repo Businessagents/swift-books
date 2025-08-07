@@ -181,70 +181,70 @@ export function ExpenseList() {
   const totalTax = expenses.reduce((sum, expense) => sum + (expense.tax_amount || 0), 0)
 
   return (
-    <VStack spacing={6} align="stretch">
+    <VStack gap={6} align="stretch">
       {/* Summary Cards */}
       <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
         <GridItem>
-          <Card>
-            <CardHeader>
+          <Card.Root>
+            <Card.Header>
               <Flex justify="space-between" align="center">
                 <Heading size="sm">Total Expenses</Heading>
                 <DollarSign size={16} />
               </Flex>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Body>
               <Heading size="lg">
                 ${isPrivacyMode ? maskValue(totalAmount) : totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
               </Heading>
               <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                 {expenses.length} expenses
               </Text>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </GridItem>
 
         <GridItem>
-          <Card>
-            <CardHeader>
+          <Card.Root>
+            <Card.Header>
               <Flex justify="space-between" align="center">
                 <Heading size="sm">Total Tax</Heading>
                 <Receipt size={16} />
               </Flex>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Body>
               <Heading size="lg">
                 ${isPrivacyMode ? maskValue(totalTax) : totalTax.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
               </Heading>
               <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                 GST/HST recoverable
               </Text>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </GridItem>
 
         <GridItem>
-          <Card>
-            <CardHeader>
+          <Card.Root>
+            <Card.Header>
               <Flex justify="space-between" align="center">
                 <Heading size="sm">This Month</Heading>
                 <Calendar size={16} />
               </Flex>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Body>
               <Heading size="lg">
                 {expenses.filter(e => new Date(e.expense_date).getMonth() === new Date().getMonth()).length}
               </Heading>
               <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                 New expenses
               </Text>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </GridItem>
       </Grid>
 
       {/* Main Content Card */}
-      <Card>
-        <CardHeader>
+      <Card.Root>
+        <Card.Header>
           <Flex
             direction={{ base: "column", sm: "row" }}
             gap={4}
@@ -301,11 +301,11 @@ export function ExpenseList() {
               <option value="year">Last Year</option>
             </Select>
           </Flex>
-        </CardHeader>
+        </Card.Header>
 
-        <CardBody>
+        <Card.Body>
           {isLoading ? (
-            <VStack spacing={3}>
+            <VStack gap={3}>
               {[...Array(5)].map((_, i) => (
                 <Skeleton key={i} height="64px" borderRadius="md" />
               ))}
@@ -324,7 +324,7 @@ export function ExpenseList() {
               </Button>
             </VStack>
           ) : (
-            <VStack spacing={3} align="stretch">
+            <VStack gap={3} align="stretch">
               {expenses.map((expense) => (
                 <Box
                   key={expense.id}
@@ -341,7 +341,7 @@ export function ExpenseList() {
                 >
                   <Flex justify="space-between" align="center">
                     <Box flex={1}>
-                      <HStack spacing={3} mb={1}>
+                      <HStack gap={3} mb={1}>
                         <Text fontWeight="semibold">{expense.description}</Text>
                         {expense.category && (
                           <Badge variant="outline">{expense.category.name}</Badge>
@@ -351,14 +351,14 @@ export function ExpenseList() {
                         )}
                         {expense.receipt && (
                           <Badge colorScheme={expense.receipt.status === 'processed' ? 'green' : 'gray'}>
-                            <HStack spacing={1}>
+                            <HStack gap={1}>
                               <Receipt size={12} />
                               <Text>Receipt</Text>
                             </HStack>
                           </Badge>
                         )}
                       </HStack>
-                      <HStack spacing={4} fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }}>
+                      <HStack gap={4} fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }}>
                         <Text>{isPrivacyMode ? maskValue(expense.vendor) : expense.vendor || 'No vendor'}</Text>
                         <Text>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</Text>
                         {expense.tax_amount > 0 && (
@@ -366,7 +366,7 @@ export function ExpenseList() {
                         )}
                       </HStack>
                     </Box>
-                    <HStack spacing={3}>
+                    <HStack gap={3}>
                       <Box textAlign="right">
                         <Text fontWeight="semibold" fontSize="lg">
                           ${isPrivacyMode ? maskValue(expense.amount) : expense.amount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
@@ -375,17 +375,17 @@ export function ExpenseList() {
                           {expense.currency}
                         </Text>
                       </Box>
-                      <HStack spacing={1}>
+                      <HStack gap={1}>
                         <IconButton
                           aria-label="Edit expense"
-                          icon={<Edit size={16} />}
+                           ><Edit size={16</IconButton>}
                           size="sm"
                           variant="ghost"
                           onClick={() => handleEdit(expense)}
                         />
                         <IconButton
                           aria-label="Delete expense"
-                          icon={<Trash2 size={16} />}
+                           ><Trash2 size={16</IconButton>}
                           size="sm"
                           variant="ghost"
                           onClick={() => handleDelete(expense.id)}
@@ -398,8 +398,8 @@ export function ExpenseList() {
               ))}
             </VStack>
           )}
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Create Expense Modal */}
       <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal} size="2xl">

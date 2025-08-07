@@ -2,8 +2,6 @@ import { useState } from "react"
 import {
   Box,
   Button,
-  Card,
-  CardBody,
   Badge,
   HStack,
   VStack,
@@ -11,7 +9,8 @@ import {
   IconButton,
   Icon
 } from "@chakra-ui/react"
-import { useColorMode } from "@chakra-ui/color-mode"
+import { Card } from "@/components/ui/card"
+import { useColorMode } from "@/hooks/use-color-mode"
 import { AiChat } from "@/components/ai/ai-chat"
 import { MessageCircle, X, Minimize2, Maximize2 } from "lucide-react"
 
@@ -78,7 +77,7 @@ export function FloatingAiChat() {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card
+        <Card.Root
           position="fixed"
           bottom={6}
           right={6}
@@ -136,11 +135,11 @@ export function FloatingAiChat() {
             </HStack>
           </Box>
           {!isMinimized && (
-            <CardBody p={0} h="calc(500px - 73px)">
+            <Card.Body p={0} h="calc(500px - 73px)">
               <AiChat />
-            </CardBody>
+            </Card.Body>
           )}
-        </Card>
+        </Card.Root>
       )}
     </>
   )

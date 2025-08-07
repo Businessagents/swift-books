@@ -181,12 +181,12 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
         {/* Basic Information */}
         <GridItem>
-          <Card>
-            <CardHeader>
+          <Card.Root>
+            <Card.Header>
               <Heading size="md">Basic Information</Heading>
-            </CardHeader>
-            <CardBody>
-              <VStack spacing={4} align="stretch">
+            </Card.Header>
+            <Card.Body>
+              <VStack gap={4} align="stretch">
                 <Box>
                   <Label htmlFor="description">Description *</Label>
                   <Input
@@ -251,21 +251,21 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                   </Select>
                 </Box>
               </VStack>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </GridItem>
 
         {/* Tax & Financial Details */}
         <GridItem>
-          <Card>
-            <CardHeader>
-              <HStack spacing={2}>
+          <Card.Root>
+            <Card.Header>
+              <HStack gap={2}>
                 <Calculator size={20} />
                 <Heading size="md">Tax & Financial Details</Heading>
               </HStack>
-            </CardHeader>
-            <CardBody>
-              <VStack spacing={4} align="stretch">
+            </Card.Header>
+            <Card.Body>
+              <VStack gap={4} align="stretch">
                 <Box>
                   <Label htmlFor="tax_code_id">Tax Code</Label>
                   <Select 
@@ -321,7 +321,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                   />
                 </Box>
 
-                <VStack spacing={3} align="start">
+                <VStack gap={3} align="start">
                   <Checkbox
                     id="is_billable"
                     isChecked={watch("is_billable")}
@@ -338,17 +338,17 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                   </Checkbox>
                 </VStack>
               </VStack>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         </GridItem>
       </Grid>
 
       {/* Notes */}
-      <Card mt={6}>
-        <CardHeader>
+      <Card.Root mt={6}>
+        <Card.Header>
           <Heading size="md">Additional Notes</Heading>
-        </CardHeader>
-        <CardBody>
+        </Card.Header>
+        <Card.Body>
           <Box>
             <Label htmlFor="notes">Notes</Label>
             <Textarea
@@ -358,8 +358,8 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               {...register("notes")}
             />
           </Box>
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Actions */}
       <Box display="flex" justifyContent="flex-end" mt={6}>

@@ -18,7 +18,7 @@ import {
   SimpleGrid
 } from "@chakra-ui/react"
 import { Card, CardBody, CardHeader } from "@/components/ui/card"
-import { useColorMode } from "@chakra-ui/color-mode"
+import { useColorMode } from "@/hooks/use-color-mode"
 import { showToast } from "@/lib/toast"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { PrivacyToggle } from "@/components/ui/privacy-toggle"
@@ -125,8 +125,8 @@ const Settings = () => {
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
         <VStack gap={8} align="stretch">
           {/* Header Section */}
-          <Card>
-            <CardBody>
+          <Card.Root>
+            <Card.Body>
               <HStack justify="space-between" align="start" flexWrap="wrap" gap={4}>
                 <VStack align="start" gap={2}>
                   <HStack gap={3}>
@@ -162,11 +162,11 @@ const Settings = () => {
                   </Button>
                 </HStack>
               </HStack>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
           {/* Settings Content */}
-          <Card>
-            <CardBody>
+          <Card.Root>
+            <Card.Body>
               <VStack gap={4}>
                 <Heading size="md">Settings</Heading>
                 <Text>Settings page is being migrated to Chakra UI v3. Full functionality will be restored soon.</Text>
@@ -175,8 +175,8 @@ const Settings = () => {
                   <PrivacyToggle />
                 </HStack>
               </VStack>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
 
           {/* Mobile Save Button */}
           <Box display={{ base: "block", md: "none" }}>

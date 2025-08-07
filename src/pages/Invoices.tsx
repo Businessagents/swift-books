@@ -48,8 +48,8 @@ const Invoices = () => {
             {quickStats.map((stat) => {
               const Icon = stat.icon
               return (
-                <Card key={stat.title} className="bg-gradient-card border-border/50 hover:shadow-lg transition-all duration-300">
-                  <CardBody className="p-4">
+                <Card.Root key={stat.title} className="bg-gradient-card border-border/50 hover:shadow-lg transition-all duration-300">
+                  <Card.Body className="p-4">
                     <div className="flex items-center justify-between mb-2">
                       <Icon className={`h-5 w-5 ${stat.color}`} />
                       <Badge variant="outline" className="text-xs bg-muted/50">
@@ -60,8 +60,8 @@ const Invoices = () => {
                       <p className="text-2xl font-bold">{stat.value}</p>
                       <p className="text-xs text-muted-foreground">{stat.title}</p>
                     </div>
-                  </CardBody>
-                </Card>
+                  </Card.Body>
+                </Card.Root>
               )
             })}
           </div>

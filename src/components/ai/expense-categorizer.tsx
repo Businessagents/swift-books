@@ -182,15 +182,15 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <Card.Root>
+      <Card.Header>
+        <Card.Title className="flex items-center gap-2">
           <Brain className="h-5 w-5 text-primary" />
           AI Expense Categorizer
-        </CardTitle>
-      </CardHeader>
+        </Card.Title>
+      </Card.Header>
       
-      <CardBody className="space-y-4">
+      <Card.Body className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="description">Expense Description</Label>
           <Textarea
@@ -285,7 +285,7 @@ export const ExpenseCategorizer = ({ onExpenseCreated }: ExpenseCategorizerProps
           <p>💡 <strong>Tip:</strong> Be specific in descriptions for better categorization accuracy</p>
           <p>🇨🇦 Categories follow CRA business expense guidelines</p>
         </div>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   );
 };

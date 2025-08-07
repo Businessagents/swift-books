@@ -76,8 +76,8 @@ export function ReceiptUploadTest() {
       {/* Feature Status Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {testFeatures.map((feature, index) => (
-          <Card key={index} className="border-green-200">
-            <CardBody className="p-4">
+          <Card.Root key={index} className="border-green-200">
+            <Card.Body className="p-4">
               <div className="flex items-start gap-3">
                 <div className="text-green-600 mt-0.5">
                   {feature.icon}
@@ -92,37 +92,37 @@ export function ReceiptUploadTest() {
                   </Badge>
                 </div>
               </div>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
         ))}
       </div>
 
       {/* Main Upload Component */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <Card.Root>
+        <Card.Header>
+          <Card.Title className="flex items-center gap-2">
             <Upload className="h-5 w-5" />
             Enhanced Receipt Upload
-          </CardTitle>
-          <CardDescription>
+          </Card.Title>
+          <Card.Description>
             Upload receipts to test the new features. Images will display immediately,
             thumbnails will be generated automatically, and OCR will process with retry logic.
-          </CardDescription>
-        </CardHeader>
-        <CardBody>
+          </Card.Description>
+        </Card.Header>
+        <Card.Body>
           <ReceiptUploadEnhanced
             onReceiptProcessed={handleReceiptProcessed}
             onExpenseCreated={handleExpenseCreated}
           />
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Implementation Notes */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Implementation Notes</CardTitle>
-        </CardHeader>
-        <CardBody className="space-y-4">
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>Implementation Notes</Card.Title>
+        </Card.Header>
+        <Card.Body className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <h4 className="font-medium text-sm mb-2">New Components Created:</h4>
@@ -155,8 +155,8 @@ export function ReceiptUploadTest() {
               <Badge variant="outline" className="text-xs">✅ Signed URLs cached</Badge>
             </div>
           </div>
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
     </div>
   )
 }

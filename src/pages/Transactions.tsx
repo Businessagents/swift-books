@@ -10,18 +10,17 @@ import {
   Button,
   Badge,
   SimpleGrid,
-  useDisclosure
+  useDisclosure,
+  DialogRoot,
+  DialogBackdrop,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogTitle
 } from "@chakra-ui/react"
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton
-} from "@chakra-ui/modal"
 import { Card, CardHeader, CardBody } from "@/components/ui/card"
-import { useColorMode } from "@chakra-ui/color-mode"
+import { useColorMode } from "@/hooks/use-color-mode"
 import { SimpleExpenseManagement } from "@/components/expenses/simple-expense-management"
 import { InvoiceList } from "@/components/invoices/invoice-list"
 import { ReceiptUploadEnhanced } from "@/components/receipt-upload-enhanced"
@@ -39,7 +38,7 @@ import {
 } from "lucide-react"
 
 const Transactions = () => {
-  const { isOpen: showReceiptUpload, onOpen: openReceiptUpload, onClose: closeReceiptUpload } = useDisclosure()
+  const { open: showReceiptUpload, onOpen: openReceiptUpload, onClose: closeReceiptUpload } = useDisclosure()
   const { colorMode } = useColorMode()
   const bg = colorMode === 'light' ? 'gray.50' : 'gray.800'
 
@@ -92,8 +91,8 @@ const Transactions = () => {
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
         <VStack gap={8} align="stretch">
           {/* Header Section */}
-          <Card>
-            <CardBody>
+          <Card.Root>
+            <Card.Body>
               <VStack gap={6} align="stretch">
                 <VStack gap={3} align="start">
                   <HStack gap={3}>
@@ -111,8 +110,8 @@ const Transactions = () => {
                 
                 {/* Quick Stats Overview */}
                 <SimpleGrid columns={{ base: 2, lg: 3 }} gap={{ base: 4, lg: 6 }}>
-                  <Card size="sm">
-                    <CardBody textAlign="center">
+                  <Card.Root size="sm">
+                    <Card.Body textAlign="center">
                       <HStack justify="center" color="green.500" mb={1}>
                         <ArrowUpRight size={16} />
                         <Text fontSize="lg" fontWeight="bold">
@@ -120,10 +119,10 @@ const Transactions = () => {
                         </Text>
                       </HStack>
                       <Text fontSize="xs" color="gray.500">Income</Text>
-                    </CardBody>
-                  </Card>
-                  <Card size="sm">
-                    <CardBody textAlign="center">
+                    </Card.Body>
+                  </Card.Root>
+                  <Card.Root size="sm">
+                    <Card.Body textAlign="center">
                       <HStack justify="center" color="red.500" mb={1}>
                         <ArrowDownLeft size={16} />
                         <Text fontSize="lg" fontWeight="bold">
@@ -131,10 +130,10 @@ const Transactions = () => {
                         </Text>
                       </HStack>
                       <Text fontSize="xs" color="gray.500">Expenses</Text>
-                    </CardBody>
-                  </Card>
-                  <Card size="sm" display={{ base: "none", lg: "block" }}>
-                    <CardBody textAlign="center">
+                    </Card.Body>
+                  </Card.Root>
+                  <Card.Root size="sm" display={{ base: "none", lg: "block" }}>
+                    <Card.Body textAlign="center">
                       <HStack justify="center" color="primary.500" mb={1}>
                         <TrendingUp size={16} />
                         <Text fontSize="lg" fontWeight="bold">
@@ -142,19 +141,19 @@ const Transactions = () => {
                         </Text>
                       </HStack>
                       <Text fontSize="xs" color="gray.500">Growth</Text>
-                    </CardBody>
-                  </Card>
+                    </Card.Body>
+                  </Card.Root>
                 </SimpleGrid>
               </VStack>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
 
           {/* Quick Actions */}
           <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
             {quickActions.map((action) => {
               const Icon = action.icon
               return (
-                <Card 
+                <Card.Root 
                   key={action.title} 
                   cursor={action.disabled ? "not-allowed" : "pointer"}
                   opacity={action.disabled ? 0.6 : 1}
@@ -162,7 +161,7 @@ const Transactions = () => {
                   _hover={!action.disabled ? { shadow: "md", transform: "translateY(-2px)" } : {}}
                   onClick={!action.disabled ? action.action : undefined}
                 >
-                  <CardBody>
+                  <Card.Body>
                     <HStack gap={4}>
                       <Box 
                         p={3} 
@@ -181,8 +180,8 @@ const Transactions = () => {
                         </Text>
                       </VStack>
                     </HStack>
-                  </CardBody>
-                </Card>
+                  </Card.Body>
+                </Card.Root>
               )
             })}
           </SimpleGrid>
@@ -190,8 +189,8 @@ const Transactions = () => {
           {/* Main Content - Simplified */}
           <VStack gap={6} align="stretch">
             {/* Expenses Section */}
-            <Card>
-              <CardHeader>
+            <Card.Root>
+              <Card.Header>
                 <HStack gap={2}>
                   <CreditCard size={20} />
                   <VStack align="start" gap={0}>
@@ -201,11 +200,11 @@ const Transactions = () => {
                     </Text>
                   </VStack>
                 </HStack>
-              </CardHeader>
-              <CardBody p={0}>
+              </Card.Header>
+              <Card.Body p={0}>
                 <SimpleExpenseManagement />
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
             
             {/* Status Overview */}
             <HStack gap={2} justify="center">
@@ -224,27 +223,27 @@ const Transactions = () => {
         </VStack>
       </Container>
 
-      {/* Receipt Upload Modal */}
-      <Modal isOpen={showReceiptUpload} onClose={closeReceiptUpload} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
+      {/* Receipt Upload Dialog */}
+      <DialogRoot open={showReceiptUpload} onOpenChange={({ open }) => !open && closeReceiptUpload()} size="xl">
+        <DialogBackdrop />
+        <DialogContent>
+          <DialogHeader>
             <VStack align="start" gap={1}>
-              <Text>Upload Receipt</Text>
+              <DialogTitle>Upload Receipt</DialogTitle>
               <Text fontSize="sm" fontWeight="normal" color="gray.600">
                 Upload a receipt image for automatic processing and categorization.
               </Text>
             </VStack>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+          </DialogHeader>
+          <DialogCloseTrigger />
+          <DialogBody pb={6}>
             <ReceiptUploadEnhanced 
               onReceiptProcessed={closeReceiptUpload}
               onExpenseCreated={closeReceiptUpload}
             />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </Box>
   )
 }

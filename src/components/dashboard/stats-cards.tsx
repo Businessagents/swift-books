@@ -63,7 +63,7 @@ export function StatsCards() {
         }
         
         return (
-          <Card 
+          <Card.Root 
             key={stat.title}
             position="relative"
             overflow="hidden"
@@ -73,11 +73,11 @@ export function StatsCards() {
             _hover={{ shadow: "xl", transform: "scale(1.05)" }}
             transition="all 0.3s"
           >
-            <CardHeader>
+            <Card.Header>
               <HStack justify="space-between" align="center" gap={0} pb={3}>
-                <CardTitle fontSize="sm" fontWeight="medium" color="gray.600">
+                <Card.Title fontSize="sm" fontWeight="medium" color="gray.600">
                   {stat.title}
-                </CardTitle>
+                </Card.Title>
                 <Box
                   p={2}
                   borderRadius="lg"
@@ -88,8 +88,8 @@ export function StatsCards() {
                   <Icon as={IconComponent} boxSize={4} color="white" />
                 </Box>
               </HStack>
-            </CardHeader>
-            <CardBody>
+            </Card.Header>
+            <Card.Body>
               <VStack gap={3} align="start">
                 <Text
                   fontSize={{ base: "2xl", md: "3xl" }}
@@ -116,7 +116,7 @@ export function StatsCards() {
                   {stat.description}
                 </Text>
               </VStack>
-            </CardBody>
+            </Card.Body>
             
             {/* Subtle gradient overlay */}
             <Box
@@ -128,7 +128,7 @@ export function StatsCards() {
               _groupHover={{ opacity: 1 }}
               transition="opacity 0.3s"
             />
-          </Card>
+          </Card.Root>
         )
       })}
     </SimpleGrid>

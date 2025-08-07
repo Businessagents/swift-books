@@ -142,71 +142,71 @@ export function SimpleExpenseManagement() {
     <VStack gap={6} w="full">
       {/* Enhanced Summary Cards */}
       <Box w="full" display="grid" gridTemplateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
-        <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
-          <CardHeader>
+        <Card.Root bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
+          <Card.Header>
             <HStack justify="space-between" align="center">
-              <CardTitle fontSize="sm" color="gray.600">Total Expenses</CardTitle>
+              <Card.Title fontSize="sm" color="gray.600">Total Expenses</Card.Title>
               <Box p={2} bg="green.500" borderRadius="lg" color="white">
                 <Icon as={DollarSign} boxSize={4} />
               </Box>
             </HStack>
-          </CardHeader>
-          <CardBody pt={0}>
+          </Card.Header>
+          <Card.Body pt={0}>
             <Text fontSize="3xl" fontWeight="bold" color="green.500" mb={1}>
               ${isPrivacyMode ? maskValue(summaryStats.totalAmount) : summaryStats.totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </Text>
             <Text fontSize="sm" color="gray.500">
               {summaryStats.total} total expenses • +12% this month
             </Text>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
-          <CardHeader>
+        <Card.Root bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
+          <Card.Header>
             <HStack justify="space-between" align="center">
-              <CardTitle fontSize="sm" color="gray.600">Expense Count</CardTitle>
+              <Card.Title fontSize="sm" color="gray.600">Expense Count</Card.Title>
               <Box p={2} bg="blue.500" borderRadius="lg" color="white">
                 <Icon as={Receipt} boxSize={4} />
               </Box>
             </HStack>
-          </CardHeader>
-          <CardBody pt={0}>
+          </Card.Header>
+          <Card.Body pt={0}>
             <Text fontSize="3xl" fontWeight="bold" color="blue.500" mb={1}>
               {summaryStats.total}
             </Text>
             <Text fontSize="sm" color="gray.500">
               Recorded expenses • 8 pending approval
             </Text>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
-          <CardHeader>
+        <Card.Root bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
+          <Card.Header>
             <HStack justify="space-between" align="center">
-              <CardTitle fontSize="sm" color="gray.600">Average Amount</CardTitle>
+              <Card.Title fontSize="sm" color="gray.600">Average Amount</Card.Title>
               <Box p={2} bg="orange.500" borderRadius="lg" color="white">
                 <Icon as={DollarSign} boxSize={4} />
               </Box>
             </HStack>
-          </CardHeader>
-          <CardBody pt={0}>
+          </Card.Header>
+          <Card.Body pt={0}>
             <Text fontSize="3xl" fontWeight="bold" color="orange.500" mb={1}>
               ${isPrivacyMode ? maskValue(summaryStats.averageAmount) : summaryStats.averageAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </Text>
             <Text fontSize="sm" color="gray.500">
               Per expense • -3% from last month
             </Text>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </Box>
 
       {/* Enhanced Filters and Actions */}
-      <Card bg={bgColor} shadow="lg" borderRadius="xl" w="full">
-        <CardHeader>
+      <Card.Root bg={bgColor} shadow="lg" borderRadius="xl" w="full">
+        <Card.Header>
           <VStack gap={4} align="stretch">
             <Flex direction={{ base: "column", lg: "row" }} gap={4} align={{ base: "start", lg: "center" }} justify="space-between">
               <Box>
-                <CardTitle fontSize="xl" color="blue.500">Smart Expense Tracking</CardTitle>
+                <Card.Title fontSize="xl" color="blue.500">Smart Expense Tracking</Card.Title>
                 <Text fontSize="sm" color="gray.500">
                   AI-powered categorization and real-time insights for your business expenses
                 </Text>
@@ -273,9 +273,9 @@ export function SimpleExpenseManagement() {
             </Flex>
           </Box>
         </VStack>
-        </CardHeader>
+        </Card.Header>
 
-        <CardBody>
+        <Card.Body>
           {isLoading ? (
             <VStack gap={3}>
               {[...Array(5)].map((_, i) => (
@@ -381,8 +381,8 @@ export function SimpleExpenseManagement() {
               ))}
             </VStack>
           )}
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Edit Expense Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

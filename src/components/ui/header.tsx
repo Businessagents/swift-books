@@ -9,7 +9,6 @@ import {
   Button,
   Badge
 } from "@chakra-ui/react"
-import { useColorMode } from "@chakra-ui/color-mode"
 import {
   DrawerRoot,
   DrawerBackdrop,
@@ -26,9 +25,10 @@ import { Bell, Settings, LayoutDashboard, Menu, X, LogOut, CreditCard, BarChart3
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useAuth } from "@/hooks/use-auth"
+import { useColorMode } from "@/hooks/use-color-mode"
 
 export function Header() {
-  const { isOpen: isMobileMenuOpen, onOpen, onClose } = useDisclosure()
+  const { open: isMobileMenuOpen, onOpen, onClose } = useDisclosure()
   const { signOut } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
@@ -83,8 +83,7 @@ export function Header() {
 
   const NavLink = ({ to, icon: Icon, children, isActive, ...props }: any) => (
     <Button
-      as={Link}
-      to={to}
+      onClick={() => navigate(to)}
       variant={isActive ? 'solid' : 'ghost'}
       colorScheme={isActive ? 'primary' : 'gray'}
       size="sm"
@@ -214,12 +213,13 @@ export function Header() {
           </IconButton>
           <IconButton
             aria-label="Menu"
-            icon={<Menu size={18} />}
             variant="ghost"
             size="sm"
             display={{ base: 'flex', md: 'none' }}
             onClick={onOpen}
-          />
+          >
+            <Menu size={18} />
+          </IconButton>
         </HStack>
       </Flex>
 
@@ -244,12 +244,10 @@ export function Header() {
           <DrawerBody pt={4}>
             <VStack gap={3} align="stretch">
               <Button
-                as={Link}
-                to="/"
+                onClick={() => {navigate('/'); onClose()}}
                 variant={isActiveRoute('/') ? 'solid' : 'ghost'}
                 colorScheme="primary"
                 justifyContent="flex-start"
-                onClick={onClose}
               >
                 <HStack gap={2}>
                   <LayoutDashboard size={18} />
@@ -257,12 +255,10 @@ export function Header() {
                 </HStack>
               </Button>
               <Button
-                as={Link}
-                to="/transactions"
+                onClick={() => {navigate('/transactions'); onClose()}}
                 variant={isActiveRoute('/transactions') ? 'solid' : 'ghost'}
                 colorScheme="primary"
                 justifyContent="flex-start"
-                onClick={onClose}
               >
                 <HStack gap={2}>
                   <CreditCard size={18} />
@@ -270,12 +266,10 @@ export function Header() {
                 </HStack>
               </Button>
               <Button
-                as={Link}
-                to="/reports"
+                onClick={() => {navigate('/reports'); onClose()}}
                 variant={isActiveRoute('/reports') ? 'solid' : 'ghost'}
                 colorScheme="primary"
                 justifyContent="flex-start"
-                onClick={onClose}
               >
                 <HStack gap={2}>
                   <BarChart3 size={18} />
@@ -283,12 +277,10 @@ export function Header() {
                 </HStack>
               </Button>
               <Button
-                as={Link}
-                to="/settings"
+                onClick={() => {navigate('/settings'); onClose()}}
                 variant={isActiveRoute('/settings') ? 'solid' : 'ghost'}
                 colorScheme="primary"
                 justifyContent="flex-start"
-                onClick={onClose}
               >
                 <HStack gap={2}>
                   <Settings size={18} />

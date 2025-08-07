@@ -116,15 +116,15 @@ const Auth = () => {
           </p>
         </div>
 
-        <Card>
-          <CardHeader className="text-center pb-4">
-            <CardTitle>Welcome</CardTitle>
-            <CardDescription>
+        <Card.Root>
+          <Card.Header className="text-center pb-4">
+            <Card.Title>Welcome</Card.Title>
+            <Card.Description>
               Sign in to your account or create a new one
-            </CardDescription>
-          </CardHeader>
+            </Card.Description>
+          </Card.Header>
           
-          <CardBody>
+          <Card.Body>
             {error && (
               <Alert variant="destructive" className="mb-4">
                 <AlertCircle className="h-4 w-4" />
@@ -264,8 +264,8 @@ const Auth = () => {
               <p>🇨🇦 Built for Canadian tax compliance</p>
               <p className="mt-1">GST/HST ready • CRA guidelines included</p>
             </div>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </div>
     </div>
   );

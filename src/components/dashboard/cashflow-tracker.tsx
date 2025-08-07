@@ -42,25 +42,25 @@ export function CashflowTracker() {
   const isPositiveFlow = netFlowChange > 0
 
   return (
-    <Card>
-      <CardHeader>
+    <Card.Root>
+      <Card.Header>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2">
+            <Card.Title className="flex items-center gap-2">
               <DollarSign className="h-5 w-5 text-primary" />
               Cash Flow Tracker
-            </CardTitle>
-            <CardDescription>
+            </Card.Title>
+            <Card.Description>
               Real-time cash flow analysis and projections
-            </CardDescription>
+            </Card.Description>
           </div>
           <Badge variant={isPositiveFlow ? "solid" : "solid"} colorScheme={isPositiveFlow ? "green" : "red"} className="flex items-center gap-1">
             {isPositiveFlow ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
             {isPositiveFlow ? "+" : ""}{netFlowPercentage}% vs last month
           </Badge>
         </div>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Body>
         <div className="space-y-6">
           {/* Current Month Summary */}
           <div className="grid gap-4 md:grid-cols-3">
@@ -159,7 +159,7 @@ export function CashflowTracker() {
             </div>
           </div>
         </div>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }

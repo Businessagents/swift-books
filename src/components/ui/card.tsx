@@ -1,73 +1,38 @@
 /**
- * Card Component - Chakra UI v3 wrapper
+ * Card Component - Chakra UI v3 native implementation
  * 
- * Provides a consistent card layout using Chakra UI components.
- * Supports elevated and outline variants for different visual treatments.
+ * Uses Chakra UI v3's Card.Root structure with proper namespace imports.
  * 
  * @example
- * <Card variant="elevated">
- *   <CardHeader>
- *     <CardTitle>Title</CardTitle>
- *     <CardDescription>Description</CardDescription>
- *   </CardHeader>
- *   <CardContent>Content here</CardContent>
- * </Card>
+ * <Card.Root>
+ *   <Card.Header>
+ *     <Card.Root.Title>Title</Card.Title>
+ *     <Card.Root.Description>Description</Card.Description>
+ *   </Card.Header>
+ *   <Card.Body>Content here</Card.Body>
+ * </Card.Root>
  */
 import * as React from "react"
-import { 
-  Box,
-  Heading,
-  Text
-} from "@chakra-ui/react"
+import { Card as ChakraCard } from "@chakra-ui/react"
 
-// Implementing Card components using Chakra UI Box as the base
-// This ensures Chakra UI v3 API compliance while maintaining compatibility
-const Card = ({ children, ...props }: any) => (
-  <Box
-    bg="white"
-    border="1px"
-    borderColor="gray.200"
-    borderRadius="lg"
-    boxShadow="sm"
-    _dark={{ bg: "gray.800", borderColor: "gray.600" }}
-    {...props}
-  >
-    {children}
-  </Box>
-)
+// Re-export Chakra UI v3 Card components with proper namespacing
+export const Card = {
+  Root: ChakraCard.Root,
+  Header: ChakraCard.Header,
+  Body: ChakraCard.Body,
+  Footer: ChakraCard.Footer,
+  Title: ChakraCard.Title,
+  Description: ChakraCard.Description,
+}
 
-const CardHeader = ({ children, ...props }: any) => (
-  <Box p={6} pb={3} {...props}>
-    {children}
-  </Box>
-)
+// Legacy exports for backward compatibility during migration
+export const CardRoot = Card.Root
+export const CardHeader = Card.Header
+export const CardBody = Card.Body
+export const CardContent = Card.Body // Alias for backward compatibility
+export const CardFooter = Card.Footer
+export const CardTitle = Card.Title
+export const CardDescription = Card.Description
 
-const CardBody = ({ children, ...props }: any) => (
-  <Box p={6} pt={0} {...props}>
-    {children}
-  </Box>
-)
-
-// Alias for backward compatibility
-const CardContent = CardBody
-
-const CardFooter = ({ children, ...props }: any) => (
-  <Box p={6} pt={3} display="flex" alignItems="center" {...props}>
-    {children}
-  </Box>
-)
-
-const CardTitle = ({ children, ...props }: any) => (
-  <Heading as="h3" size="md" {...props}>
-    {children}
-  </Heading>
-)
-
-const CardDescription = ({ children, ...props }: any) => (
-  <Text color="gray.600" fontSize="sm" {...props}>
-    {children}
-  </Text>
-)
-
-// Export Chakra UI v3 API-compliant Card components
-export { Card, CardHeader, CardBody, CardContent, CardFooter, CardTitle, CardDescription }
+// Default export for components expecting single Card import
+export default Card

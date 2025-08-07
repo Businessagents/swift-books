@@ -131,8 +131,8 @@ export function ReceiptImage({
 
   if (loading) {
     return (
-      <Card className={className}>
-        <CardContent className="p-4">
+      <Card.Root className={className}>
+        <Card.Body className="p-4">
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <Skeleton className="h-4 w-32" />
@@ -144,15 +144,15 @@ export function ReceiptImage({
               <Skeleton className="h-8 w-20" />
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </Card.Body>
+      </Card.Root>
     )
   }
 
   if (error) {
     return (
-      <Card className={className}>
-        <CardContent className="p-4">
+      <Card.Root className={className}>
+        <Card.Body className="p-4">
           <div className="flex items-center gap-2 text-destructive mb-4">
             <AlertCircle className="h-4 w-4" />
             <span className="text-sm">{error}</span>
@@ -165,8 +165,8 @@ export function ReceiptImage({
           >
             Retry
           </Button>
-        </CardContent>
-      </Card>
+        </Card.Body>
+      </Card.Root>
     )
   }
 
@@ -175,8 +175,8 @@ export function ReceiptImage({
 
   return (
     <>
-      <Card className={className}>
-        <CardContent className="p-4">
+      <Card.Root className={className}>
+        <Card.Body className="p-4">
           <div className="space-y-4">
             {/* Header */}
             <div className="flex justify-between items-start">
@@ -274,8 +274,8 @@ export function ReceiptImage({
               </div>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Full Image Dialog */}
       <Dialog open={showFullImage} onOpenChange={setShowFullImage}>

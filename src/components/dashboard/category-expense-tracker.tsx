@@ -80,17 +80,17 @@ export function CategoryExpenseTracker() {
   const budgetUtilization = ((totalExpenses / totalBudget) * 100).toFixed(1)
 
   return (
-    <Card>
-      <CardHeader>
+    <Card.Root>
+      <Card.Header>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2">
+            <Card.Title className="flex items-center gap-2">
               <Receipt className="h-5 w-5 text-primary" />
               Expense Categories
-            </CardTitle>
-            <CardDescription>
+            </Card.Title>
+            <Card.Description>
               Track expenses by category with budget comparison
-            </CardDescription>
+            </Card.Description>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
@@ -103,8 +103,8 @@ export function CategoryExpenseTracker() {
             </Button>
           </div>
         </div>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Body>
         <div className="space-y-4">
           {/* Summary */}
           <div className="grid gap-4 md:grid-cols-3 p-4 bg-muted/50 rounded-lg">
@@ -196,7 +196,7 @@ export function CategoryExpenseTracker() {
             })}
           </div>
         </div>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }

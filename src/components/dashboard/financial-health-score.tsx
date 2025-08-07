@@ -113,21 +113,21 @@ export function FinancialHealthScore() {
   }
 
   return (
-    <Card bg="white" border="1px" borderColor="gray.200">
-      <CardHeader>
+    <Card.Root bg="white" border="1px" borderColor="gray.200">
+      <Card.Header>
         <HStack justify="space-between">
-          <CardTitle>
+          <Card.Title>
             <HStack gap={2}>
               <Icon as={CheckCircle} boxSize={5} color="blue.500" />
               <Text>Financial Health Score</Text>
             </HStack>
-          </CardTitle>
+          </Card.Title>
           <Button variant="ghost" size="sm">
             <Icon as={Info} boxSize={4} />
           </Button>
         </HStack>
-      </CardHeader>
-      <CardBody>
+      </Card.Header>
+      <Card.Body>
         <VStack gap={6}>
           {/* Overall Score */}
           <VStack gap={4} textAlign="center">
@@ -234,7 +234,7 @@ export function FinancialHealthScore() {
             </Button>
           </HStack>
         </VStack>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }

@@ -460,76 +460,76 @@ export function EnhancedInvoiceManagement() {
 
       {/* Enhanced Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Invoiced</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Total Invoiced</Card.Title>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(summaryStats.totalAmount) : summaryStats.totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {summaryStats.total} invoices
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Paid Amount</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Paid Amount</Card.Title>
             <CheckCircle className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-green-600">
               ${isPrivacyMode ? maskValue(summaryStats.paidAmount) : summaryStats.paidAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {summaryStats.paid} paid invoices
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Outstanding</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Outstanding</Card.Title>
             <AlertCircle className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-orange-600">
               ${isPrivacyMode ? maskValue(summaryStats.outstandingAmount) : summaryStats.outstandingAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {summaryStats.total - summaryStats.paid} pending
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Overdue</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Overdue</Card.Title>
             <Clock className="h-4 w-4 text-red-500" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-red-600">
               {summaryStats.overdue}
             </div>
             <p className="text-xs text-muted-foreground">
               Require attention
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </div>
 
       {/* Enhanced Invoice Management */}
-      <Card>
-        <CardHeader>
+      <Card.Root>
+        <Card.Header>
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2">
+              <Card.Title className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
                 Enhanced Invoice Management
-              </CardTitle>
+              </Card.Title>
               <p className="text-sm text-muted-foreground">
                 Professional invoice management with bulk operations and advanced tracking
               </p>
@@ -646,9 +646,9 @@ export function EnhancedInvoiceManagement() {
               </Alert>
             )}
           </div>
-        </CardHeader>
+        </Card.Header>
 
-        <CardBody>
+        <Card.Body>
           {isLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
@@ -803,8 +803,8 @@ export function EnhancedInvoiceManagement() {
               ))}
             </div>
           )}
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Edit Invoice Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

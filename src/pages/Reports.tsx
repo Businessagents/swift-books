@@ -12,7 +12,7 @@ import {
   Icon,
   Flex
 } from "@chakra-ui/react"
-import { useColorMode } from "@chakra-ui/color-mode"
+import { useColorMode } from "@/hooks/use-color-mode"
 import { Card, CardHeader, CardBody } from "@/components/ui/card"
 import { GSTHSTReporting } from "@/components/reports/gst-hst-reporting"
 import { BarChart3, TrendingUp, Download, Calendar, FileText, PieChart, Calculator, Brain } from "lucide-react"
@@ -125,8 +125,8 @@ const Reports = () => {
       <Container as="main" maxW="container.xl" py={{ base: 6, md: 8 }} px={{ base: 4, md: 8 }}>
         <VStack gap={8} align="stretch">
           {/* Clean Header */}
-          <Card>
-            <CardBody>
+          <Card.Root>
+            <Card.Body>
               <Flex justify="space-between" align="start" wrap="wrap" gap={4}>
                 <VStack align="start" gap={3}>
                   <HStack gap={3}>
@@ -157,20 +157,20 @@ const Reports = () => {
                   </Button>
                 </HStack>
               </Flex>
-            </CardBody>
-          </Card>
+            </Card.Body>
+          </Card.Root>
 
           {/* Quick Insights */}
           <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
             {quickInsights.map((insight) => {
               const IconComponent = insight.icon
               return (
-                <Card 
+                <Card.Root 
                   key={insight.title} 
                   _hover={{ shadow: "lg", transform: "translateY(-2px)" }}
                   transition="all 0.3s"
                 >
-                  <CardBody>
+                  <Card.Body>
                     <VStack gap={3} align="stretch">
                       <Flex justify="space-between" align="start">
                         <Box 
@@ -197,29 +197,29 @@ const Reports = () => {
                         <Text fontSize="xs" color="gray.500">{insight.description}</Text>
                       </VStack>
                     </VStack>
-                  </CardBody>
-                </Card>
+                  </Card.Body>
+                </Card.Root>
               )
             })}
           </SimpleGrid>
 
           {/* Tax Reports Section */}
           <VStack gap={6} align="stretch">
-            <Card>
-              <CardHeader>
+            <Card.Root>
+              <Card.Header>
                 <HStack gap={2}>
                   <Icon as={Calculator} boxSize={5} />
                   <Heading size="md">Tax & Compliance Reports</Heading>
                 </HStack>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Body>
                 <GSTHSTReporting />
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
             
             {/* Business Reports Section */}
-            <Card>
-              <CardHeader>
+            <Card.Root>
+              <Card.Header>
                 <HStack gap={2}>
                   <Icon as={FileText} boxSize={5} />
                   <Heading size="md">Business Reports</Heading>
@@ -227,8 +227,8 @@ const Reports = () => {
                 <Text color="gray.600">
                   Generate, view, and download business reports
                 </Text>
-              </CardHeader>
-              <CardBody>
+              </Card.Header>
+              <Card.Body>
                 <VStack gap={4} align="stretch">
                   {reports.map((report) => (
                     <Box
@@ -291,8 +291,8 @@ const Reports = () => {
                     </Box>
                   ))}
                 </VStack>
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </VStack>
         </VStack>
       </Container>

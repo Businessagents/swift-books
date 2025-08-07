@@ -505,14 +505,14 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
   return (
     <ReceiptErrorBoundary>
       <div className="space-y-6">
-        <Card>
-        <CardHeader>
-          <CardTitle>Receipt Upload</CardTitle>
-          <CardDescription>
+        <Card.Root>
+        <Card.Header>
+          <Card.Title>Receipt Upload</Card.Title>
+          <Card.Description>
             Scan or upload receipts for automatic categorization and expense creation
-          </CardDescription>
-        </CardHeader>
-        <CardBody className="space-y-4">
+          </Card.Description>
+        </Card.Header>
+        <Card.Body className="space-y-4">
           {/* Progress indicator */}
           {isProcessingActive && (
             <div className="space-y-2">
@@ -615,20 +615,20 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
               <span>Automatic expense creation</span>
             </div>
           </div>
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* OCR Error Display */}
       {ocrError && (
-        <Card className="border-amber-200 bg-amber-50">
-          <CardBody className="p-4">
+        <Card.Root className="border-amber-200 bg-amber-50">
+          <Card.Body className="p-4">
             <div className="flex items-center gap-2 text-amber-800">
               <AlertCircle className="h-4 w-4" />
               <span className="text-sm font-medium">OCR Processing</span>
             </div>
             <p className="text-sm text-amber-700 mt-1">{ocrError}</p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       )}
 
       {/* Uploaded Receipts Display */}
@@ -654,8 +654,8 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
                     onDelete={() => deleteReceipt(receipt)}
                   />
                 ) : (
-                  <Card>
-                    <CardBody className="p-4">
+                  <Card.Root>
+                    <Card.Body className="p-4">
                       <div className="flex items-center gap-2">
                         <div className="h-10 w-10 bg-muted rounded flex items-center justify-center">
                           <Upload className="h-5 w-5 text-muted-foreground" />
@@ -684,8 +684,8 @@ export function ReceiptUploadEnhanced({ onReceiptProcessed, onExpenseCreated }: 
                           Retry OCR
                         </Button>
                       )}
-                    </CardBody>
-                  </Card>
+                    </Card.Body>
+                  </Card.Root>
                 )}
               </div>
             ))}

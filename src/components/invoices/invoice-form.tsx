@@ -208,14 +208,14 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         {/* Client Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+        <Card.Root>
+          <Card.Header>
+            <Card.Title className="text-lg flex items-center gap-2">
               <User className="h-5 w-5" />
               Client Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </Card.Title>
+          </Card.Header>
+          <Card.Body className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="client_name">Client Name *</Label>
               <Input
@@ -250,18 +250,18 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
                 {...register("client_address")}
               />
             </div>
-          </CardContent>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
         {/* Invoice Details */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+        <Card.Root>
+          <Card.Header>
+            <Card.Title className="text-lg flex items-center gap-2">
               <FileText className="h-5 w-5" />
               Invoice Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </Card.Title>
+          </Card.Header>
+          <Card.Body className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="invoice_number">Invoice Number *</Label>
               <Input
@@ -308,22 +308,22 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
                 {...register("terms")}
               />
             </div>
-          </CardContent>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </div>
 
       {/* Invoice Items */}
-      <Card>
-        <CardHeader>
+      <Card.Root>
+        <Card.Header>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg">Invoice Items</CardTitle>
+            <Card.Title className="text-lg">Invoice Items</Card.Title>
             <Button type="button" variant="outline" size="sm" onClick={addItem}>
               <Plus className="h-4 w-4 mr-2" />
               Add Item
             </Button>
           </div>
-        </CardHeader>
-        <CardContent>
+        </Card.Header>
+        <Card.Body>
           <div className="space-y-4">
             {fields.map((field, index) => (
               <div key={field.id} className="grid gap-4 md:grid-cols-12 items-end p-4 border rounded-lg">
@@ -397,18 +397,18 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               <p className="text-sm text-destructive">{errors.items.message}</p>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Totals */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
+      <Card.Root>
+        <Card.Header>
+          <Card.Title className="text-lg flex items-center gap-2">
             <Calculator className="h-5 w-5" />
             Invoice Totals
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </Card.Title>
+        </Card.Header>
+        <Card.Body>
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Subtotal:</span>
@@ -425,15 +425,15 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Additional Information */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Additional Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <Card.Root>
+        <Card.Header>
+          <Card.Title className="text-lg">Additional Information</Card.Title>
+        </Card.Header>
+        <Card.Body className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="payment_instructions">Payment Instructions</Label>
             <Textarea
@@ -453,8 +453,8 @@ export function InvoiceForm({ invoice, onSuccess }: InvoiceFormProps) {
               {...register("notes")}
             />
           </div>
-        </CardContent>
-      </Card>
+        </Card.Body>
+      </Card.Root>
 
       {/* Actions */}
       <div className="flex justify-end gap-3">

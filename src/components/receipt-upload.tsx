@@ -184,14 +184,14 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
   const isProcessingActive = uploading || processing
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Receipt Upload</CardTitle>
-        <CardDescription>
+    <Card.Root>
+      <Card.Header>
+        <Card.Title>Receipt Upload</Card.Title>
+        <Card.Description>
           Scan or upload receipts for automatic categorization and tax processing
-        </CardDescription>
-      </CardHeader>
-      <CardBody className="space-y-4">
+        </Card.Description>
+      </Card.Header>
+      <Card.Body className="space-y-4">
         {/* Progress indicator */}
         {isProcessingActive && (
           <div className="space-y-2">
@@ -294,7 +294,7 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
             <span>Secure cloud storage</span>
           </div>
         </div>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   )
 }

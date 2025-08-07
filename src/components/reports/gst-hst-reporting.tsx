@@ -418,8 +418,8 @@ export function GSTHSTReporting() {
 
       {/* Loading State */}
       {isLoading && (
-        <Card>
-          <CardContent pt={6}>
+        <Card.Root>
+          <Card.Body pt={6}>
             <VStack gap={3}>
               <HStack gap={2}>
                 <Spinner size="sm" color="primary.500" />
@@ -429,79 +429,79 @@ export function GSTHSTReporting() {
               </HStack>
               <Progress value={66} size="sm" />
             </VStack>
-          </CardContent>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       )}
 
       {!isLoading && (
         <>
           {/* Summary Cards */}
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={4}>
-            <Card>
-              <CardHeader pb={2}>
+            <Card.Root>
+              <Card.Header pb={2}>
                 <Flex align="center" justify="space-between">
-                  <CardTitle fontSize="sm" fontWeight="medium">Total Sales</CardTitle>
+                  <Card.Title fontSize="sm" fontWeight="medium">Total Sales</Card.Title>
                   <TrendingUp size={16} color="gray.500" />
                 </Flex>
-              </CardHeader>
-              <CardContent>
+              </Card.Header>
+              <Card.Body>
                 <Text fontSize="2xl" fontWeight="bold">
                   ${isPrivacyMode ? maskValue(taxSummary.totalSales) : taxSummary.totalSales.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
                 </Text>
                 <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   Before tax ({invoices.length} invoices)
                 </Text>
-              </CardContent>
-            </Card>
+              </Card.Body>
+            </Card.Root>
 
-            <Card>
-              <CardHeader pb={2}>
+            <Card.Root>
+              <Card.Header pb={2}>
                 <Flex align="center" justify="space-between">
-                  <CardTitle fontSize="sm" fontWeight="medium">Tax Collected</CardTitle>
+                  <Card.Title fontSize="sm" fontWeight="medium">Tax Collected</Card.Title>
                   <Calculator size={16} color="gray.500" />
                 </Flex>
-              </CardHeader>
-              <CardContent>
+              </Card.Header>
+              <Card.Body>
                 <Text fontSize="2xl" fontWeight="bold" color="green.600">
                   ${isPrivacyMode ? maskValue(taxSummary.gstCollected) : taxSummary.gstCollected.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
                 </Text>
                 <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   {taxSummary.taxRates.hst > 0 ? `HST ${taxSummary.taxRates.hst}%` : `GST ${taxSummary.taxRates.gst}%`}
                 </Text>
-              </CardContent>
-            </Card>
+              </Card.Body>
+            </Card.Root>
 
-            <Card>
-              <CardHeader pb={2}>
+            <Card.Root>
+              <Card.Header pb={2}>
                 <Flex align="center" justify="space-between">
-                  <CardTitle fontSize="sm" fontWeight="medium">Tax Paid</CardTitle>
+                  <Card.Title fontSize="sm" fontWeight="medium">Tax Paid</Card.Title>
                   <Calculator size={16} color="gray.500" />
                 </Flex>
-              </CardHeader>
-              <CardContent>
+              </Card.Header>
+              <Card.Body>
                 <Text fontSize="2xl" fontWeight="bold" color="blue.600">
                   ${isPrivacyMode ? maskValue(taxSummary.gstPaid) : taxSummary.gstPaid.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
                 </Text>
                 <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   On purchases ({expenses.length} expenses)
                 </Text>
-              </CardContent>
-            </Card>
+              </Card.Body>
+            </Card.Root>
 
-            <Card>
-              <CardHeader pb={2}>
+            <Card.Root>
+              <Card.Header pb={2}>
                 <Flex align="center" justify="space-between">
-                  <CardTitle fontSize="sm" fontWeight="medium">
+                  <Card.Title fontSize="sm" fontWeight="medium">
                     {taxSummary.netTaxOwing > 0 ? 'Net Tax Owing' : 'Refund Due'}
-                  </CardTitle>
+                  </Card.Title>
                   {taxSummary.netTaxOwing > 0 ? (
                     <AlertCircle size={16} color="red.500" />
                   ) : (
                     <CheckCircle size={16} color="green.500" />
                   )}
                 </Flex>
-              </CardHeader>
-              <CardContent>
+              </Card.Header>
+              <Card.Body>
                 <Text 
                   fontSize="2xl" 
                   fontWeight="bold" 
@@ -512,8 +512,8 @@ export function GSTHSTReporting() {
                 <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }}>
                   {taxSummary.netTaxOwing > 0 ? 'Due to CRA' : 'Expected refund'}
                 </Text>
-              </CardContent>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </Grid>
 
           {/* Detailed Tables */}
@@ -527,15 +527,15 @@ export function GSTHSTReporting() {
 
               <TabsContent value="summary">
                 <VStack gap={4}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Tax Calculation Summary</CardTitle>
-                      <CardDescription>
+                  <Card.Root>
+                    <Card.Header>
+                      <Card.Title>Tax Calculation Summary</Card.Title>
+                      <Card.Description>
                         Detailed breakdown for {TAX_RATES[selectedProvince as keyof typeof TAX_RATES].name} 
                         - {selectedPeriod} period
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
+                      </Card.Description>
+                    </Card.Header>
+                    <Card.Body>
                       <Table>
                         <TableHeader>
                           <TableRow>
@@ -584,19 +584,19 @@ export function GSTHSTReporting() {
                           </TableRow>
                         </TableBody>
                       </Table>
-                    </CardContent>
-                  </Card>
+                    </Card.Body>
+                  </Card.Root>
                 </VStack>
               </TabsContent>
 
               <TabsContent value="sales">
                 <VStack gap={4}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Sales Details</CardTitle>
-                  <CardDescription>All invoices for the selected period</CardDescription>
-                </CardHeader>
-                <CardContent>
+              <Card.Root>
+                <Card.Header>
+                  <Card.Title>Sales Details</Card.Title>
+                  <Card.Description>All invoices for the selected period</Card.Description>
+                </Card.Header>
+                <Card.Body>
                   {invoices.length === 0 ? (
                     <Center py={6}>
                       <VStack gap={4}>
@@ -638,19 +638,19 @@ export function GSTHSTReporting() {
                       </TableBody>
                     </Table>
                   )}
-                </CardContent>
-              </Card>
+                </Card.Body>
+              </Card.Root>
                 </VStack>
               </TabsContent>
 
               <TabsContent value="purchases">
                 <VStack gap={4}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Purchase Details</CardTitle>
-                      <CardDescription>All expenses for the selected period</CardDescription>
-                    </CardHeader>
-                    <CardContent>
+                  <Card.Root>
+                    <Card.Header>
+                      <Card.Title>Purchase Details</Card.Title>
+                      <Card.Description>All expenses for the selected period</Card.Description>
+                    </Card.Header>
+                    <Card.Body>
                       {expenses.length === 0 ? (
                         <Center py={6}>
                           <VStack gap={4}>
@@ -698,8 +698,8 @@ export function GSTHSTReporting() {
                           </TableBody>
                         </Table>
                       )}
-                    </CardContent>
-                  </Card>
+                    </Card.Body>
+                  </Card.Root>
                 </VStack>
               </TabsContent>
             </VStack>

@@ -252,55 +252,55 @@ export function BankIntegration() {
 
       {/* Account Summary */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Balance</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Total Balance</Card.Title>
             <Banknote className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalBalance) : totalBalance.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               Across {accounts.length} accounts
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Connected Accounts</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Connected Accounts</Card.Title>
             <Building2 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold">{accounts.length}</div>
             <p className="text-xs text-muted-foreground">
               Active bank connections
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unreconciled</CardTitle>
+        <Card.Root>
+          <Card.Header className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Title className="text-sm font-medium">Unreconciled</Card.Title>
             <AlertCircle className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardBody>
+          </Card.Header>
+          <Card.Body>
             <div className="text-2xl font-bold text-orange-600">{unreconciled}</div>
             <p className="text-xs text-muted-foreground">
               Transactions need review
             </p>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       </div>
 
       {/* Connected Accounts */}
       {accounts.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Connected Accounts</CardTitle>
-          </CardHeader>
-          <CardBody>
+        <Card.Root>
+          <Card.Header>
+            <Card.Title>Connected Accounts</Card.Title>
+          </Card.Header>
+          <Card.Body>
             <div className="space-y-4">
               {accounts.map((account) => (
                 <div
@@ -348,8 +348,8 @@ export function BankIntegration() {
                 </div>
               ))}
             </div>
-          </CardBody>
-        </Card>
+          </Card.Body>
+        </Card.Root>
       )}
 
       {/* Filters */}
@@ -382,14 +382,14 @@ export function BankIntegration() {
       </div>
 
       {/* Transactions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Transactions</CardTitle>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>Recent Transactions</Card.Title>
           <p className="text-sm text-muted-foreground">
             Latest bank transactions from connected accounts
           </p>
-        </CardHeader>
-        <CardBody>
+        </Card.Header>
+        <Card.Body>
           {transactionsLoading ? (
             <div className="space-y-4">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -477,8 +477,8 @@ export function BankIntegration() {
               ))}
             </div>
           )}
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
     </div>
   )
 }

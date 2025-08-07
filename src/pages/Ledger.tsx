@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Plus, RefreshCw, RotateCcw } from "lucide-react"
 import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Box, VStack, HStack, Text, Heading, Container, Flex, Icon } from "@chakra-ui/react"
-import { useColorMode } from "@chakra-ui/color-mode"
+import { useColorMode } from "@/hooks/use-color-mode"
 
 export interface LedgerFilters {
   accountId: string
@@ -121,23 +121,23 @@ const Ledger = () => {
 
           {/* Main Ledger Table */}
           <Box>
-            <Card bg="white" shadow="lg" borderRadius="xl">
-              <CardHeader>
+            <Card.Root bg="white" shadow="lg" borderRadius="xl">
+              <Card.Header>
                 <Flex align="center" justify="space-between">
-                  <CardTitle fontSize="xl">Transaction Ledger</CardTitle>
+                  <Card.Title fontSize="xl">Transaction Ledger</Card.Title>
                   <HStack gap={2} fontSize="sm" color="gray.500">
                     <Box h={2} w={2} bg="green.500" borderRadius="full" />
                     <Text>Real-time updates enabled</Text>
                   </HStack>
                 </Flex>
-              </CardHeader>
-              <CardBody p={0}>
+              </Card.Header>
+              <Card.Body p={0}>
                 <LedgerTable 
                   filters={filters}
                   onReconcileTransaction={handleOpenReconciliation}
                 />
-              </CardBody>
-            </Card>
+              </Card.Body>
+            </Card.Root>
           </Box>
         </VStack>
       </Container>

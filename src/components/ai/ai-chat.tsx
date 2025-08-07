@@ -102,15 +102,15 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
   ];
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2">
+    <Card.Root className="h-full flex flex-col">
+      <Card.Header className="pb-3">
+        <Card.Title className="flex items-center gap-2">
           <Bot className="h-5 w-5 text-primary" />
           AI Business Assistant
-        </CardTitle>
-      </CardHeader>
+        </Card.Title>
+      </Card.Header>
       
-      <CardBody display="flex" flexDirection="column" gap={4} flex="1">
+      <Card.Body display="flex" flexDirection="column" gap={4} flex="1">
         <ScrollArea className="flex-1 max-h-96">
           <div className="space-y-4 pr-3">
             {messages.map((message) => (
@@ -213,7 +213,7 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
             <Send className="h-4 w-4" />
           </Button>
         </div>
-      </CardBody>
-    </Card>
+      </Card.Body>
+    </Card.Root>
   );
 };
