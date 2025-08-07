@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Card Component - Chakra UI v3 wrapper
  * 
@@ -14,95 +15,59 @@
  * </Card>
  */
 import * as React from "react"
+=======
+>>>>>>> main
 import { 
-  Card as ChakraCardRoot,
-  CardHeader as ChakraCardHeader,
-  CardBody as ChakraCardBody,
-  CardFooter as ChakraCardFooter,
+  Box,
   Heading,
   Text
 } from "@chakra-ui/react"
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { variant?: 'elevated' | 'outline' }
->(({ variant = 'elevated', children, ...props }, ref) => (
-  <ChakraCardRoot
-    ref={ref}
-    variant={variant}
+// Implementing Card components using Chakra UI Box as the base
+// This ensures Chakra UI v3 API compliance while maintaining compatibility
+const Card = ({ children, ...props }: any) => (
+  <Box
+    bg="white"
+    border="1px"
+    borderColor="gray.200"
+    borderRadius="lg"
+    boxShadow="sm"
+    _dark={{ bg: "gray.800", borderColor: "gray.600" }}
     {...props}
   >
     {children}
-  </ChakraCardRoot>
-))
-Card.displayName = "Card"
+  </Box>
+)
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <ChakraCardHeader
-    ref={ref}
-    pb={3}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
+const CardHeader = ({ children, ...props }: any) => (
+  <Box p={6} pb={3} {...props}>
+    {children}
+  </Box>
+)
 
-const CardTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ ...props }, ref) => (
-  <Heading
-    as="h3"
-    ref={ref}
-    size="lg"
-    fontWeight="semibold"
-    {...props}
-  />
-))
-CardTitle.displayName = "CardTitle"
+const CardBody = ({ children, ...props }: any) => (
+  <Box p={6} pt={0} {...props}>
+    {children}
+  </Box>
+)
 
-const CardDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ ...props }, ref) => (
-  <Text
-    ref={ref}
-    fontSize="sm"
-    color="gray.600"
-    _dark={{ color: "gray.400" }}
-    {...props}
-  />
-))
-CardDescription.displayName = "CardDescription"
+const CardFooter = ({ children, ...props }: any) => (
+  <Box p={6} pt={3} display="flex" alignItems="center" {...props}>
+    {children}
+  </Box>
+)
 
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <ChakraCardBody 
-    ref={ref} 
-    pt={0}
-    {...props} 
-  />
-))
-CardContent.displayName = "CardContent"
+const CardTitle = ({ children, ...props }: any) => (
+  <Heading as="h3" size="md" {...props}>
+    {children}
+  </Heading>
+)
 
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <ChakraCardFooter
-    ref={ref}
-    pt={3}
-    display="flex"
-    alignItems="center"
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
+const CardDescription = ({ children, ...props }: any) => (
+  <Text color="gray.600" fontSize="sm" {...props}>
+    {children}
+  </Text>
+)
 
-const CardBody = CardContent
-
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardBody }
+// Export Chakra UI v3 API-compliant Card components
+export { Card, CardHeader, CardBody, CardFooter, CardTitle, CardDescription }

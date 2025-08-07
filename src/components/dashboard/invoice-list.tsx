@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Phone, MessageSquare } from "lucide-react"
@@ -72,7 +72,7 @@ export function InvoiceList() {
           <Button>View All</Button>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardBody>
         <div className="space-y-4">
           {invoices.map((invoice) => (
             <div key={invoice.id} className="flex items-center justify-between p-4 rounded-lg border bg-card-elevated">
@@ -111,7 +111,7 @@ export function InvoiceList() {
             </div>
           ))}
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -151,14 +151,14 @@ export function SimpleExpenseManagement() {
               </Box>
             </HStack>
           </CardHeader>
-          <CardContent pt={0}>
+          <CardBody pt={0}>
             <Text fontSize="3xl" fontWeight="bold" color="green.500" mb={1}>
               ${isPrivacyMode ? maskValue(summaryStats.totalAmount) : summaryStats.totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </Text>
             <Text fontSize="sm" color="gray.500">
               {summaryStats.total} total expenses • +12% this month
             </Text>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
@@ -170,14 +170,14 @@ export function SimpleExpenseManagement() {
               </Box>
             </HStack>
           </CardHeader>
-          <CardContent pt={0}>
+          <CardBody pt={0}>
             <Text fontSize="3xl" fontWeight="bold" color="blue.500" mb={1}>
               {summaryStats.total}
             </Text>
             <Text fontSize="sm" color="gray.500">
               Recorded expenses • 8 pending approval
             </Text>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card bg={bgColor} shadow="md" borderRadius="xl" _hover={{ shadow: "lg", transform: "translateY(-2px)" }} transition="all 0.2s">
@@ -189,14 +189,14 @@ export function SimpleExpenseManagement() {
               </Box>
             </HStack>
           </CardHeader>
-          <CardContent pt={0}>
+          <CardBody pt={0}>
             <Text fontSize="3xl" fontWeight="bold" color="orange.500" mb={1}>
               ${isPrivacyMode ? maskValue(summaryStats.averageAmount) : summaryStats.averageAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </Text>
             <Text fontSize="sm" color="gray.500">
               Per expense • -3% from last month
             </Text>
-          </CardContent>
+          </CardBody>
         </Card>
       </Box>
 
@@ -275,7 +275,7 @@ export function SimpleExpenseManagement() {
         </VStack>
         </CardHeader>
 
-        <CardContent>
+        <CardBody>
           {isLoading ? (
             <VStack spacing={3}>
               {[...Array(5)].map((_, i) => (
@@ -381,7 +381,7 @@ export function SimpleExpenseManagement() {
               ))}
             </VStack>
           )}
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Edit Expense Dialog */}

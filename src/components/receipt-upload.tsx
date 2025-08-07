@@ -1,5 +1,5 @@
 import { useState, useRef } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -192,7 +192,7 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
           Scan or upload receipts for automatic categorization and tax processing
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardBody className="space-y-4">
         {/* Progress indicator */}
         {isProcessingActive && (
           <div className="space-y-2">
@@ -295,7 +295,7 @@ export function ReceiptUpload({ onReceiptProcessed }: ReceiptUploadProps) {
             <span>Secure cloud storage</span>
           </div>
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }

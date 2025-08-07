@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown, DollarSign, Clock, FileText, AlertCircle } from "lucide-react"
 import { Box, SimpleGrid, HStack, VStack, Text, Icon } from "@chakra-ui/react"
@@ -89,7 +89,7 @@ export function StatsCards() {
                 </Box>
               </HStack>
             </CardHeader>
-            <CardContent>
+            <CardBody>
               <VStack spacing={3} align="start">
                 <Text
                   fontSize={{ base: "2xl", md: "3xl" }}
@@ -116,7 +116,7 @@ export function StatsCards() {
                   {stat.description}
                 </Text>
               </VStack>
-            </CardContent>
+            </CardBody>
             
             {/* Subtle gradient overlay */}
             <Box

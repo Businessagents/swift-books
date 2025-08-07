@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "@/components/ui/sonner"
 import { Calculator, Receipt } from "lucide-react"
 import { z } from "zod"
@@ -173,7 +173,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
           <CardHeader>
             <CardTitle className="text-lg">Basic Information</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardBody className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="description">Description *</Label>
               <Input
@@ -241,7 +241,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                 </SelectContent>
               </Select>
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
 
         {/* Tax & Financial Details */}
@@ -252,7 +252,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               Tax & Financial Details
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardBody className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="tax_code_id">Tax Code</Label>
               <Select 
@@ -332,7 +332,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                 <Label htmlFor="is_personal">Personal expense (non-deductible)</Label>
               </div>
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
@@ -341,7 +341,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
         <CardHeader>
           <CardTitle className="text-lg">Additional Notes</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           <div className="space-y-2">
             <Label htmlFor="notes">Notes</Label>
             <Textarea
@@ -351,7 +351,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               {...register("notes")}
             />
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Actions */}

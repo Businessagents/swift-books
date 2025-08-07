@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -111,7 +111,7 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="flex-1 flex flex-col gap-4">
+      <CardBody display="flex" flexDirection="column" gap={4} flex="1">
         <ScrollArea className="flex-1 max-h-96">
           <div className="space-y-4 pr-3">
             {messages.map((message) => (
@@ -214,7 +214,7 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
             <Send className="h-4 w-4" />
           </Button>
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 };

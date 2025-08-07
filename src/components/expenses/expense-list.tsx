@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -148,14 +148,14 @@ export function ExpenseList() {
             <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalAmount) : totalAmount.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               {expenses.length} expenses
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -163,14 +163,14 @@ export function ExpenseList() {
             <CardTitle className="text-sm font-medium">Total Tax</CardTitle>
             <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               ${isPrivacyMode ? maskValue(totalTax) : totalTax.toLocaleString('en-CA', { minimumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-muted-foreground">
               GST/HST recoverable
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
@@ -178,14 +178,14 @@ export function ExpenseList() {
             <CardTitle className="text-sm font-medium">This Month</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardBody>
             <div className="text-2xl font-bold">
               {expenses.filter(e => new Date(e.expense_date).getMonth() === new Date().getMonth()).length}
             </div>
             <p className="text-xs text-muted-foreground">
               New expenses
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
@@ -258,7 +258,7 @@ export function ExpenseList() {
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardBody>
           {isLoading ? (
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
@@ -360,7 +360,7 @@ export function ExpenseList() {
               ))}
             </div>
           )}
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   )

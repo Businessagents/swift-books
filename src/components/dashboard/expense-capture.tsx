@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Camera, Upload, Check, Clock, X } from "lucide-react"
@@ -113,7 +113,7 @@ export function ExpenseCapture() {
             Your latest uploaded and processed receipts
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardBody>
           {loading ? (
             <VStack spacing={3}>
               {[...Array(3)].map((_, i) => (
@@ -217,7 +217,7 @@ export function ExpenseCapture() {
               </Flex>
             </Box>
           )}
-        </CardContent>
+        </CardBody>
       </Card>
     </VStack>
   )
