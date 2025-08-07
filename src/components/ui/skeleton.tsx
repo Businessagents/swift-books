@@ -1,15 +1,21 @@
-import { cn } from "@/lib/utils"
+import { Skeleton as ChakraSkeleton, SkeletonProps as ChakraSkeletonProps } from "@chakra-ui/react"
+import { forwardRef } from "react"
 
-function Skeleton({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn("animate-pulse rounded-md bg-muted", className)}
-      {...props}
-    />
-  )
+interface SkeletonProps extends Omit<ChakraSkeletonProps, 'isLoaded'> {
+  className?: string // For backward compatibility
 }
+
+const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <ChakraSkeleton
+        ref={ref}
+        borderRadius="md"
+        {...props}
+      />
+    )
+  }
+)
+Skeleton.displayName = "Skeleton"
 
 export { Skeleton }

@@ -558,21 +558,27 @@ export function GSTHSTReporting() {
                               ${isPrivacyMode ? maskValue(taxSummary.gstPaid) : taxSummary.gstPaid.toFixed(2)}
                             </TableCell>
                           </TableRow>
-                      <TableRow className="border-t-2">
-                        <TableCell className="font-bold">
-                          {taxSummary.netTaxOwing > 0 ? 'Net Tax Owing' : 'Refund Due'}
-                        </TableCell>
-                        <TableCell className={`text-right font-bold ${taxSummary.netTaxOwing > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                          ${isPrivacyMode ? maskValue(taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue) : (taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue).toFixed(2)}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                          <TableRow borderTopWidth="2px" borderTopColor="gray.300">
+                            <TableCell fontWeight="bold">
+                              {taxSummary.netTaxOwing > 0 ? 'Net Tax Owing' : 'Refund Due'}
+                            </TableCell>
+                            <TableCell 
+                              textAlign="right" 
+                              fontWeight="bold"
+                              color={taxSummary.netTaxOwing > 0 ? 'red.600' : 'green.600'}
+                            >
+                              ${isPrivacyMode ? maskValue(taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue) : (taxSummary.netTaxOwing > 0 ? taxSummary.netTaxOwing : taxSummary.refundDue).toFixed(2)}
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </CardContent>
+                  </Card>
+                </VStack>
+              </TabsContent>
 
-            <TabsContent value="sales" className="space-y-4">
+              <TabsContent value="sales">
+                <VStack spacing={4}>
               <Card>
                 <CardHeader>
                   <CardTitle>Sales Details</CardTitle>
@@ -580,10 +586,14 @@ export function GSTHSTReporting() {
                 </CardHeader>
                 <CardContent>
                   {invoices.length === 0 ? (
-                    <div className="text-center py-6">
-                      <PieChart className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                      <p className="text-muted-foreground">No sales recorded for this period</p>
-                    </div>
+                    <Center py={6}>
+                      <VStack spacing={4}>
+                        <PieChart size={48} color="gray.400" />
+                        <Text color="gray.600" _dark={{ color: "gray.400" }}>
+                          No sales recorded for this period
+                        </Text>
+                      </VStack>
+                    </Center>
                   ) : (
                     <Table>
                       <TableHeader>
@@ -591,24 +601,24 @@ export function GSTHSTReporting() {
                           <TableHead>Invoice #</TableHead>
                           <TableHead>Client</TableHead>
                           <TableHead>Date</TableHead>
-                          <TableHead className="text-right">Subtotal</TableHead>
-                          <TableHead className="text-right">Tax</TableHead>
-                          <TableHead className="text-right">Total</TableHead>
+                          <TableHead textAlign="right">Subtotal</TableHead>
+                          <TableHead textAlign="right">Tax</TableHead>
+                          <TableHead textAlign="right">Total</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {invoices.map((invoice) => (
                           <TableRow key={invoice.id}>
-                            <TableCell className="font-medium">{invoice.invoice_number}</TableCell>
+                            <TableCell fontWeight="medium">{invoice.invoice_number}</TableCell>
                             <TableCell>{isPrivacyMode ? maskValue(invoice.client_name) : invoice.client_name}</TableCell>
                             <TableCell>{new Date(invoice.issue_date).toLocaleDateString('en-CA')}</TableCell>
-                            <TableCell className="text-right">
+                            <TableCell textAlign="right">
                               ${isPrivacyMode ? maskValue(invoice.subtotal) : invoice.subtotal.toFixed(2)}
                             </TableCell>
-                            <TableCell className="text-right text-green-600">
+                            <TableCell textAlign="right" color="green.600">
                               ${isPrivacyMode ? maskValue(invoice.tax_amount) : invoice.tax_amount.toFixed(2)}
                             </TableCell>
-                            <TableCell className="text-right font-medium">
+                            <TableCell textAlign="right" fontWeight="medium">
                               ${isPrivacyMode ? maskValue(invoice.total_amount) : invoice.total_amount.toFixed(2)}
                             </TableCell>
                           </TableRow>
@@ -618,61 +628,69 @@ export function GSTHSTReporting() {
                   )}
                 </CardContent>
               </Card>
-            </TabsContent>
+                </VStack>
+              </TabsContent>
 
-            <TabsContent value="purchases" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Purchase Details</CardTitle>
-                  <CardDescription>All expenses for the selected period</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {expenses.length === 0 ? (
-                    <div className="text-center py-6">
-                      <BarChart3 className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                      <p className="text-muted-foreground">No expenses recorded for this period</p>
-                    </div>
-                  ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Description</TableHead>
-                          <TableHead>Vendor</TableHead>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Category</TableHead>
-                          <TableHead className="text-right">Amount</TableHead>
-                          <TableHead className="text-right">Tax</TableHead>
-                          <TableHead className="text-right">Total</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {expenses.map((expense) => (
-                          <TableRow key={expense.id}>
-                            <TableCell className="font-medium">{expense.description}</TableCell>
-                            <TableCell>{isPrivacyMode ? maskValue(expense.vendor || '') : expense.vendor || '-'}</TableCell>
-                            <TableCell>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</TableCell>
-                            <TableCell>
-                              <Badge variant="outline">
-                                {expense.category?.name || 'Uncategorized'}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              ${isPrivacyMode ? maskValue(expense.amount - expense.tax_amount) : (expense.amount - expense.tax_amount).toFixed(2)}
-                            </TableCell>
-                            <TableCell className="text-right text-blue-600">
-                              ${isPrivacyMode ? maskValue(expense.tax_amount) : expense.tax_amount.toFixed(2)}
-                            </TableCell>
-                            <TableCell className="text-right font-medium">
-                              ${isPrivacyMode ? maskValue(expense.amount) : expense.amount.toFixed(2)}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
+              <TabsContent value="purchases">
+                <VStack spacing={4}>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Purchase Details</CardTitle>
+                      <CardDescription>All expenses for the selected period</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {expenses.length === 0 ? (
+                        <Center py={6}>
+                          <VStack spacing={4}>
+                            <BarChart3 size={48} color="gray.400" />
+                            <Text color="gray.600" _dark={{ color: "gray.400" }}>
+                              No expenses recorded for this period
+                            </Text>
+                          </VStack>
+                        </Center>
+                      ) : (
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Description</TableHead>
+                              <TableHead>Vendor</TableHead>
+                              <TableHead>Date</TableHead>
+                              <TableHead>Category</TableHead>
+                              <TableHead textAlign="right">Amount</TableHead>
+                              <TableHead textAlign="right">Tax</TableHead>
+                              <TableHead textAlign="right">Total</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {expenses.map((expense) => (
+                              <TableRow key={expense.id}>
+                                <TableCell fontWeight="medium">{expense.description}</TableCell>
+                                <TableCell>{isPrivacyMode ? maskValue(expense.vendor || '') : expense.vendor || '-'}</TableCell>
+                                <TableCell>{new Date(expense.expense_date).toLocaleDateString('en-CA')}</TableCell>
+                                <TableCell>
+                                  <Badge variant="outline">
+                                    {expense.category?.name || 'Uncategorized'}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell textAlign="right">
+                                  ${isPrivacyMode ? maskValue(expense.amount - expense.tax_amount) : (expense.amount - expense.tax_amount).toFixed(2)}
+                                </TableCell>
+                                <TableCell textAlign="right" color="blue.600">
+                                  ${isPrivacyMode ? maskValue(expense.tax_amount) : expense.tax_amount.toFixed(2)}
+                                </TableCell>
+                                <TableCell textAlign="right" fontWeight="medium">
+                                  ${isPrivacyMode ? maskValue(expense.amount) : expense.amount.toFixed(2)}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      )}
+                    </CardContent>
+                  </Card>
+                </VStack>
+              </TabsContent>
+            </VStack>
           </Tabs>
         </>
       )}
