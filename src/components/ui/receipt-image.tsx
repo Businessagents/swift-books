@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle, Download, Eye, EyeOff, Maximize2, X } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useToast } from '@chakra-ui/react'
+import { showToast } from '@/lib/toast'
 import { getSignedUrl, getThumbnailUrl } from '@/lib/storage-utils'
 
 interface ReceiptImageProps {
@@ -135,13 +134,13 @@ export function ReceiptImage({
         <Card.Body className="p-4">
           <div className="space-y-4">
             <div className="flex justify-between items-start">
-              <Skeleton className="h-4 w-32" />
-              <Skeleton className="h-5 w-16" />
+              <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+              <div className="h-5 w-16 bg-gray-200 rounded animate-pulse" />
             </div>
-            <Skeleton className="h-48 w-full rounded-lg" />
+            <div className="h-48 w-full rounded-lg bg-gray-200 animate-pulse" />
             <div className="flex gap-2">
-              <Skeleton className="h-8 w-16" />
-              <Skeleton className="h-8 w-20" />
+              <div className="h-8 w-16 bg-gray-200 rounded animate-pulse" />
+              <div className="h-8 w-20 bg-gray-200 rounded animate-pulse" />
             </div>
           </div>
         </Card.Body>
