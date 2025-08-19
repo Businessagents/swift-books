@@ -311,9 +311,15 @@ export async function deleteReceiptFiles(path: string): Promise<void> {
     throw new Error(`Failed to delete files: ${error.message}`)
   }
 
-  // Clear from cache
-  signedUrlCache.delete(`receipts:${path}:{}`)
-  signedUrlCache.delete(`receipts:${thumbnailPath}:{}`)
+  // Clear all cached URLs for this path and its thumbnail
+  for (const key of Array.from(signedUrlCache.keys())) {
+    if (
+      key.startsWith(`receipts:${path}:`) ||
+      key.startsWith(`receipts:${thumbnailPath}:`)
+    ) {
+      signedUrlCache.delete(key)
+    }
+  }
 }
 
 /**
