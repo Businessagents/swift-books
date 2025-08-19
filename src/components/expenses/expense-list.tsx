@@ -10,13 +10,6 @@ import {
   Button,
   Badge,
   Input,
-  Select,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
   Text,
   VStack,
   HStack,
@@ -25,15 +18,10 @@ import {
   Flex,
   IconButton,
   Skeleton,
-  useDisclosure,
-  InputGroup,
-  InputLeftElement,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription
+  useDisclosure
 } from "@chakra-ui/react"
 import { Search, Plus, Edit, Trash2, Receipt, Calendar, DollarSign } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody } from "@/components/ui/dialog"
 import { usePrivacy } from "@/hooks/use-privacy"
 import { ExpenseForm } from "./expense-form"
 import { showToast } from "@/lib/toast"
@@ -61,20 +49,11 @@ export function ExpenseList() {
   const { maskValue, isPrivacyMode } = usePrivacy()
   const queryClient = useQueryClient()
   
-  const { 
-    isOpen: isCreateModalOpen, 
-    onOpen: openCreateModal, 
-    onClose: closeCreateModal 
-  } = useDisclosure()
-  
-  const { 
-    isOpen: isEditModalOpen, 
-    onOpen: openEditModal, 
-    onClose: closeEditModal 
-  } = useDisclosure()
+  const createDisclosure = useDisclosure()
+  const editDisclosure = useDisclosure()
 
   // Fetch expenses
-  const { data: expenses = [], isLoading } = useQuery({
+  const { data: expenses = [], isLoading, refetch } = useQuery({
     queryKey: ['expenses', searchQuery, categoryFilter, dateFilter],
     queryFn: async () => {
       let query = supabase
@@ -124,7 +103,10 @@ export function ExpenseList() {
       const { data, error } = await query
 
       if (error) {
-        showToast("Failed to fetch expenses", "error")
+        showToast({
+          title: "Failed to fetch expenses",
+          status: "error"
+        })
         throw error
       }
 
@@ -159,10 +141,16 @@ export function ExpenseList() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['expenses'] })
-      showToast("Expense deleted successfully", "success")
+      showToast({
+        title: "Expense deleted successfully",
+        status: "success"
+      })
     },
     onError: () => {
-      showToast("Failed to delete expense", "error")
+      showToast({
+        title: "Failed to delete expense",
+        status: "error"
+      })
     }
   })
 
@@ -174,7 +162,7 @@ export function ExpenseList() {
 
   const handleEdit = (expense: Expense) => {
     setSelectedExpense(expense)
-    openEditModal()
+    editDisclosure.onOpen()
   }
 
   const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0)
@@ -257,28 +245,24 @@ export function ExpenseList() {
                 Manage and track your business expenses
               </Text>
             </Box>
-            <Button leftIcon={<Plus size={16} />} colorScheme="blue" onClick={openCreateModal}>
+            <Button onClick={createDisclosure.onOpen}>
+              <Plus size={16} className="mr-2" />
               Add Expense
             </Button>
           </Flex>
 
           {/* Search and Filters */}
           <Flex direction={{ base: "column", sm: "row" }} gap={4} mt={4}>
-            <InputGroup flex={1}>
-              <InputLeftElement>
-                <Search size={16} />
-              </InputLeftElement>
-              <Input
-                placeholder="Search expenses..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </InputGroup>
-            <Select 
+            <Input
+              placeholder="Search expenses..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              flex={1}
+            />
+            <select
               value={categoryFilter} 
               onChange={(e) => setCategoryFilter(e.target.value)}
-              w={{ base: "full", sm: "180px" }}
-              placeholder="Category"
+              className="px-3 py-2 border rounded-md w-full sm:w-auto"
             >
               <option value="all">All Categories</option>
               {categories.map((category) => (
@@ -286,12 +270,11 @@ export function ExpenseList() {
                   {category.name}
                 </option>
               ))}
-            </Select>
-            <Select 
+            </select>
+            <select
               value={dateFilter} 
               onChange={(e) => setDateFilter(e.target.value)}
-              w={{ base: "full", sm: "150px" }}
-              placeholder="Date Range"
+              className="px-3 py-2 border rounded-md w-full sm:w-auto"
             >
               <option value="all">All Time</option>
               <option value="today">Today</option>
@@ -299,7 +282,7 @@ export function ExpenseList() {
               <option value="month">Last Month</option>
               <option value="quarter">Last Quarter</option>
               <option value="year">Last Year</option>
-            </Select>
+            </select>
           </Flex>
         </Card.Header>
 
@@ -311,7 +294,7 @@ export function ExpenseList() {
               ))}
             </VStack>
           ) : expenses.length === 0 ? (
-            <VStack py={12} spacing={4}>
+            <VStack py={12} gap={4}>
               <Receipt size={48} color="gray" />
               <Heading size="md">No expenses found</Heading>
               <Text color="gray.600" _dark={{ color: "gray.400" }} textAlign="center">
@@ -319,7 +302,8 @@ export function ExpenseList() {
                   ? "Try adjusting your filters or search terms."
                   : "Get started by adding your first expense."}
               </Text>
-              <Button leftIcon={<Plus size={16} />} onClick={openCreateModal}>
+              <Button onClick={createDisclosure.onOpen}>
+                <Plus size={16} className="mr-2" />
                 Add Expense
               </Button>
             </VStack>
@@ -378,19 +362,21 @@ export function ExpenseList() {
                       <HStack gap={1}>
                         <IconButton
                           aria-label="Edit expense"
-                          icon={<Edit size={16} />}
                           size="sm"
                           variant="ghost"
                           onClick={() => handleEdit(expense)}
-                        />
+                        >
+                          <Edit size={16} />
+                        </IconButton>
                         <IconButton
                           aria-label="Delete expense"
-                          icon={<Trash2 size={16} />}
                           size="sm"
                           variant="ghost"
                           onClick={() => handleDelete(expense.id)}
-                          isLoading={deleteExpenseMutation.isPending}
-                        />
+                          loading={deleteExpenseMutation.isPending}
+                        >
+                          <Trash2 size={16} />
+                        </IconButton>
                       </HStack>
                     </HStack>
                   </Flex>
@@ -401,43 +387,43 @@ export function ExpenseList() {
         </Card.Body>
       </Card.Root>
 
-      {/* Create Expense Modal */}
-      <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal} size="2xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create New Expense</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+      {/* Create Expense Dialog */}
+      <Dialog open={createDisclosure.open} onOpenChange={createDisclosure.onClose}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create New Expense</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
             <ExpenseForm
               onSuccess={() => {
-                closeCreateModal()
-                queryClient.invalidateQueries({ queryKey: ['expenses'] })
+                createDisclosure.onClose()
+                refetch()
               }}
             />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
 
-      {/* Edit Expense Modal */}
-      <Modal isOpen={isEditModalOpen} onClose={closeEditModal} size="2xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit Expense</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+      {/* Edit Expense Dialog */}
+      <Dialog open={editDisclosure.open} onOpenChange={editDisclosure.onClose}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Expense</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
             {selectedExpense && (
               <ExpenseForm
                 expense={selectedExpense}
                 onSuccess={() => {
-                  closeEditModal()
+                  editDisclosure.onClose()
                   setSelectedExpense(null)
-                  queryClient.invalidateQueries({ queryKey: ['expenses'] })
+                  refetch()
                 }}
               />
             )}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
     </VStack>
   )
 }

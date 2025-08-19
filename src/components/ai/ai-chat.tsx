@@ -62,7 +62,7 @@ export const AiChat = ({ onInsightGenerated }: AiChatProps) => {
       showToast({
         title: "Error",
         description: "Failed to get AI response. Please try again.",
-        variant: "destructive",
+        status: "error",
       });
       console.error("Chat error:", error);
     },

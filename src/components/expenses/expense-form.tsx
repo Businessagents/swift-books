@@ -8,8 +8,6 @@ import {
   Button,
   Input,
   Textarea,
-  Select,
-  Checkbox,
   VStack,
   HStack,
   Grid,
@@ -22,7 +20,7 @@ import {
 } from "@chakra-ui/react"
 import { Label } from "@/components/ui/label"
 import { showToast } from "@/lib/toast"
-import { Calculator, Receipt } from "lucide-react"
+import { Calculator } from "lucide-react"
 import { z } from "zod"
 import { calculateGSTHST } from "@/lib/tax-calculator"
 
@@ -163,12 +161,18 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
       }
     },
     onSuccess: () => {
-      showToast(expense ? "Expense updated successfully" : "Expense created successfully", "success")
+      showToast({
+        title: expense ? "Expense updated successfully" : "Expense created successfully",
+        status: "success"
+      })
       onSuccess()
     },
     onError: (error) => {
       console.error('Expense error:', error)
-      showToast("Failed to save expense", "error")
+      showToast({
+        title: "Failed to save expense",
+        status: "error"
+      })
     }
   })
 
@@ -237,10 +241,10 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
 
                 <Box>
                   <Label htmlFor="category_id">Category</Label>
-                  <Select 
-                    placeholder="Select category"
+                  <select 
                     value={watch("category_id") || ""}
                     onChange={(e) => setValue("category_id", e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md"
                   >
                     <option value="">Select category</option>
                     {categories.map((category) => (
@@ -248,7 +252,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                         {category.name}
                       </option>
                     ))}
-                  </Select>
+                  </select>
                 </Box>
               </VStack>
             </Card.Body>
@@ -268,10 +272,10 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
               <VStack gap={4} align="stretch">
                 <Box>
                   <Label htmlFor="tax_code_id">Tax Code</Label>
-                  <Select 
-                    placeholder="Select tax code"
+                  <select 
                     value={watch("tax_code_id") || ""}
                     onChange={(e) => setValue("tax_code_id", e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md"
                   >
                     <option value="">Select tax code</option>
                     {taxCodes.map((taxCode) => (
@@ -279,7 +283,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                         {taxCode.name} ({(taxCode.rate * 100).toFixed(1)}%)
                       </option>
                     ))}
-                  </Select>
+                  </select>
                 </Box>
 
                 {taxAmount > 0 && (
@@ -297,10 +301,10 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
 
                 <Box>
                   <Label htmlFor="payment_method">Payment Method</Label>
-                  <Select 
-                    placeholder="Select payment method"
+                  <select 
                     value={watch("payment_method") || ""}
                     onChange={(e) => setValue("payment_method", e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md"
                   >
                     <option value="">Select payment method</option>
                     <option value="cash">Cash</option>
@@ -309,7 +313,7 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                     <option value="bank_transfer">Bank Transfer</option>
                     <option value="cheque">Cheque</option>
                     <option value="other">Other</option>
-                  </Select>
+                  </select>
                 </Box>
 
                 <Box>
@@ -322,20 +326,24 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
                 </Box>
 
                 <VStack gap={3} align="start">
-                  <Checkbox
-                    id="is_billable"
-                    isChecked={watch("is_billable")}
-                    onChange={(e) => setValue("is_billable", e.target.checked)}
-                  >
-                    Billable to client
-                  </Checkbox>
-                  <Checkbox
-                    id="is_personal"
-                    isChecked={watch("is_personal")}
-                    onChange={(e) => setValue("is_personal", e.target.checked)}
-                  >
-                    Personal expense (non-deductible)
-                  </Checkbox>
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={watch("is_billable")}
+                      onChange={(e) => setValue("is_billable", e.target.checked)}
+                      className="rounded"
+                    />
+                    <Text>Billable to client</Text>
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={watch("is_personal")}
+                      onChange={(e) => setValue("is_personal", e.target.checked)}
+                      className="rounded"
+                    />
+                    <Text>Personal expense (non-deductible)</Text>
+                  </label>
                 </VStack>
               </VStack>
             </Card.Body>
@@ -365,9 +373,8 @@ export function ExpenseForm({ expense, onSuccess }: ExpenseFormProps) {
       <Box display="flex" justifyContent="flex-end" mt={6}>
         <Button
           type="submit"
-          isLoading={isSubmitting}
+          loading={isSubmitting}
           loadingText="Saving..."
-          colorScheme="blue"
           minW="120px"
         >
           {expense ? "Update Expense" : "Create Expense"}
