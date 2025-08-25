@@ -1,77 +1,99 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from 'react-redux';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, Layout, Typography, Menu } from 'antd';
+import { DashboardOutlined, TransactionOutlined, SettingOutlined } from '@ant-design/icons';
 import { store } from './store';
-import { PrivacyProvider } from "@/hooks/use-privacy";
-import { AuthProvider } from "@/hooks/use-auth";
-import { ProtectedRoute } from "@/components/auth/protected-route";
-import Index from "./pages/Index";
-import AuthSimple from "./pages/AuthSimple";
-import Transactions from "./pages/Transactions";
-import Reports from "./pages/Reports";
-import Settings from "./pages/Settings";
-import Ledger from "./pages/Ledger";
-import NotFound from "./pages/NotFound";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// Import our new components
+// Import our SwiftBooks components
 import Dashboard from "./components/dashboard/Dashboard";
 import TransactionManager from "./components/transactions/TransactionManager";
+import NotFound from "./pages/NotFound";
+
+const { Content, Sider } = Layout;
+const { Title } = Typography;
 
 const queryClient = new QueryClient();
 
-// Canadian theme configuration
-const canadianTheme = {
+// Canadian SwiftBooks theme configuration
+const swiftBooksTheme = {
   token: {
-    colorPrimary: '#ff0000', // Canadian red
-    colorSuccess: '#228B22',
-    colorWarning: '#FFA500',
-    colorError: '#DC143C',
+    colorPrimary: '#d32f2f', // Canadian red
+    colorSuccess: '#2e7d32',
+    colorWarning: '#f57c00',
+    colorError: '#c62828',
     borderRadius: 6,
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    fontSize: 14,
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif',
   },
   components: {
     Layout: {
+      bodyBg: '#f5f5f5',
       headerBg: '#ffffff',
-      siderBg: '#001529',
+      siderBg: '#ffffff',
     },
     Menu: {
-      darkItemBg: '#001529',
-      darkItemSelectedBg: '#1890ff',
-    },
-  },
+      itemBg: 'transparent',
+      subMenuItemBg: 'transparent',
+    }
+  }
 };
 
-const App = () => (
-  <Provider store={store}>
-    <ConfigProvider theme={canadianTheme}>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <PrivacyProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/auth" element={<AuthSimple />} />
-                <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/transactions" element={<ProtectedRoute><TransactionManager /></ProtectedRoute>} />
-                <Route path="/ledger" element={<ProtectedRoute><Ledger /></ProtectedRoute>} />
-                <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
-                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-                
-                {/* Legacy routes for backward compatibility */}
-                <Route path="/expenses" element={<ProtectedRoute><TransactionManager /></ProtectedRoute>} />
-                <Route path="/invoices" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
-                <Route path="/receipts" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
-                <Route path="/banking" element={<ProtectedRoute><Ledger /></ProtectedRoute>} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </PrivacyProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </ConfigProvider>
-  </Provider>
-);
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <ConfigProvider theme={swiftBooksTheme}>
+          <BrowserRouter>
+            <Layout style={{ minHeight: '100vh' }}>
+              <Sider width={240} style={{ background: '#ffffff' }}>
+                <div style={{ padding: '16px', textAlign: 'center' }}>
+                  <Title level={3} style={{ color: '#d32f2f', margin: 0 }}>
+                    SwiftBooks
+                  </Title>
+                  <p style={{ fontSize: '12px', color: '#666', margin: '4px 0 0 0' }}>
+                    Canadian SMB Accounting
+                  </p>
+                </div>
+                <Menu
+                  mode="inline"
+                  defaultSelectedKeys={['dashboard']}
+                  style={{ border: 'none' }}
+                  items={[
+                    {
+                      key: 'dashboard',
+                      icon: <DashboardOutlined />,
+                      label: 'Dashboard',
+                    },
+                    {
+                      key: 'transactions',
+                      icon: <TransactionOutlined />,
+                      label: 'Transactions',
+                    },
+                    {
+                      key: 'settings',
+                      icon: <SettingOutlined />,
+                      label: 'Settings',
+                    }
+                  ]}
+                />
+              </Sider>
+              <Layout>
+                <Content style={{ padding: '24px' }}>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/transactions" element={<TransactionManager />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Content>
+              </Layout>
+            </Layout>
+          </BrowserRouter>
+        </ConfigProvider>
+      </Provider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
