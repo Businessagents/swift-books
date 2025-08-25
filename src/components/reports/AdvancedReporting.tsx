@@ -7,8 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {o
-    
+import {
   Card,
   Table,
   Button,
@@ -49,7 +48,6 @@ import { formatCanadianCurrency, calculateGSTHST, calculatePST } from '../../lib
 import { toast } from '../../lib/toast';
 import useMobile from '../../hooks/use-mobile';
 
-const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
 
@@ -276,12 +274,13 @@ const AdvancedReporting: React.FC = () => {
               value={selectedPeriod}
               onChange={setSelectedPeriod}
               style={{ width: isMobile ? 120 : 160 }}
-            >
-              <Option value="current_month">Current Month</Option>
-              <Option value="current_quarter">Current Quarter</Option>
-              <Option value="current_year">Current Year</Option>
-              <Option value="custom">Custom Range</Option>
-            </Select>
+              options={[
+                { value: 'current_month', label: 'Current Month' },
+                { value: 'current_quarter', label: 'Current Quarter' },
+                { value: 'current_year', label: 'Current Year' },
+                { value: 'custom', label: 'Custom Range' }
+              ]}
+            />
             
             <Button
               type="primary"

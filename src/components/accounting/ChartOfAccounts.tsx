@@ -3,7 +3,7 @@
  * 
  * Canadian accounting standards compliant Chart of Accounts
  * Following ASPE (Accounting Standards for Private Enterprises)
- * Built with Ant Design v5 and Canadian compliance
+ * Built with Ant Design v6 and Canadian compliance
  */
 
 import React, { useState, useEffect } from 'react';
@@ -41,7 +41,6 @@ import {
 import './ChartOfAccounts.css';
 
 const { Title, Text } = Typography;
-const { Option } = Select;
 
 
 
@@ -320,16 +319,18 @@ const ChartOfAccounts: React.FC = () => {
             label="Account Type"
             rules={[{ required: true, message: 'Please select account type' }]}
           >
-            <Select placeholder="Select account type">
-              {Object.entries(CANADIAN_ACCOUNT_TYPES).map(([key, value]) => (
-                <Option key={key} value={key}>
+            <Select
+              placeholder="Select account type"
+              options={Object.entries(CANADIAN_ACCOUNT_TYPES).map(([key, value]) => ({
+                value: key,
+                label: (
                   <Space>
                     <Tag color={value.color}>{key}</Tag>
                     <Text type="secondary">({value.code})</Text>
                   </Space>
-                </Option>
-              ))}
-            </Select>
+                )
+              }))}
+            />
           </Form.Item>
 
           <Form.Item
@@ -368,10 +369,12 @@ const ChartOfAccounts: React.FC = () => {
             label="Status"
             initialValue={true}
           >
-            <Select>
-              <Option value={true}>Active</Option>
-              <Option value={false}>Inactive</Option>
-            </Select>
+            <Select
+              options={[
+                { value: true, label: 'Active' },
+                { value: false, label: 'Inactive' }
+              ]}
+            />
           </Form.Item>
         </Form>
       </Modal>
