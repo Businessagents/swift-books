@@ -1,0 +1,28 @@
+/* Dialog Component Styles */
+
+.dialog-header {
+  margin-bottom: 16px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.dialog-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dialog-description {
+  margin: 8px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.dialog-body {
+  margin: 16px 0;
+}
+
+.dialog-footer {
+  margin-top: 16px;
+  text-align: right;
+}

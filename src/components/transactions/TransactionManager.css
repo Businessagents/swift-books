@@ -1,0 +1,69 @@
+/* SwiftBooks Transaction Manager Styles */
+
+.transaction-manager {
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0;
+}
+
+.compliance-icon {
+  margin-left: 8px;
+  color: #1890ff;
+}
+
+.summary-cards {
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+}
+
+.summary-icon {
+  margin-right: 12px;
+  font-size: 24px;
+}
+
+.summary-icon.income {
+  color: #52c41a;
+}
+
+.summary-icon.expense {
+  color: #ff4d4f;
+}
+
+.summary-icon.tax {
+  color: #faad14;
+}
+
+.summary-content h4 {
+  margin: 0;
+}
+
+.income-text {
+  color: #52c41a;
+}
+
+.expense-text {
+  color: #ff4d4f;
+}
+
+.tax-text {
+  color: #faad14;
+}
+
+.filters-card {
+  margin-bottom: 16px;
+}
+
+.text-right {
+  text-align: right;
+}

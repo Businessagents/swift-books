@@ -1,42 +1,41 @@
 import * as React from "react"
-import { 
-  Avatar as ChakraAvatar, 
-  AvatarProps as ChakraAvatarProps
-} from "@chakra-ui/react"
+import { Avatar as AntAvatar } from "antd"
+import type { AvatarProps as AntAvatarProps } from "antd"
 
 /**
- * Avatar component based on Chakra UI v3.
- * In Chakra UI v3, Avatar doesn't use separate AvatarImage/AvatarFallback components.
- * Instead, pass the src directly to Avatar and children act as fallback content.
+ * Avatar component based on Ant Design.
  */
-const Avatar = React.forwardRef<HTMLDivElement, ChakraAvatarProps & { className?: string }>(
+const Avatar = React.forwardRef<HTMLDivElement, AntAvatarProps & { className?: string }>(
   ({ children, className, ...props }, ref) => (
-    <ChakraAvatar ref={ref} {...props}>
+    <AntAvatar {...props}>
       {children}
-    </ChakraAvatar>
+    </AntAvatar>
   )
 )
 Avatar.displayName = "Avatar"
 
-/**
- * AvatarImage - not needed in Chakra UI v3, just pass src to Avatar directly
- */
-const AvatarImage = ({ src, alt, ...props }: { src?: string; alt?: string }) => null
-
-/**
- * AvatarFallback - not needed in Chakra UI v3, children of Avatar act as fallback
- */
-const AvatarFallback = ({ children, className, ...props }: { children?: React.ReactNode; className?: string }) => (
-  <>{children}</>
+const AvatarImage = React.forwardRef<HTMLImageElement, React.ComponentProps<"img">>(
+  ({ className, ...props }, ref) => (
+    <img
+      ref={ref}
+      className={className}
+      {...props}
+    />
+  )
 )
+AvatarImage.displayName = "AvatarImage"
 
-/**
- * AvatarGroup - wrapper for multiple avatars
- */
-const AvatarGroup = ({ children, ...props }: { children: React.ReactNode }) => (
-  <div style={{ display: "flex" }} {...props}>
-    {children}
-  </div>
+const AvatarFallback = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
+  ({ className, children, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={className}
+      {...props}
+    >
+      {children}
+    </div>
+  )
 )
+AvatarFallback.displayName = "AvatarFallback"
 
-export { Avatar, AvatarImage, AvatarFallback, AvatarGroup }
+export { Avatar, AvatarImage, AvatarFallback }

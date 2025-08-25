@@ -1,20 +1,21 @@
 import * as React from "react"
-import { Box } from "@chakra-ui/react"
+import { cn } from "../../lib/utils"
 
-// Simple scroll area implementation using Chakra Box
+// Simple scroll area implementation using native div with custom styling
 const ScrollArea = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => (
-  <Box
+  <div
     ref={ref}
-    className={className}
-    overflowY="auto"
-    maxHeight="400px"
+    className={cn(
+      "overflow-y-auto max-h-96 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100",
+      className
+    )}
     {...props}
   >
     {children}
-  </Box>
+  </div>
 ))
 ScrollArea.displayName = "ScrollArea"
 
