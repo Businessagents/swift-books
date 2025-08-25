@@ -1,0 +1,121 @@
+/* SwiftBooks Financial Reports Styles */
+.financial-reports {
+  padding: 0;
+}
+
+.reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.reports-header > div:first-child {
+  flex: 1;
+}
+
+.reports-header h3 {
+  margin-bottom: 8px;
+  color: #d32f2f;
+}
+
+/* Report sections */
+.balance-sheet-report,
+.gst-hst-report {
+  padding: 0;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Card styling for financial sections */
+.assets-section .ant-card-head,
+.liabilities-section .ant-card-head,
+.equity-section .ant-card-head {
+  background-color: #f8f9fa;
+}
+
+.assets-section .ant-card-head-title {
+  color: #1890ff;
+  font-weight: 600;
+}
+
+.liabilities-section .ant-card-head-title {
+  color: #ff4d4f;
+  font-weight: 600;
+}
+
+.equity-section .ant-card-head-title {
+  color: #52c41a;
+  font-weight: 600;
+}
+
+/* Asset and liability categories */
+.asset-category,
+.liability-category {
+  margin-bottom: 16px;
+}
+
+.asset-category h5,
+.liability-category h5 {
+  color: #595959;
+  margin-bottom: 8px;
+}
+
+/* Table customizations */
+.ant-table-small .ant-table-tbody > tr > td {
+  padding: 8px 16px;
+}
+
+.ant-table-tbody > tr > td:last-child {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+/* Statistics styling */
+.ant-statistic-title {
+  font-weight: 600;
+  color: #262626;
+}
+
+.ant-statistic-content {
+  font-family: 'Courier New', monospace;
+}
+
+/* Tab styling */
+.ant-tabs-tab {
+  font-weight: 500;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #d32f2f !important;
+  font-weight: 600;
+}
+
+.ant-tabs-ink-bar {
+  background-color: #d32f2f;
+}
+
+/* GST/HST specific styling */
+.gst-hst-report .ant-card {
+  border: 1px solid #d9d9d9;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .reports-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .report-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+}

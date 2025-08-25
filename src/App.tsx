@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { ConfigProvider, Layout, Typography, Menu } from 'antd';
-import { DashboardOutlined, TransactionOutlined, SettingOutlined, BankOutlined } from '@ant-design/icons';
+import { DashboardOutlined, TransactionOutlined, SettingOutlined, BankOutlined, BookOutlined, BarChartOutlined } from '@ant-design/icons';
 import { store } from './store';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -9,6 +9,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Dashboard from "./components/dashboard/Dashboard";
 import TransactionManager from "./components/transactions/TransactionManager";
 import ChartOfAccounts from "./components/accounting/ChartOfAccounts";
+import DoubleEntrySystem from "./components/accounting/DoubleEntrySystem";
+import FinancialReports from "./components/reports/FinancialReports";
 import NotFound from "./pages/NotFound";
 
 const { Content, Sider } = Layout;
@@ -54,6 +56,12 @@ function AppContent() {
       case 'accounts':
         navigate('/accounts');
         break;
+      case 'journal':
+        navigate('/journal');
+        break;
+      case 'reports':
+        navigate('/reports');
+        break;
       case 'settings':
         navigate('/settings');
         break;
@@ -95,6 +103,16 @@ function AppContent() {
               label: 'Chart of Accounts',
             },
             {
+              key: 'journal',
+              icon: <BookOutlined />,
+              label: 'Journal Entries',
+            },
+            {
+              key: 'reports',
+              icon: <BarChartOutlined />,
+              label: 'Financial Reports',
+            },
+            {
               key: 'settings',
               icon: <SettingOutlined />,
               label: 'Settings',
@@ -109,6 +127,8 @@ function AppContent() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/transactions" element={<TransactionManager />} />
             <Route path="/accounts" element={<ChartOfAccounts />} />
+            <Route path="/journal" element={<DoubleEntrySystem />} />
+            <Route path="/reports" element={<FinancialReports />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Content>
