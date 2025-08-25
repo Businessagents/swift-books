@@ -32,151 +32,21 @@ import {
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import { formatCanadianCurrency } from '../../lib/canadian-tax-engine';
+import { 
+  CANADIAN_ACCOUNT_TYPES, 
+  CANADIAN_DEFAULT_ACCOUNTS,
+  type AccountType,
+  type Account
+} from '../../lib/canadian-accounting-constants';
 import './ChartOfAccounts.css';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-export interface Account {
-  id: string;
-  code: string;
-  name: string;
-  type: AccountType;
-  subtype: string;
-  balance: number;
-  isActive: boolean;
-  description?: string;
-  parentAccountId?: string;
-  canadianCompliance: boolean;
-  created_at: string;
-  updated_at: string;
-}
 
-export type AccountType = 
-  | 'Assets'
-  | 'Liabilities' 
-  | 'Equity'
-  | 'Revenue'
-  | 'Expenses'
-  | 'Cost of Goods Sold';
 
-// Canadian standard account structure following ASPE
-export const CANADIAN_ACCOUNT_TYPES: Record<AccountType, {
-  code: string;
-  description: string;
-  subtypes: string[];
-  color: string;
-}> = {
-  'Assets': {
-    code: '1000-1999',
-    description: 'Assets - Resources owned by the business',
-    subtypes: [
-      'Current Assets',
-      'Fixed Assets',
-      'Intangible Assets',
-      'Investments'
-    ],
-    color: 'blue'
-  },
-  'Liabilities': {
-    code: '2000-2999', 
-    description: 'Liabilities - Debts and obligations',
-    subtypes: [
-      'Current Liabilities',
-      'Long-term Liabilities',
-      'GST/HST Payable',
-      'Payroll Liabilities'
-    ],
-    color: 'red'
-  },
-  'Equity': {
-    code: '3000-3999',
-    description: 'Equity - Owner\'s investment and retained earnings',
-    subtypes: [
-      'Owner\'s Equity',
-      'Retained Earnings',
-      'Common Stock',
-      'Preferred Stock'
-    ],
-    color: 'green'
-  },
-  'Revenue': {
-    code: '4000-4999',
-    description: 'Revenue - Income from business operations',
-    subtypes: [
-      'Sales Revenue',
-      'Service Revenue',
-      'Interest Income',
-      'Other Revenue'
-    ],
-    color: 'cyan'
-  },
-  'Expenses': {
-    code: '5000-5999',
-    description: 'Expenses - Operating costs and expenses',
-    subtypes: [
-      'Operating Expenses',
-      'Administrative Expenses',
-      'Professional Fees',
-      'Travel & Entertainment'
-    ],
-    color: 'orange'
-  },
-  'Cost of Goods Sold': {
-    code: '6000-6999',
-    description: 'COGS - Direct costs of producing goods/services',
-    subtypes: [
-      'Materials',
-      'Direct Labour',
-      'Manufacturing Overhead',
-      'Freight In'
-    ],
-    color: 'purple'
-  }
-};
 
-// Default Canadian Chart of Accounts template
-export const CANADIAN_DEFAULT_ACCOUNTS: Omit<Account, 'id' | 'created_at' | 'updated_at'>[] = [
-  // Assets
-  { code: '1000', name: 'Cash - Operating Account', type: 'Assets', subtype: 'Current Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1010', name: 'Cash - Savings Account', type: 'Assets', subtype: 'Current Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1100', name: 'Accounts Receivable', type: 'Assets', subtype: 'Current Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1110', name: 'Allowance for Doubtful Accounts', type: 'Assets', subtype: 'Current Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1200', name: 'Inventory', type: 'Assets', subtype: 'Current Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1300', name: 'GST/HST Recoverable', type: 'Assets', subtype: 'Current Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1400', name: 'Prepaid Expenses', type: 'Assets', subtype: 'Current Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1500', name: 'Equipment', type: 'Assets', subtype: 'Fixed Assets', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '1510', name: 'Accumulated Depreciation - Equipment', type: 'Assets', subtype: 'Fixed Assets', balance: 0, isActive: true, canadianCompliance: true },
 
-  // Liabilities
-  { code: '2000', name: 'Accounts Payable', type: 'Liabilities', subtype: 'Current Liabilities', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '2100', name: 'GST/HST Payable', type: 'Liabilities', subtype: 'GST/HST Payable', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '2110', name: 'PST Payable', type: 'Liabilities', subtype: 'Current Liabilities', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '2200', name: 'CPP Payable', type: 'Liabilities', subtype: 'Payroll Liabilities', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '2210', name: 'EI Payable', type: 'Liabilities', subtype: 'Payroll Liabilities', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '2220', name: 'Income Tax Payable', type: 'Liabilities', subtype: 'Payroll Liabilities', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '2300', name: 'Accrued Liabilities', type: 'Liabilities', subtype: 'Current Liabilities', balance: 0, isActive: true, canadianCompliance: true },
-
-  // Equity
-  { code: '3000', name: 'Owner\'s Equity', type: 'Equity', subtype: 'Owner\'s Equity', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '3100', name: 'Retained Earnings', type: 'Equity', subtype: 'Retained Earnings', balance: 0, isActive: true, canadianCompliance: true },
-
-  // Revenue
-  { code: '4000', name: 'Sales Revenue', type: 'Revenue', subtype: 'Sales Revenue', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '4100', name: 'Service Revenue', type: 'Revenue', subtype: 'Service Revenue', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '4200', name: 'Interest Income', type: 'Revenue', subtype: 'Interest Income', balance: 0, isActive: true, canadianCompliance: true },
-
-  // Expenses
-  { code: '5000', name: 'Office Supplies', type: 'Expenses', subtype: 'Operating Expenses', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '5100', name: 'Professional Fees', type: 'Expenses', subtype: 'Professional Fees', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '5200', name: 'Travel & Entertainment', type: 'Expenses', subtype: 'Travel & Entertainment', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '5300', name: 'Telephone & Internet', type: 'Expenses', subtype: 'Operating Expenses', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '5400', name: 'Rent Expense', type: 'Expenses', subtype: 'Operating Expenses', balance: 0, isActive: true, canadianCompliance: true },
-
-  // Cost of Goods Sold
-  { code: '6000', name: 'Cost of Materials', type: 'Cost of Goods Sold', subtype: 'Materials', balance: 0, isActive: true, canadianCompliance: true },
-  { code: '6100', name: 'Direct Labour', type: 'Cost of Goods Sold', subtype: 'Direct Labour', balance: 0, isActive: true, canadianCompliance: true }
-];
 
 const ChartOfAccounts: React.FC = () => {
   const [accounts, setAccounts] = useState<Account[]>([]);

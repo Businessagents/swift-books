@@ -31,7 +31,7 @@ import {
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { selectCurrentCompany } from '@/store/slices/companySlice'
 import { useGetTransactionsQuery, useGetAccountsQuery } from '@/store/api/supabaseApi'
-import { formatCurrency, calculateGSTHST } from '@/lib/canadian-tax-engine'
+import { formatCanadianCurrency, calculateCanadianTax } from '@/lib/canadian-tax-engine'
 
 const { Content } = Layout
 const { Title, Text } = Typography
@@ -76,14 +76,12 @@ export const Dashboard: React.FC = () => {
 
   // Fetch data with Canadian tax calculations
   const { data: transactions, isLoading: transactionsLoading } = useGetTransactionsQuery({
-    companyId: currentCompany?.id || '',
-    startDate: new Date(new Date().getFullYear(), 0, 1).toISOString(), // Year to date
-    endDate: new Date().toISOString()
-  })
-
-  const { data: accounts, isLoading: accountsLoading } = useGetAccountsQuery({
     companyId: currentCompany?.id || ''
   })
+
+  const { data: accounts, isLoading: accountsLoading } = useGetAccountsQuery(
+    currentCompany?.id || ''
+  )
 
   // Calculate Canadian-specific metrics
   useEffect(() => {
@@ -97,7 +95,7 @@ export const Dashboard: React.FC = () => {
         .reduce((sum, t) => sum + t.amount, 0)
 
       const gstHst = transactions.reduce((sum, t) => {
-        const taxAmount = calculateGSTHST(t.amount, currentCompany.province || 'ON')
+        const taxAmount = calculateCanadianTax(t.amount, currentCompany.province || 'ON')
         return sum + taxAmount.total
       }, 0)
 
@@ -129,7 +127,7 @@ export const Dashboard: React.FC = () => {
     description: t.description || 'Transaction',
     amount: t.amount,
     type: t.type as 'income' | 'expense',
-    gstHstAmount: currentCompany ? calculateGSTHST(t.amount, currentCompany.province || 'ON').total : 0,
+    gstHstAmount: currentCompany ? calculateCanadianTax(t.amount, currentCompany.province || 'ON').total : 0,
     category: t.category || 'General'
   })) || []
 
@@ -165,7 +163,7 @@ export const Dashboard: React.FC = () => {
         <Text strong style={{ 
           color: record.type === 'income' ? token.colorSuccess : token.colorError 
         }}>
-          {record.type === 'income' ? '+' : '-'}{formatCurrency(Math.abs(amount))}
+          {record.type === 'income' ? '+' : '-'}{formatCanadianCurrency(Math.abs(amount))}
         </Text>
       )
     },
@@ -177,7 +175,7 @@ export const Dashboard: React.FC = () => {
       align: 'right' as const,
       render: (amount: number) => (
         <Text type="secondary">
-          {formatCurrency(amount)}
+          {formatCanadianCurrency(amount)}
         </Text>
       )
     }
@@ -232,7 +230,7 @@ export const Dashboard: React.FC = () => {
         {metrics.gstHstOwed > 1000 && (
           <Alert
             message="GST/HST Reminder"
-            description={`You have ${formatCurrency(metrics.gstHstOwed)} in GST/HST to remit. Next filing deadline is approaching.`}
+            description={`You have ${formatCanadianCurrency(metrics.gstHstOwed)} in GST/HST to remit. Next filing deadline is approaching.`}
             type="warning"
             showIcon
             closable
@@ -248,7 +246,7 @@ export const Dashboard: React.FC = () => {
                 title="Total Revenue"
                 value={metrics.totalRevenue}
                 precision={2}
-                formatter={(value) => formatCurrency(Number(value))}
+                formatter={(value) => formatCanadianCurrency(Number(value))}
                 prefix={<DollarOutlined style={{ color: token.colorSuccess }} />}
                 valueStyle={{ color: token.colorSuccess }}
               />
@@ -260,7 +258,7 @@ export const Dashboard: React.FC = () => {
                 title="Total Expenses"
                 value={metrics.totalExpenses}
                 precision={2}
-                formatter={(value) => formatCurrency(Number(value))}
+                formatter={(value) => formatCanadianCurrency(Number(value))}
                 prefix={<FileTextOutlined style={{ color: token.colorError }} />}
                 valueStyle={{ color: token.colorError }}
               />
@@ -272,7 +270,7 @@ export const Dashboard: React.FC = () => {
                 title="Net Income"
                 value={metrics.netIncome}
                 precision={2}
-                formatter={(value) => formatCurrency(Number(value))}
+                formatter={(value) => formatCanadianCurrency(Number(value))}
                 prefix={<TrophyOutlined style={{ color: token.colorPrimary }} />}
                 valueStyle={{ 
                   color: metrics.netIncome >= 0 ? token.colorSuccess : token.colorError 
@@ -286,7 +284,7 @@ export const Dashboard: React.FC = () => {
                 title="GST/HST Owed"
                 value={metrics.gstHstOwed}
                 precision={2}
-                formatter={(value) => formatCurrency(Number(value))}
+                formatter={(value) => formatCanadianCurrency(Number(value))}
                 prefix={<BankOutlined style={{ color: token.colorWarning }} />}
                 valueStyle={{ color: token.colorWarning }}
               />
@@ -303,7 +301,7 @@ export const Dashboard: React.FC = () => {
                   <Statistic
                     title="Receivables"
                     value={metrics.receivablesTotal}
-                    formatter={(value) => formatCurrency(Number(value))}
+                    formatter={(value) => formatCanadianCurrency(Number(value))}
                     valueStyle={{ fontSize: '16px' }}
                   />
                 </Col>
@@ -311,7 +309,7 @@ export const Dashboard: React.FC = () => {
                   <Statistic
                     title="Payables"
                     value={metrics.payablesTotal}
-                    formatter={(value) => formatCurrency(Number(value))}
+                    formatter={(value) => formatCanadianCurrency(Number(value))}
                     valueStyle={{ fontSize: '16px', color: token.colorError }}
                   />
                 </Col>
@@ -320,7 +318,7 @@ export const Dashboard: React.FC = () => {
               <Progress
                 percent={Math.max(0, (metrics.cashFlow / (metrics.totalRevenue || 1)) * 100)}
                 strokeColor={metrics.cashFlow >= 0 ? token.colorSuccess : token.colorError}
-                format={() => `Cash Flow: ${formatCurrency(metrics.cashFlow)}`}
+                format={() => `Cash Flow: ${formatCanadianCurrency(metrics.cashFlow)}`}
               />
             </Card>
           </Col>

@@ -614,7 +614,10 @@ export const TransactionManager: React.FC = () => {
                   min={0}
                   precision={2}
                   formatter={value => `$ ${value}`}
-                  parser={value => Number(value?.replace(/\$\s?|(,*)/g, '')) || 0}
+                  parser={(value: string | undefined) => {
+                    const parsed = Number(value?.replace(/\$\s?|(,*)/g, '')) || 0
+                    return parsed
+                  }}
                   onChange={(value) => {
                     const gstApplicable = form.getFieldValue('gst_hst_applicable')
                     calculateTaxes(value || 0, gstApplicable)

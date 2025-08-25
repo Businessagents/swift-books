@@ -8,6 +8,30 @@ type Transaction = Tables['transactions']['Row']
 type Account = Tables['accounts']['Row']
 type UserProfile = Tables['user_profiles']['Row']
 
+// Canadian Tax Code type
+interface CanadianTaxCode {
+  id: string
+  province_code: string
+  tax_type: 'GST' | 'HST' | 'PST' | 'QST'
+  rate: number
+  is_active: boolean
+  effective_date: string
+  description?: string
+}
+
+// Audit Trail type
+interface AuditTrailEntry {
+  id: string
+  table_name: string
+  record_id: string
+  action: 'INSERT' | 'UPDATE' | 'DELETE'
+  old_data?: Record<string, unknown>
+  new_data?: Record<string, unknown>
+  user_id: string
+  timestamp: string
+  company_id: string
+}
+
 export const supabaseApi = createApi({
   reducerPath: 'supabaseApi',
   baseQuery: fakeBaseQuery(),
@@ -237,7 +261,7 @@ export const supabaseApi = createApi({
     }),
 
     // Canadian Tax Codes
-    getCanadianTaxCodes: builder.query<any[], void>({
+    getCanadianTaxCodes: builder.query<CanadianTaxCode[], void>({
       queryFn: async () => {
         const { data, error } = await supabase
           .from('canadian_tax_codes')
@@ -271,7 +295,7 @@ export const supabaseApi = createApi({
     }),
 
     // Audit trail
-    getAuditTrail: builder.query<any[], { companyId: string; tableNames?: string[]; limit?: number }>({
+    getAuditTrail: builder.query<AuditTrailEntry[], { companyId: string; tableNames?: string[]; limit?: number }>({
       queryFn: async ({ companyId, tableNames, limit = 100 }) => {
         let query = supabase
           .from('financial_audit_trail')

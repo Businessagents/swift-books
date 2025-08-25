@@ -124,7 +124,7 @@ const DoubleEntrySystem: React.FC = () => {
   };
 
   // Update entry line
-  const updateEntryLine = (lineId: string, field: keyof JournalEntryLine, value: any) => {
+  const updateEntryLine = (lineId: string, field: keyof JournalEntryLine, value: string | number) => {
     setEntryLines(entryLines.map(line => {
       if (line.id === lineId) {
         const updatedLine = { ...line, [field]: value };
@@ -326,7 +326,7 @@ const DoubleEntrySystem: React.FC = () => {
           value={record.debitAmount || undefined}
           onChange={(value) => updateEntryLine(record.id, 'debitAmount', value || 0)}
           formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+          parser={value => Number(value!.replace(/\$\s?|(,*)/g, ''))}
           precision={2}
         />
       )
@@ -343,7 +343,7 @@ const DoubleEntrySystem: React.FC = () => {
           value={record.creditAmount || undefined}
           onChange={(value) => updateEntryLine(record.id, 'creditAmount', value || 0)}
           formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+          parser={value => Number(value!.replace(/\$\s?|(,*)/g, ''))}
           precision={2}
         />
       )
